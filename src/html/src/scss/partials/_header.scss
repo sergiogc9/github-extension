@@ -1,0 +1,79 @@
+@import "../variables";
+
+@mixin githubExtensionHeader() {
+	.github-extension-header,
+	&.github-extension-header {
+		background-color: $headerColor;
+		padding: 5px 10px;
+		height: 50px;
+		max-height: 50px;
+		display: flex;
+		align-items: stretch;
+
+		> svg {
+			color: $primaryColor;
+			margin-right: 10px;
+			font-size: 18px;
+			align-self: center;
+		}
+		.github-extension-header-info {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
+			overflow: hidden;
+
+			.github-extension-header-info-title,
+			.github-extension-header-branch {
+				display: flex;
+				align-items: center;
+				color: $textColorWhite;
+				font-size: 12px;
+				font-weight: bold;
+
+				> a {
+					color: $textColorWhite;
+
+					&:hover {
+						text-decoration: underline;
+					}
+
+					&:visited {
+						color: $textColorWhite;
+					}
+				}
+
+				> svg {
+					color: $primaryColor;
+					margin: 0 5px;
+
+					&:first-child {
+						margin-left: 0;
+					}
+
+					&.fa-chevron-double-right {
+						font-size: 8px;
+					}
+				}
+
+				> span,
+				> a {
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+				}
+
+				> span,
+				> a,
+				> svg {
+					flex-shrink: 0;
+					&:last-child {
+						flex-shrink: 1;
+					}
+				}
+			}
+			.github-extension-header-branch {
+				font-size: 10px;
+			}
+		}
+	}
+}

@@ -1,0 +1,53 @@
+{
+  "name": "github-chrome-extension",
+  "version": "0.1.0",
+  "description": "Github chrome extension with React",
+  "scripts": {
+    "clean": "rm -rf dist && cpy manifest.json dist && cpy src/assets/* dist/assets",
+    "prebuild": "npm run clean",
+    "build:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
+    "build:html": "INLINE_RUNTIME_CHUNK=false npm run build --prefix src/html && cd src/html/build && cpy * /static/* ../../../dist/html --parents",
+    "build": "npm-run-all build:*",
+    "prewatch": "npm run clean",
+    "watch:contentscript-background": "NODE_ENV=development webpack --config webpack.config.js -w",
+    "watch:html": "npm run watch:build --prefix src/html",
+    "watch": "npm-run-all --parallel watch:*",
+    "zip": "bestzip extension.zip dist/*"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "typescript",
+    "react"
+  ],
+  "author": "Guibert Thomas",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "0.0.104",
+    "@types/node": "13.13.2",
+    "awesome-typescript-loader": "^5.2.1",
+    "bestzip": "2.1.5",
+    "cpy-cli": "3.1.0",
+    "cra-build-watch": "3.2.0",
+    "css-loader": "3.5.3",
+    "mini-css-extract-plugin": "0.9.0",
+    "node-sass": "4.14.0",
+    "npm-run-all": "4.1.5",
+    "sass-loader": "8.0.2",
+    "typescript": "3.8.3",
+    "webpack": "4.43.0",
+    "webpack-cli": "3.3.11"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "2.29.0",
+    "@typescript-eslint/parser": "2.29.0",
+    "babel-eslint": "10.1.0",
+    "eslint": "6.8.0",
+    "eslint-config-react-app": "5.2.1",
+    "eslint-plugin-flowtype": "4.7.0",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-react": "7.19.0",
+    "eslint-plugin-react-hooks": "2.5.1"
+  }
+}

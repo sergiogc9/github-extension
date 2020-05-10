@@ -1,0 +1,48 @@
+{
+	"extends": "react-app",
+	"rules": {
+		"semi": [
+			"error",
+			"always"
+		],
+		"arrow-parens": [
+			"error",
+			"as-needed"
+		],
+		"max-len": [
+			"error",
+			{
+				"code": 200,
+				"ignoreComments": true
+			}
+		],
+		"indent": [
+			"error",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
+		"comma-dangle": [
+			"error",
+			"never"
+		],
+		"sort-keys": "off",
+		"sort-imports": "off",
+		"max-classes-per-file": "off",
+		"curly": "off",
+		"no-empty": "error",
+		"space-in-parens": [
+			"error",
+			"never"
+		],
+		"array-callback-return": [
+			"warn",
+			{
+				"allowImplicit": true
+			}
+		],
+		"no-throw-literal": "off",
+		"no-useless-escape": "off"
+	}
+}

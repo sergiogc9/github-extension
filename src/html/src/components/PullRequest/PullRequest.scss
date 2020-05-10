@@ -1,0 +1,9 @@
+@import "../../scss/partials/header";
+
+#githubExtensionPullRequest {
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    @include githubExtensionHeader();
+}

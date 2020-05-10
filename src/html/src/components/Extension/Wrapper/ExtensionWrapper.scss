@@ -1,0 +1,54 @@
+@import "../../../scss/globals";
+
+#githubExtensionApp {
+    width: 100%;
+    height: 100%;
+    background: $bgColor;
+    border-right: thin solid $borderColor;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    #githubExtensionAppBottomToolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 30px;
+        background-color: $headerColor;
+
+        > svg {
+            margin: 0 10px;
+            font-size: 12px;
+            cursor: pointer;
+
+            --fa-primary-color: #{$textColorWhite};
+            --fa-secondary-color: #{$textColorWhite};
+            --fa-primary-opacity: 0.7;
+            --fa-secondary-opacity: 1;
+
+            &.fa-times-circle {
+                --fa-primary-opacity: 0.3;
+            }
+
+            &.selected {
+                --fa-primary-color: #{$primaryColorLight};
+                --fa-secondary-color: #{$primaryColor};
+            }
+        }
+
+        .form-group {
+            width: 100%;
+            .input-group {
+                border-radius: 2px;
+                border-color: white;
+                #githubExtensionSearchInput {
+                    height: 15px;
+                    width: 100%;
+                    font-size: 10px;
+                    padding: 2px;
+                }
+            }
+        }
+    }
+}

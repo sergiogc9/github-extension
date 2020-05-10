@@ -1,0 +1,87 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+
+@sergiogc9
+
+Svelte support + settings page with dark mode – see what's new in OctoLinker 6.4.0! Learn more
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+microsoft
+/
+TypeScript-Node-Starter
+200
+7.7k
+1.8k
+ Code
+ Issues 52
+ Pull requests 17 Actions
+ Projects 0
+ Wiki
+ Security 0
+ Insights
+TypeScript-Node-Starter/.gitignore
+@Jareechang Jareechang Add better logging when setting custom env var using .env
+44bf255 on 16 Mar 2019
+@bowdenk7@Jareechang@peterblazejewicz@msftgits@antamb
+41 lines (32 sloc)  343 Bytes
+
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+results
+tmp
+
+# Build
+public/css/main.css
+
+# Coverage reports
+coverage
+
+# API keys and secrets
+.env
+
+# Dependency directory
+node_modules
+bower_components
+
+# Editors
+.idea
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Ignore built ts files
+dist
+
+# ignore yarn.lock
+yarn.lock
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

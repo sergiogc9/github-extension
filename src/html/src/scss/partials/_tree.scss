@@ -1,0 +1,95 @@
+@import "../variables";
+
+@mixin githubExtensionTree() {
+	$collapse-icon-width: 10px;
+	$icon-width: 20px;
+	$icon-font-size: 12px;
+
+	.github-extension-tree,
+	&.github-extension-tree {
+		padding: 0 3px;
+		position: relative;
+		overflow-y: auto;
+
+		& .hidden {
+			display: none;
+		}
+
+		.github-extension-tree-folder .github-extension-tree-folder-content,
+		.github-extension-tree-file .github-extension-tree-file-content {
+			width: 100%;
+			height: 20px;
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+
+			.folder-collapse-icon {
+				color: rgba(3, 47, 98, 0.5);
+				font-size: 10px;
+				width: $collapse-icon-width;
+				user-select: none;
+			}
+
+			.folder-icon,
+			.file-icon {
+				font-size: $icon-font-size;
+				font-style: normal;
+				width: $icon-width;
+				user-select: none;
+			}
+
+			i.folder-icon,
+			i.file-icon {
+				&::before {
+					font-size: $icon-font-size;
+					width: $icon-width;
+					display: flex;
+					justify-content: center;
+				}
+			}
+
+			.folder-icon {
+				&.default {
+					filter: invert(43%) sepia(82%) saturate(2523%) hue-rotate(194deg) brightness(103%) contrast(105%);
+				}
+			}
+
+			.file-icon {
+				margin-left: $collapse-icon-width;
+			}
+
+			img.folder-icon,
+			img.file-icon {
+				padding: 2px 4px;
+				padding-left: 1px;
+			}
+
+			.folder-text,
+			.file-text {
+				font-size: 12px;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				color: $textColorBlack;
+
+				&.search-match {
+					font-weight: bold;
+				}
+			}
+
+			&:hover {
+				background-color: $bgColorDark;
+
+				.folder-text,
+				.file-text {
+					color: $primaryColor;
+				}
+			}
+		}
+
+		> .github-extension-tree-folder,
+		> .github-extension-tree-file {
+			margin-left: 0 !important;
+		}
+	}
+}
