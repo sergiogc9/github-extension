@@ -27,5 +27,9 @@ html,
 }
 
 :root {
+  // Overwrite variables
   --primary: #{$primaryColor};
+
+  // Create new css variables
+  --header-color-dark: #{$headerColorDark};
 }
