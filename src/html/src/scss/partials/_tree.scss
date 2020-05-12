@@ -15,81 +15,96 @@
 			display: none;
 		}
 
-		.github-extension-tree-folder .github-extension-tree-folder-content,
-		.github-extension-tree-file .github-extension-tree-file-content {
-			width: 100%;
-			height: 20px;
-			display: flex;
-			align-items: center;
-			cursor: pointer;
+		.placeholder {
+			margin: 10px 5px;
+			width: calc(100% - 20px);
+			height: 200px;
+		}
 
-			.folder-collapse-icon {
-				color: rgba(3, 47, 98, 0.5);
-				font-size: 10px;
-				width: $collapse-icon-width;
-				user-select: none;
+		.github-extension-tree-folder,
+		.github-extension-tree-file {
+			.placeholder {
+				margin: 5px;
+				height: 65px;
 			}
 
-			.folder-icon,
-			.file-icon {
-				font-size: $icon-font-size;
-				font-style: normal;
-				width: $icon-width;
-				user-select: none;
-			}
+			.github-extension-tree-folder-content,
+			.github-extension-tree-file-content {
+				width: 100%;
+				height: 20px;
+				display: flex;
+				align-items: center;
+				cursor: pointer;
 
-			i.folder-icon,
-			i.file-icon {
-				&::before {
+				.folder-collapse-icon {
+					color: rgba(3, 47, 98, 0.5);
+					font-size: 10px;
+					width: $collapse-icon-width;
+					user-select: none;
+				}
+
+				.folder-icon,
+				.file-icon {
 					font-size: $icon-font-size;
+					font-style: normal;
 					width: $icon-width;
-					display: flex;
-					justify-content: center;
+					user-select: none;
 				}
-			}
 
-			.folder-icon {
-				&.default {
-					filter: invert(43%) sepia(82%) saturate(2523%) hue-rotate(194deg) brightness(103%) contrast(105%);
+				i.folder-icon,
+				i.file-icon {
+					&::before {
+						font-size: $icon-font-size;
+						width: $icon-width;
+						display: flex;
+						justify-content: center;
+					}
 				}
-			}
 
-			.file-icon {
-				margin-left: $collapse-icon-width;
-			}
-
-			img.folder-icon,
-			img.file-icon {
-				padding: 2px 4px;
-				padding-left: 1px;
-			}
-
-			.folder-text,
-			.file-text {
-				font-size: 12px;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-				overflow: hidden;
-				color: $textColorBlack;
-
-				&.search-match {
-					font-weight: bold;
+				.folder-icon {
+					&.default {
+						filter: invert(43%) sepia(82%) saturate(2523%) hue-rotate(194deg) brightness(103%)
+							contrast(105%);
+					}
 				}
-			}
 
-			&:hover {
-				background-color: rgba($primaryColor, 0.1);
+				.file-icon {
+					margin-left: $collapse-icon-width;
+				}
+
+				img.folder-icon,
+				img.file-icon {
+					padding: 2px 4px;
+					padding-left: 1px;
+				}
 
 				.folder-text,
 				.file-text {
-					color: $primaryColor;
+					font-size: 12px;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+					color: $textColorBlack;
+
+					&.search-match {
+						font-weight: bold;
+					}
+				}
+
+				&:hover {
+					background-color: rgba($primaryColor, 0.1);
+
+					.folder-text,
+					.file-text {
+						color: $primaryColor;
+					}
 				}
 			}
-		}
 
-		> .github-extension-tree-folder,
-		> .github-extension-tree-file {
-			margin-left: 0 !important;
+			> .github-extension-tree-folder,
+			> .github-extension-tree-file {
+				margin-left: 0 !important;
+			}
 		}
 	}
 }

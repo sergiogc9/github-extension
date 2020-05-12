@@ -5,12 +5,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GithubApi from '../../lib/Github/GithubApi';
 import { PageContext } from '../Extension/Context/PageContext';
 import PullRequestTree from './Tree/PullRequestTree';
+import { HeaderBranchPlaceholder } from '../common/Placeholder';
 
 import './PullRequest.scss';
 
 const PullRequest: React.FC = props => {
 	const pageData = React.useContext(PageContext)!;
 	const { data: pullRequest, error, isLoading } = useAsync({ promiseFn: GithubApi.getPullRequestInfo, data: pageData.data });
+
+	const branchContent = React.useMemo(() => {
+		if (isLoading) return <HeaderBranchPlaceholder />;
+		if (!pullRequest) return null;
+
+		return (
+			<>
+				<span>{pullRequest.branches.base}</span>
+				<FontAwesomeIcon icon={['fas', 'caret-up']} />
+				<span>{pullRequest.branches.head}</span>
+			</>
+		);
+	}, [pullRequest, isLoading]);
 
 	const headerContent = React.useMemo(() => {
 		const { user, repository } = pageData.data;
@@ -22,17 +36,10 @@ const PullRequest: React.FC = props => {
 				<a href={`https://github.com/${user}/${repository}`} target='_blank' className='bold'>{repository}</a>
 			</div>
 			<div id='githubExtensionPullRequestHeaderBranch' className='github-extension-header-branch'>
-				{
-					pullRequest &&
-					<>
-						<span>{pullRequest.branches.base}</span>
-						<FontAwesomeIcon icon={['fas', 'caret-up']} />
-						<span>{pullRequest.branches.head}</span>
-					</>
-				}
+				{branchContent}
 			</div>
 		</div>;
-	}, [pageData.data, pullRequest]);
+	}, [pageData.data, branchContent]);
 
 	return (
 		<div id="githubExtensionPullRequest" className='github-extension'>
