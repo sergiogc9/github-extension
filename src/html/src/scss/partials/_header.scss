@@ -98,7 +98,7 @@
 			}
 
 			> span {
-				background-color: $bgSecondaryColor;
+				// background-color: $bgSecondaryColor;
 				padding: 3px 5px;
 				text-overflow: ellipsis;
 				white-space: nowrap;
@@ -106,17 +106,15 @@
 				max-width: 100%;
 
 				// Option 2
-				background-color: inherit;
-				border: thin solid lightgray;
-				border: thin solid dodgerblue;
-				color: dodgerblue;
-				font-weight: bolder;
+				// background-color: inherit;
+				// border: thin solid lightgray;
+				// border: thin solid dodgerblue;
+				// color: dodgerblue;
+				// font-weight: bolder;
 
 				// opcion 3 (seria cambiar primary color?)
 				background-color: $headerColorDark;
 				color: $primaryColorDark;
-				border: none;
-				font-weight: inherit;
 			}
 
 			> span,
