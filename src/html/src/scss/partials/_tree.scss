@@ -78,7 +78,7 @@
 			}
 
 			&:hover {
-				background-color: $bgColorDark;
+				background-color: rgba($primaryColor, 0.1);
 
 				.folder-text,
 				.file-text {

@@ -5,74 +5,123 @@
 	&.github-extension-header {
 		background-color: $headerColor;
 		padding: 5px 10px;
-		height: 50px;
-		max-height: 50px;
+		min-height: 50px;
+		flex-shrink: 0;
 		display: flex;
-		align-items: stretch;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+		border-bottom: thin solid $borderColor;
 
-		> svg {
-			color: $primaryColor;
-			margin-right: 10px;
-			font-size: 18px;
-			align-self: center;
+		> div {
+			margin: 5px 0;
 		}
-		.github-extension-header-info {
+
+		.github-extension-header-info-title {
 			display: flex;
-			flex-direction: column;
-			justify-content: space-evenly;
-			overflow: hidden;
+			justify-content: center;
+			align-items: center;
+			color: $primaryColor;
+			font-size: 14px;
+			width: 100%;
 
-			.github-extension-header-info-title,
-			.github-extension-header-branch {
-				display: flex;
-				align-items: center;
-				color: $textColorWhite;
-				font-size: 12px;
+			& .bold {
 				font-weight: bold;
+			}
 
-				> a {
-					color: $textColorWhite;
+			> a {
+				color: $primaryColor;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
 
-					&:hover {
-						text-decoration: underline;
-					}
-
-					&:visited {
-						color: $textColorWhite;
-					}
+				&:hover {
+					text-decoration: underline;
 				}
 
-				> svg {
+				&:visited {
 					color: $primaryColor;
-					margin: 0 5px;
-
-					&:first-child {
-						margin-left: 0;
-					}
-
-					&.fa-chevron-double-right {
-						font-size: 8px;
-					}
-				}
-
-				> span,
-				> a {
-					text-overflow: ellipsis;
-					white-space: nowrap;
-					overflow: hidden;
-				}
-
-				> span,
-				> a,
-				> svg {
-					flex-shrink: 0;
-					&:last-child {
-						flex-shrink: 1;
-					}
 				}
 			}
-			.github-extension-header-branch {
-				font-size: 10px;
+
+			> span {
+				color: $primaryColor;
+				margin: 0 5px;
+			}
+
+			> svg {
+				color: $primaryColor;
+				margin: 0 5px;
+
+				&:first-child {
+					margin-left: 0;
+					font-size: 16px;
+				}
+
+				&.fa-chevron-double-right {
+					font-size: 8px;
+				}
+			}
+
+			> a,
+			> svg,
+			> span {
+				flex-shrink: 0;
+				&:last-child {
+					flex-shrink: 1;
+				}
+			}
+		}
+		.github-extension-header-branch {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			color: $textColorWhite;
+			font-size: 10px;
+			width: 100%;
+
+			> svg {
+				color: $primaryColor;
+				font-size: 13px;
+
+				&:first-child {
+					margin-left: 0;
+				}
+
+				&.fa-chevron-double-right {
+					font-size: 8px;
+				}
+			}
+
+			> span {
+				background-color: $bgSecondaryColor;
+				padding: 3px 5px;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				max-width: 100%;
+
+				// Option 2
+				background-color: inherit;
+				border: thin solid lightgray;
+				border: thin solid dodgerblue;
+				color: dodgerblue;
+				font-weight: bolder;
+
+				// opcion 3 (seria cambiar primary color?)
+				background-color: #deedfc;
+				color: dodgerblue;
+				color: #0366d6;
+				border: none;
+				font-weight: inherit;
+			}
+
+			> span,
+			> svg {
+				flex-shrink: 0;
+				&:last-child {
+					flex-shrink: 1;
+				}
 			}
 		}
 	}

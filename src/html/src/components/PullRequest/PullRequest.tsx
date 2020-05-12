@@ -15,23 +15,21 @@ const PullRequest: React.FC = props => {
 	const headerContent = React.useMemo(() => {
 		const { user, repository } = pageData.data;
 		return <div id='githubExtensionPullRequestHeader' className='github-extension-header'>
-			<FontAwesomeIcon icon={['far', 'code-merge']} />
-			<div id="githubExtensionPullRequestHeaderInfo" className='github-extension-header-info'>
-				<div id='githubExtensionPullRequestHeaderTitle' className='github-extension-header-info-title'>
-					<a href={`https://github.com/${user}`} target='_blank'>{user}</a>
-					<FontAwesomeIcon icon={['fas', 'chevron-double-right']} />
-					<a href={`https://github.com/${user}/${repository}`} target='_blank'>{repository}</a>
-				</div>
-				<div id='githubExtensionPullRequestHeaderBranch' className='github-extension-header-branch'>
-					{
-						pullRequest &&
-						<>
-							<span>{pullRequest.branches.base}</span>
-							<FontAwesomeIcon icon={['fas', 'angle-left']} />
-							<span>{pullRequest.branches.head}</span>
-						</>
-					}
-				</div>
+			<div id='githubExtensionPullRequestHeaderTitle' className='github-extension-header-info-title'>
+				<FontAwesomeIcon icon={['far', 'code-branch']} />
+				<a href={`https://github.com/${user}`} target='_blank'>{user}</a>
+				<FontAwesomeIcon icon={['fas', 'chevron-double-right']} />
+				<a href={`https://github.com/${user}/${repository}`} target='_blank' className='bold'>{repository}</a>
+			</div>
+			<div id='githubExtensionPullRequestHeaderBranch' className='github-extension-header-branch'>
+				{
+					pullRequest &&
+					<>
+						<span>{pullRequest.branches.base}</span>
+						<FontAwesomeIcon icon={['fas', 'caret-up']} />
+						<span>{pullRequest.branches.head}</span>
+					</>
+				}
 			</div>
 		</div>;
 	}, [pageData.data, pullRequest]);

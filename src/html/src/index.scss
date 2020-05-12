@@ -25,3 +25,11 @@ html,
   padding: 0;
   box-sizing: border-box;
 }
+
+:root {
+  // Overwrite variables
+  --primary: #{$primaryColor};
+
+  // Create new css variables
+  --header-color-dark: #{$headerColorDark};
+}
