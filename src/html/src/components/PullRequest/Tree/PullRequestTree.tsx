@@ -8,6 +8,7 @@ import { SearchContext } from '../../Extension/Context/SearchContext';
 import { StorageContext } from '../../Extension/Context/StorageContext';
 import PullRequestFolder from '../Folder/PullRequestFolder';
 import PullRequestFile from '../File/PullRequestFile';
+import { TreePlaceHolder } from '../../common/Placeholder';
 
 import './PullRequestTree.scss';
 
@@ -27,7 +28,7 @@ const PullRequestTree: React.FC = props => {
 	}, [prTree, searchValue, storageData.group_folders]);
 
 	const treeContent = React.useMemo(() => {
-		if (!treeData) return null;
+		if (isLoading || !treeData) return <TreePlaceHolder />;
 
 		return (
 			<>
@@ -35,7 +36,7 @@ const PullRequestTree: React.FC = props => {
 				{keys(treeData.files).map(fileName => <PullRequestFile key={fileName} file={treeData.files[fileName]} deep={0} isFolderVisible={false} />)}
 			</>
 		);
-	}, [treeData]);
+	}, [treeData, isLoading]);
 
 	return (
 		<div id="githubExtensionPullRequestTree" className='github-extension-tree'>

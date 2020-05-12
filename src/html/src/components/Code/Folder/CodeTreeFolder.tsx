@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FolderIcon from '../../common/FolderIcon';
 import CodeTreeFile from '../File/CodeTreeFile';
 import { CodeTreeFolder as CodeTreeFolderType } from '../../../lib/Github/GithubTree';
+import { FolderPlaceholder } from '../../common/Placeholder';
 
 type ComponentProps = {
 	folder: CodeTreeFolderType
@@ -24,19 +25,19 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 		setIsOpened(collapsed => !collapsed);
 	}, [folder.path, folder.sha, folder.loaded, onLoadFolder]);
 
+	const styles = React.useMemo(() => ({ paddingLeft: `${deep * 10}px` }), [deep]);
+	const hiddenClass = React.useMemo(() => folder.visible ? '' : 'hidden', [folder.visible]);
+	const matchClass = React.useMemo(() => folder.matchesSearch ? 'search-match' : '', [folder.matchesSearch]);
+
 	const treeContent = React.useMemo(() => {
+		if (isOpened && !folder.loaded) return <div style={{ paddingLeft: `${(deep + 2) * 10}px` }}><FolderPlaceholder /></div>;
 		return (
 			<>
 				{keys(folder.folders).map(folderName => <CodeTreeFolder key={folderName} folder={folder.folders[folderName]} deep={deep + 1} onLoadFolder={onLoadFolder} />)}
 				{keys(folder.files).map(fileName => <CodeTreeFile key={fileName} file={folder.files[fileName]} deep={deep + 1} isFolderVisible={folder.matchesSearch} />)}
 			</>
 		);
-	}, [folder, deep, onLoadFolder]);
-
-	const styles = React.useMemo(() => ({ paddingLeft: `${deep * 10}px` }), [deep]);
-
-	const hiddenClass = React.useMemo(() => folder.visible ? '' : 'hidden', [folder.visible]);
-	const matchClass = React.useMemo(() => folder.matchesSearch ? 'search-match' : '', [folder.matchesSearch]);
+	}, [isOpened, folder, deep, onLoadFolder]);
 
 	return (
 		<div className={`github-extension-tree-folder ${hiddenClass}`}>

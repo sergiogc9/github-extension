@@ -10,6 +10,7 @@ import { StorageContext } from '../../Extension/Context/StorageContext';
 import CodeTreeFolder from '../Folder/CodeTreeFolder';
 import CodeTreeFile from '../File/CodeTreeFile';
 import { CodeTree as CodeTreeType } from '../../../lib/Github/GithubTree';
+import { TreePlaceHolder } from '../../common/Placeholder';
 
 import './CodeTree.scss';
 
@@ -47,7 +48,7 @@ const CodeTree: React.FC = props => {
 	}, []);
 
 	const treeContent = React.useMemo(() => {
-		if (!treeData) return null;
+		if (isLoading || !treeData) return <TreePlaceHolder />;
 
 		return (
 			<>
@@ -55,7 +56,7 @@ const CodeTree: React.FC = props => {
 				{keys(treeData.files).map(fileName => <CodeTreeFile key={fileName} file={treeData.files[fileName]} deep={0} isFolderVisible={false} />)}
 			</>
 		);
-	}, [treeData, onLoadSubTree]);
+	}, [treeData, onLoadSubTree, isLoading]);
 
 	return (
 		<div id="githubExtensionCodeTree" className='github-extension-tree'>

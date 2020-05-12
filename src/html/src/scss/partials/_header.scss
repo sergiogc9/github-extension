@@ -9,12 +9,16 @@
 		flex-shrink: 0;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-evenly;
+		justify-content: space-between;
 		align-items: center;
 		border-bottom: thin solid $borderColor;
 
 		> div {
 			margin: 5px 0;
+		}
+
+		.placeholder {
+			height: 50px;
 		}
 
 		.github-extension-header-info-title {
@@ -109,9 +113,8 @@
 				font-weight: bolder;
 
 				// opcion 3 (seria cambiar primary color?)
-				background-color: #deedfc;
-				color: dodgerblue;
-				color: #0366d6;
+				background-color: $headerColorDark;
+				color: $primaryColorDark;
 				border: none;
 				font-weight: inherit;
 			}
