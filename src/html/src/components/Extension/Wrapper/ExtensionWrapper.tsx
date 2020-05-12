@@ -35,7 +35,7 @@ const ExtensionWrapper: React.FC = props => {
 
 	const toolbarContent = React.useMemo(() => (
 		<div id="githubExtensionAppBottomToolbar">
-			<FontAwesomeIcon icon={["fad", showSearch ? 'times-circle' : 'search']} onClick={() => {
+			<FontAwesomeIcon icon={["fad", showSearch ? 'times' : 'search']} className={showSearch ? 'selected' : ''} onClick={() => {
 				setShowSearch(show => {
 					if (show) setSearchValue('');
 					return !show;

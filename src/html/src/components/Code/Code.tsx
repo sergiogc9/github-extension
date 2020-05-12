@@ -12,16 +12,14 @@ const Code: React.FC = props => {
 	const headerContent = React.useMemo(() => {
 		const { user, repository } = pageData.data;
 		return <div id='githubExtensionCodeHeader' className='github-extension-header'>
-			<FontAwesomeIcon icon={['far', 'code-merge']} />
-			<div id="githubExtensionCodeHeaderInfo" className='github-extension-header-info'>
-				<div id='githubExtensionCodeHeaderTitle' className='github-extension-header-info-title'>
-					<a href={`https://github.com/${user}`} target='_blank'>{user}</a>
-					<FontAwesomeIcon icon={['fas', 'chevron-double-right']} />
-					<a href={`https://github.com/${user}/${repository}`} target='_blank'>{repository}</a>
-				</div>
-				<div id='githubExtensionCodeHeaderBranch' className='github-extension-header-branch'>
-					{pageData.data.tree}
-				</div>
+			<div id='githubExtensionCodeHeaderTitle' className='github-extension-header-info-title'>
+				<FontAwesomeIcon icon={['far', 'code-branch']} />
+				<a href={`https://github.com/${user}`} target='_blank'>{user}</a>
+				<FontAwesomeIcon icon={['fas', 'chevron-double-right']} />
+				<a href={`https://github.com/${user}/${repository}`} target='_blank' className='bold'>{repository}</a>
+			</div>
+			<div id='githubExtensionCodeHeaderBranch' className='github-extension-header-branch'>
+				<span>{pageData.data.tree}</span>
 			</div>
 		</div>;
 	}, [pageData.data]);

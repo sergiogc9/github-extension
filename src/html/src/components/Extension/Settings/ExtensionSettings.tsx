@@ -14,7 +14,7 @@ const ExtensionSettings: React.FC = props => {
 		<div id="githubExtensionAppSettings">
 			<ScrollArea>
 				<Widget>
-					<WidgetContent>
+					<WidgetContent className='header'>
 						<h3>Settings</h3>
 					</WidgetContent>
 					<Divider />
@@ -56,8 +56,8 @@ const ExtensionSettings: React.FC = props => {
 							</FormGroupContainer>
 						</FormGroupContainer>
 					</WidgetContent>
-					<WidgetContent>
-						<Button success>Save Settings</Button>
+					<WidgetContent className='save-btn'>
+						<Button primary>Apply settings</Button>
 					</WidgetContent>
 				</Widget>
 			</ScrollArea>

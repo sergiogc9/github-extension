@@ -1,3 +1,5 @@
+@import "../../../scss/variables";
+
 #githubExtensionAppSettings {
     flex-grow: 1;
     overflow: hidden;
@@ -14,6 +16,18 @@
 
             .form-check-description {
                 font-size: 12px;
+            }
+
+            &.header {
+                background-color: $headerColor;
+            }
+
+            &.save-btn {
+                text-align: center;
+                button {
+                    padding: 0 10px;
+                    height: 30px;
+                }
             }
         }
     }
