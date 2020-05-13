@@ -9,8 +9,8 @@ const MyOctokit = Octokit.plugin(retry, throttling);
 
 let myOctokit: any;
 
-const getOctokit = () => {
-	const token = Storage.get('github_token');
+const getOctokit = async () => {
+	const token = await Storage.get('github_token');
 	if (!myOctokit || myOctokit.auth !== token) {
 		myOctokit = new MyOctokit({
 			auth: token,
@@ -46,14 +46,14 @@ const createPullRequest = (data: any): PullRequest => ({
 
 class GithubApi {
 	static getPullRequestInfo = async ({ data }: any) => {
-		const token = Storage.get('github_token');
-		if (!token){
-			 console.error('Github token not available!');
-			 return;
+		const token = await Storage.get('github_token');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
 		}
 		const { user, repository, number } = data;
 		try {
-			const octokit = getOctokit();
+			const octokit = await getOctokit();
 			const { data } = await octokit.pulls.get({ owner: user, repo: repository, pull_number: number });
 			return createPullRequest(data);
 		}
@@ -64,10 +64,10 @@ class GithubApi {
 	}
 
 	static getPullRequestFiles = async ({ data }: any) => {
-		const token = Storage.get('github_token');
-		if (!token){
-			 console.error('Github token not available!');
-			 return;
+		const token = await Storage.get('github_token');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
 		}
 		const { user, repository, number } = data;
 
@@ -85,16 +85,16 @@ class GithubApi {
 	}
 
 	static getCodeTree = async ({ data }: any) => {
-		const token = Storage.get('github_token');
-		const lazyLoad = Storage.get('lazy_load_tree');
-		if (!token){
-			 console.error('Github token not available!');
-			 return;
+		const token = await Storage.get('github_token');
+		const lazyLoad = await Storage.get('lazy_load_tree');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
 		}
 		const { user, repository, tree: treeSha } = data;
 
 		try {
-			const octokit = getOctokit();
+			const octokit = await getOctokit();
 			const params: any = { owner: user, repo: repository, tree_sha: treeSha };
 			if (!lazyLoad) params.recursive = true;
 			const { data } = await octokit.git.getTree(params);
@@ -109,14 +109,14 @@ class GithubApi {
 	}
 
 	static getFolderTreeData = async (user: string, repository: string, sha: string) => {
-		const token = Storage.get('github_token');
-		if (!token){
-			 console.error('Github token not available!');
-			 return;
+		const token = await Storage.get('github_token');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
 		}
 
 		try {
-			const octokit = getOctokit();
+			const octokit = await getOctokit();
 			const { data } = await octokit.git.getTree({ owner: user, repo: repository, tree_sha: sha });
 			return data;
 		}

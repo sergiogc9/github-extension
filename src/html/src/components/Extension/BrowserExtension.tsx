@@ -9,10 +9,10 @@ import ExtensionWrapper from './Wrapper/ExtensionWrapper';
 
 type ComponentProps = RouteComponentProps & {};
 
-const getStorageData = (): StorageData => ({
-	token: Storage.get('github_token'),
-	group_folders: Storage.get('group_folders'),
-	lazy_load_tree: Storage.get('lazy_load_tree')
+const getStorageData = async (): Promise<StorageData> => ({
+	token: await Storage.get('github_token'),
+	group_folders: await Storage.get('group_folders'),
+	lazy_load_tree: await Storage.get('lazy_load_tree')
 });
 
 type TabData = { id: number, url: string };
@@ -28,12 +28,13 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 
 	const [tabId, setTabId] = React.useState<number | null>(null);
 	const [pageData, setPageData] = React.useState<PageData | null>(null);
-	const [storageData, setStorageData] = React.useState(getStorageData());
+	const [storageData, setStorageData] = React.useState<StorageData>();
 
 	// Page context stuff
 
 	React.useEffect(() => {
 		(async () => {
+			setStorageData(await getStorageData());
 			const tabData = await getTabData();
 			if (tabData) {
 				setTabId(tabData.id);
@@ -86,15 +87,16 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 
 	// Storage context stuff
 
-	const onSetStorageItem = React.useCallback((key: string, value: any) => {
-		Storage.set(key, value);
-		setStorageData(getStorageData());
+	const onSetStorageItem = React.useCallback(async (key: string, value: any) => {
+		await Storage.set(key, value);
+		setStorageData(await getStorageData());
 	}, []);
 
 	const storageHandlers = React.useMemo<StorageHandlers>(() => ({
 		setStorageItem: onSetStorageItem
 	}), [onSetStorageItem]);
 
+	if (!storageData) return null;
 
 	return (
 		<PageContext.Provider value={pageData}>
