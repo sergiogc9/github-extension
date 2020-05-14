@@ -84,10 +84,10 @@ class GithubApi {
 
 		try {
 			const octokit = await getOctokit();
-			let data: any[] = [];
 			// Fetch first page
 			const apiResponse = await octokit.pulls.listFiles({ owner: user, repo: repository, pull_number: number, per_page: 100 });
 			const { page, total } = getPaginationData(apiResponse);
+			let data: any[] = apiResponse.data;
 			if (total > 1) {
 				if (total > 10) alert('Maximum number of files loaded limited to 1000 to prevent Github API rate limits.');
 				// Fetch data from page 2 to page up to 10, hence limit is 1000 files
