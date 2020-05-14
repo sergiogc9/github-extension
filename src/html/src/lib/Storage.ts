@@ -1,16 +1,19 @@
 class Storage {
-	static set = (key: string, value: any) => {
-		localStorage.setItem(key, JSON.stringify(value));
+	static set = async (key: string, value: any) => {
+		await new Promise(resolve => {
+			chrome.storage.sync.set({ [key]: JSON.stringify(value) }, resolve);
+		});
 	}
 
-	static get = (key: string) => {
-		const value = localStorage.getItem(key);
-		if (value) return JSON.parse(value);
-		return null;
+	static get = async (key: string) => {
+		const items: any = await new Promise(resolve => {
+			chrome.storage.sync.get(key, items => resolve(items));
+		});
+		return items[key] ? JSON.parse(items[key]) : null;
 	}
 
-	static remove = (key: string) => {
-		localStorage.removeItem(key);
+	static remove = async (key: string) => {
+		await new Promise(resolve => chrome.storage.sync.remove(key, resolve));
 	}
 }
 
