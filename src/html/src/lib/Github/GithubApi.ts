@@ -148,6 +148,24 @@ class GithubApi {
 			console.error("Github Api Error");
 		}
 	}
+
+	static getUserData = async () => {
+		const token = await Storage.get('github_token');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
+		}
+
+		try {
+			const octokit = await getOctokit();
+			const { data } = await octokit.users.getAuthenticated();
+			return data;
+		}
+		catch (e) {
+			onApiError(e);
+			console.error("Github Api Error");
+		}
+	}
 }
 
 export default GithubApi;

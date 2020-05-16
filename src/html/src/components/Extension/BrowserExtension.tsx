@@ -5,7 +5,9 @@ import queryString from 'query-string';
 import Storage from '../../lib/Storage';
 import { PageContext, PageHandlerContext, PageData, PageHandlers, getPageData, getPullRequestFileAnchorUrl } from './Context/PageContext';
 import { StorageContext, StorageHandlerContext, StorageData, StorageHandlers } from './Context/StorageContext';
-import ExtensionWrapper from './Wrapper/ExtensionWrapper';
+import { MessageHandlersContext, MessageHandlers, MessageHandler, Message } from './Context/MessageContext';
+import ExtensionSidebar from './Sidebar/ExtensionSidebar';
+import ExtensionPopup from './Popup/ExtensionPopup';
 
 type ComponentProps = RouteComponentProps & {};
 
@@ -29,6 +31,9 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 	const [tabId, setTabId] = React.useState<number | null>(null);
 	const [pageData, setPageData] = React.useState<PageData | null>(null);
 	const [storageData, setStorageData] = React.useState<StorageData>();
+
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const isPopup = React.useMemo(() => !!queryString.parse(location.search).popup, []);
 
 	// Page context stuff
 
@@ -96,18 +101,36 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 		setStorageItem: onSetStorageItem
 	}), [onSetStorageItem]);
 
+	// Message context stuff
+
+	const onSendBackgroundMessage = React.useCallback((message: Message) => {
+		chrome.runtime.sendMessage(message);
+	}, []);
+
+	const onReceiveBackgroundMessage = React.useCallback((func: MessageHandler) => {
+		chrome.runtime.onMessage.addListener((request, sender) => func(request));
+	}, []);
+
+	const messageHandlers = React.useMemo<MessageHandlers>(() => ({
+		onBackgroundMessage: onReceiveBackgroundMessage,
+		sendBackgroundMessage: onSendBackgroundMessage
+	}), [onSendBackgroundMessage, onReceiveBackgroundMessage]);
+
 	if (!storageData) return null;
 
 	return (
-		<PageContext.Provider value={pageData}>
-			<PageHandlerContext.Provider value={pageHandlers}>
-				<StorageContext.Provider value={storageData}>
-					<StorageHandlerContext.Provider value={storageHandlers}>
-						{pageData && storageData && <ExtensionWrapper />}
-					</StorageHandlerContext.Provider>
-				</StorageContext.Provider>
-			</PageHandlerContext.Provider>
-		</PageContext.Provider>
+		<MessageHandlersContext.Provider value={messageHandlers}>
+			<PageContext.Provider value={pageData}>
+				<PageHandlerContext.Provider value={pageHandlers}>
+					<StorageContext.Provider value={storageData}>
+						<StorageHandlerContext.Provider value={storageHandlers}>
+							{pageData && storageData && !isPopup && <ExtensionSidebar />}
+							{storageData && isPopup && <ExtensionPopup />}
+						</StorageHandlerContext.Provider>
+					</StorageContext.Provider>
+				</PageHandlerContext.Provider>
+			</PageContext.Provider>
+		</MessageHandlersContext.Provider>
 	);
 };
 

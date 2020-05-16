@@ -9,11 +9,11 @@ import Code from '../../Code/Code';
 import PullRequest from '../../PullRequest/PullRequest';
 import ExtensionSettings from '../Settings/ExtensionSettings';
 
-import './ExtensionWrapper.scss';
+import './ExtensionSidebar.scss';
 
 type Route = 'settings' | 'pageContent';
 
-const ExtensionWrapper: React.FC = props => {
+const ExtensionSidebar: React.FC = props => {
 	const [route, setRoute] = React.useState<Route>('pageContent');
 	const [showSearch, setShowSearch] = React.useState(false);
 	const { value: searchValue, finalValue: searchFinalValue, setValue: setSearchValue, onChangeValue: onChangeSearchValue } = useWaitInput(250);
@@ -60,4 +60,4 @@ const ExtensionWrapper: React.FC = props => {
 	);
 };
 
-export default React.memo(ExtensionWrapper);
+export default React.memo(ExtensionSidebar);
