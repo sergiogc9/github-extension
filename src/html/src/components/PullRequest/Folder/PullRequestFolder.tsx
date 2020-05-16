@@ -3,9 +3,9 @@ import keys from 'lodash/keys';
 import { Collapse } from 'react-collapse';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import FolderIcon from '../../common/FolderIcon';
-import PullRequestFile from '../File/PullRequestFile';
-import { PullRequestFolder as PullRequestFolderType } from '../../../lib/Github/GithubTree';
+import FolderIcon from 'components/common/FolderIcon';
+import PullRequestFile from 'components/PullRequest/File/PullRequestFile';
+import { PullRequestFolder as PullRequestFolderType } from 'lib/Github/GithubTree';
 
 type ComponentProps = {
 	folder: PullRequestFolderType

@@ -3,14 +3,14 @@ import { useAsync } from 'react-async';
 import keys from 'lodash/keys';
 import isEmpty from 'lodash/isEmpty';
 
-import GithubApi from '../../../lib/Github/GithubApi';
-import { PageContext } from '../../Extension/Context/PageContext';
-import { SearchContext } from '../../Extension/Context/SearchContext';
-import { StorageContext } from '../../Extension/Context/StorageContext';
-import CodeTreeFolder from '../Folder/CodeTreeFolder';
-import CodeTreeFile from '../File/CodeTreeFile';
-import { CodeTree as CodeTreeType } from '../../../lib/Github/GithubTree';
-import { TreePlaceHolder } from '../../common/Placeholder';
+import GithubApi from 'lib/Github/GithubApi';
+import { PageContext } from 'components/Extension/Context/PageContext';
+import { SearchContext } from 'components/Extension/Context/SearchContext';
+import { StorageContext } from 'components/Extension/Context/StorageContext';
+import CodeTreeFolder from 'components/Code/Folder/CodeTreeFolder';
+import CodeTreeFile from 'components/Code/File/CodeTreeFile';
+import { CodeTree as CodeTreeType } from 'lib/Github/GithubTree';
+import { TreePlaceHolder } from 'components/common/Placeholder';
 
 import './CodeTree.scss';
 

@@ -5,7 +5,7 @@ import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 
 import { PullRequest, PullRequestTree, CodeTree, GithubTree } from './GithubTree';
-import Storage from '../Storage';
+import Storage from 'lib/Storage';
 
 const MyOctokit = Octokit.plugin(retry, throttling);
 

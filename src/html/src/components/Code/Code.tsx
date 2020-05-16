@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { PageContext } from '../Extension/Context/PageContext';
+import { PageContext } from 'components/Extension/Context/PageContext';
 import CodeTree from './Tree/CodeTree';
 
 import './Code.scss';

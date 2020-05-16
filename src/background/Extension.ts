@@ -1,4 +1,4 @@
-import { Message } from '../html/src/components/Extension/Context/MessageContext';
+import { Message } from '@react/components/Extension/Context/MessageContext';
 import User from './User';
 import messageHandler from './MessageHandler';
 

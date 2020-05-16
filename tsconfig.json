@@ -10,7 +10,13 @@
     "typeRoots": ["node_modules/@types"],
     "moduleResolution": "node",
     "lib": ["es2017", "dom"],
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@react/*": [
+        "src/html/src/*"
+      ]
+    }
   },
   "include": ["src/background", "src/contentscript", "src/html/src/**/*"]
 }

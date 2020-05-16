@@ -5,6 +5,7 @@ import mapValues from 'lodash/mapValues';
 import forEach from 'lodash/forEach';
 import some from 'lodash/some';
 import cloneDeep from 'lodash/cloneDeep';
+
 import GithubApi from './GithubApi';
 
 export type PullRequest = {

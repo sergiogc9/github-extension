@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, ScrollArea, Widget, WidgetContent, Divider, Button, TextField, FormGroupContainer, FormGroup, Checkbox } from '@duik/it';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { StorageContext, StorageHandlerContext } from '../Context/StorageContext';
+import { StorageContext, StorageHandlerContext } from 'components/Extension/Context/StorageContext';
 
 import './ExtensionSettings.scss';
 

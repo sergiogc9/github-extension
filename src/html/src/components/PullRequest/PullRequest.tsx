@@ -2,10 +2,10 @@ import React from 'react';
 import { useAsync } from 'react-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import GithubApi from '../../lib/Github/GithubApi';
-import { PageContext } from '../Extension/Context/PageContext';
+import GithubApi from 'lib/Github/GithubApi';
+import { PageContext } from 'components/Extension/Context/PageContext';
 import PullRequestTree from './Tree/PullRequestTree';
-import { HeaderBranchPlaceholder } from '../common/Placeholder';
+import { HeaderBranchPlaceholder } from 'components/common/Placeholder';
 
 import './PullRequest.scss';
 

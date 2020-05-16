@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, RouteComponentProps } from "react-router";
 import queryString from 'query-string';
 
-import Storage from '../../lib/Storage';
+import Storage from 'lib/Storage';
 import { PageContext, PageHandlerContext, PageData, PageHandlers, getPageData, getPullRequestFileAnchorUrl } from './Context/PageContext';
 import { StorageContext, StorageHandlerContext, StorageData, StorageHandlers } from './Context/StorageContext';
 import { MessageHandlersContext, MessageHandlers, MessageHandler, Message } from './Context/MessageContext';
