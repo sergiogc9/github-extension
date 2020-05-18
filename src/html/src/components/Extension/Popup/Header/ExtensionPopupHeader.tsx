@@ -1,8 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { MessageHandlersContext } from '../../Context/MessageContext';
-import { ExtensionStatus } from '../../../../../../background/Extension';
+import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { ExtensionStatus } from 'types/Extension';
 
 import './ExtensionPopupHeader.scss';
 

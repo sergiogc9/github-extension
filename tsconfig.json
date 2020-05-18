@@ -11,10 +11,13 @@
     "moduleResolution": "node",
     "lib": ["es2017", "dom"],
     "jsx": "preserve",
-    "baseUrl": ".",
+    "baseUrl": "./src/html/src",
     "paths": {
       "@react/*": [
-        "src/html/src/*"
+        "./*"
+      ],
+      "@root/*": [
+        "../../../src/*"
       ]
     }
   },

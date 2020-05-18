@@ -5,7 +5,8 @@ import queryString from 'query-string';
 import Storage from 'lib/Storage';
 import { PageContext, PageHandlerContext, PageData, PageHandlers, getPageData, getPullRequestFileAnchorUrl } from './Context/PageContext';
 import { StorageContext, StorageHandlerContext, StorageData, StorageHandlers } from './Context/StorageContext';
-import { MessageHandlersContext, MessageHandlers, MessageHandler, Message } from './Context/MessageContext';
+import { MessageHandlersContext, MessageHandlers } from './Context/MessageContext';
+import { MessageHandler, Message } from 'types/Message';
 import ExtensionSidebar from './Sidebar/ExtensionSidebar';
 import ExtensionPopup from './Popup/ExtensionPopup';
 

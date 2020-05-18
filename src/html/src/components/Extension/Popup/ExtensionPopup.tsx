@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import { ExtensionStatus } from '../../../../../../src/background/Extension';
+import { ExtensionStatus } from 'types/Extension';
 import ExtensionPopupHeader from './Header/ExtensionPopupHeader';
 
 import './ExtensionPopup.scss';

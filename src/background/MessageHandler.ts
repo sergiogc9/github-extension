@@ -1,4 +1,4 @@
-import { Message, MessageHandler as MessageHandlerType } from '@react/components/Extension/Context/MessageContext';
+import { Message, MessageHandler as MessageHandlerType } from '@react/types/Message';
 
 class MessageHandler {
 

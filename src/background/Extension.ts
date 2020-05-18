@@ -1,8 +1,7 @@
-import { Message } from '@react/components/Extension/Context/MessageContext';
+import { Message } from '@react/types/Message';
 import User from './User';
 import messageHandler from './MessageHandler';
-
-export type ExtensionStatus = 'stop' | 'starting' | 'synced' | 'error';
+import { ExtensionStatus } from '@react/types/Extension';
 
 class Extension {
     private __status: ExtensionStatus = 'stop';

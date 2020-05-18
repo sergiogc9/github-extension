@@ -1,6 +1,6 @@
 import GithubApi from '@react/lib/Github/GithubApi';
 import messageHandler from './MessageHandler';
-import { Message } from '@react/components/Extension/Context/MessageContext';
+import { Message } from 'types/Message';
 
 class User {
     private __attributes?: Record<string, any>;
