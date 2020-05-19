@@ -4,10 +4,22 @@
     "target": "es5",
     "module": "commonjs",
     "sourceMap": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "types": ["@types/chrome", "node"],
     "typeRoots": ["node_modules/@types"],
     "moduleResolution": "node",
-    "lib": ["es2017", "dom"]
+    "lib": ["es2017", "dom"],
+    "jsx": "preserve",
+    "baseUrl": "./src/html/src",
+    "paths": {
+      "@react/*": [
+        "./*"
+      ],
+      "@root/*": [
+        "../../../src/*"
+      ]
+    }
   },
-  "include": ["src/background", "src/contentscript"]
+  "include": ["src/background", "src/contentscript", "src/html/src/**/*"]
 }

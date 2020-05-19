@@ -2,13 +2,13 @@ import React from 'react';
 import { useAsync } from 'react-async';
 import keys from 'lodash/keys';
 
-import GithubApi from '../../../lib/Github/GithubApi';
-import { PageContext } from '../../Extension/Context/PageContext';
-import { SearchContext } from '../../Extension/Context/SearchContext';
-import { StorageContext } from '../../Extension/Context/StorageContext';
-import PullRequestFolder from '../Folder/PullRequestFolder';
-import PullRequestFile from '../File/PullRequestFile';
-import { TreePlaceHolder } from '../../common/Placeholder';
+import GithubApi from 'lib/Github/GithubApi';
+import { PageContext } from 'components/Extension/Context/PageContext';
+import { SearchContext } from 'components/Extension/Context/SearchContext';
+import { StorageContext } from 'components/Extension/Context/StorageContext';
+import PullRequestFolder from 'components/PullRequest/Folder/PullRequestFolder';
+import PullRequestFile from 'components/PullRequest/File/PullRequestFile';
+import { TreePlaceHolder } from 'components/common/Placeholder';
 
 import './PullRequestTree.scss';
 

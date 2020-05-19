@@ -3,10 +3,10 @@ import keys from 'lodash/keys';
 import { Collapse } from 'react-collapse';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import FolderIcon from '../../common/FolderIcon';
-import CodeTreeFile from '../File/CodeTreeFile';
-import { CodeTreeFolder as CodeTreeFolderType } from '../../../lib/Github/GithubTree';
-import { FolderPlaceholder } from '../../common/Placeholder';
+import FolderIcon from 'components/common/FolderIcon';
+import CodeTreeFile from 'components/Code/File/CodeTreeFile';
+import { CodeTreeFolder as CodeTreeFolderType } from 'lib/Github/GithubTree';
+import { FolderPlaceholder } from 'components/common/Placeholder';
 
 type ComponentProps = {
 	folder: CodeTreeFolderType

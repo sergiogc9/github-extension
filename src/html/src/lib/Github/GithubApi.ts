@@ -5,7 +5,7 @@ import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 
 import { PullRequest, PullRequestTree, CodeTree, GithubTree } from './GithubTree';
-import Storage from '../Storage';
+import Storage from 'lib/Storage';
 
 const MyOctokit = Octokit.plugin(retry, throttling);
 
@@ -141,6 +141,24 @@ class GithubApi {
 		try {
 			const octokit = await getOctokit();
 			const { data } = await octokit.git.getTree({ owner: user, repo: repository, tree_sha: sha });
+			return data;
+		}
+		catch (e) {
+			onApiError(e);
+			console.error("Github Api Error");
+		}
+	}
+
+	static getUserData = async () => {
+		const token = await Storage.get('github_token');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
+		}
+
+		try {
+			const octokit = await getOctokit();
+			const { data } = await octokit.users.getAuthenticated();
 			return data;
 		}
 		catch (e) {
