@@ -1,6 +1,6 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { FontAwesomeIcon, MaterialUIIcon } from 'components/common/Icon/Icon';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import CodeTree from './Tree/CodeTree';
 
@@ -13,9 +13,9 @@ const Code: React.FC = props => {
 		const { user, repository } = pageData.data;
 		return <div id='githubExtensionCodeHeader' className='github-extension-header'>
 			<div id='githubExtensionCodeHeaderTitle' className='github-extension-header-info-title'>
-				<FontAwesomeIcon icon={['far', 'code-branch']} />
+				<MaterialUIIcon name='library-books' />
 				<a href={`https://github.com/${user}`} target='_blank'>{user}</a>
-				<FontAwesomeIcon icon={['fas', 'chevron-double-right']} />
+				<FontAwesomeIcon name='chevron-double-right' type='solid' />
 				<a href={`https://github.com/${user}/${repository}`} target='_blank' className='bold'>{repository}</a>
 			</div>
 			<div id='githubExtensionCodeHeaderBranch' className='github-extension-header-branch'>

@@ -1,0 +1,112 @@
+@import "../../../scss/variables";
+@import "../../../scss/animations";
+
+.react-icon {
+    width: 32px;
+    height: 32px;
+
+    color: #{$primaryColor};
+    --icon-primary-color: currentColor;
+    --icon-secondary-color: currentColor;
+    --icon-primary-opacity: 1;
+    --icon-secondary-opacity: 0.4;
+    --icon-rotation: 0deg;
+
+    &:not(.keep-color) {
+        &.nc-icon {
+            .nc-icon-wrapper {
+                fill: var(--icon-primary-color);
+                opacity: var(--icon-primary-opacity);
+                > g > *,
+                > * {
+                    &:not(g)[fill="none"] {
+                        stroke: var(--icon-primary-color);
+                    }
+                    &:not(g):not([fill="none"]) {
+                        fill: var(--icon-primary-color);
+                    }
+                    &:not(g)[data-color="color-2"][fill="none"] {
+                        stroke: var(--icon-secondary-color);
+                        opacity: var(--icon-secondary-opacity);
+                    }
+                    &:not(g)[data-color="color-2"]:not([fill="none"]) {
+                        fill: var(--icon-secondary-color);
+                        opacity: var(--icon-secondary-opacity);
+                    }
+                }
+            }
+        }
+        &.fa-icon {
+            .nc-icon-wrapper {
+                fill: var(--icon-primary-color);
+                opacity: var(--icon-primary-opacity);
+            }
+            .fa-primary {
+                fill: var(--icon-primary-color);
+                opacity: var(--icon-primary-opacity);
+            }
+            .fa-secondary {
+                fill: var(--icon-secondary-color);
+                opacity: var(--icon-secondary-opacity);
+            }
+        }
+
+        &.symb-icon {
+            .nc-icon-wrapper {
+                fill: var(--icon-primary-color);
+                opacity: var(--icon-primary-opacity);
+
+                > g {
+                    opacity: var(--icon-primary-opacity);
+
+                    > *:not(g) {
+                        stroke: var(--icon-primary-color);
+                    }
+
+                    > g {
+                        stroke: var(--icon-secondary-color);
+                        opacity: var(--icon-secondary-opacity);
+                    }
+                }
+            }
+        }
+        &.mui-icon {
+            .nc-icon-wrapper {
+                fill: var(--icon-primary-color);
+                opacity: var(--icon-primary-opacity);
+            }
+        }
+    }
+
+    $spin-options: (
+        "slow": 2s,
+        "normal": 1s,
+        "fast": 0.5s,
+    );
+    @each $speed, $time in $spin-options {
+        &.icon-spin-#{$speed} {
+            @include spin($time);
+        }
+    }
+
+    $pulse-options: 1, 2, 3, 4, 5, 6, 7, 8, 9;
+    @each $steps in $pulse-options {
+        &.icon-pulse-#{$steps} {
+            @include pulse($steps);
+        }
+    }
+
+    &.icon-rotate {
+        transform: rotate(var(--icon-rotation));
+    }
+
+    &.icon-flip-vertical {
+        transform: scale(1, -1);
+    }
+    &.icon-flip-horizontal {
+        transform: scale(-1, 1);
+    }
+    &.icon-flip-both {
+        transform: scale(-1, -1);
+    }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import FileIconsLibrary from 'file-icons-js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getIconForFile } from 'vscode-material-icon-theme-js';
+import { FontAwesomeIcon } from './Icon';
 
 type ComponentProps = {
 	filename: string
@@ -49,10 +49,11 @@ const FileIcon: React.FC<ComponentProps> = props => {
 
 	// Using vscode icons
 	const svgFile = getIconForFile(filename);
-	if (svgFile !== 'file.svg') return <img className='file-icon' src={`icons/${svgFile}`} alt={filename} />;
+	if (svgFile !== 'file.svg') return <img className='file-icon' src={`file-icons/${svgFile}`} alt={filename} />;
 
-	// Default icon fallback
-	return <FontAwesomeIcon icon={["fad", "file-alt"]} color="cadetblue" className="file-icon" />;
+	// Default icon fallback (FA based or file-icon-js based)
+	// return <FontAwesomeIcon name='file-alt' type='duo' color="cadetblue" secondaryColor="cadetblue" className="file-icon" />;
+	return <i className={`text-icon medium-blue file-icon`} />;
 };
 
 export default React.memo(FileIcon);

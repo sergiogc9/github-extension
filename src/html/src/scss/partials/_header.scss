@@ -54,16 +54,17 @@
 			}
 
 			> svg {
-				color: $primaryColor;
 				margin: 0 5px;
 
 				&:first-child {
 					margin-left: 0;
-					font-size: 16px;
+					width: 16px;
+					height: 16px;
 				}
 
-				&.fa-chevron-double-right {
-					font-size: 8px;
+				&.fa-chevron-double-right-solid {
+					width: 8px;
+					height: 8px;
 				}
 			}
 
@@ -86,7 +87,8 @@
 
 			> svg {
 				color: $primaryColor;
-				font-size: 13px;
+				width: 13px;
+				height: 13px;
 
 				&:first-child {
 					margin-left: 0;

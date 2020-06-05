@@ -9,8 +9,10 @@
     align-items: center;
 
     > svg {
-        font-size: 26px;
+        width: 26px;
+        height: 26px;
         margin: 0 14px;
+        color: $textColorWhite;
     }
 
     > span {

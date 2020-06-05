@@ -1,8 +1,8 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
+import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
 import './ExtensionPopupHeader.scss';
 
@@ -29,7 +29,7 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 		if (status === 'starting' || !user) return 'Loading...';
 		if (status === 'synced') return (
 			<>
-				<FontAwesomeIcon icon={['fab', 'github']} />
+				<FontAwesomeIcon name='github' type='brand' />
 				<span>{user.login}</span>
 			</>
 		);

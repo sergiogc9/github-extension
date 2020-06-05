@@ -46,8 +46,13 @@
         .alert-left-el {
             margin-right: 10px;
             margin-top: 0;
-            font-size: 16px;
             align-self: center;
+
+            > .react-icon {
+                width: 22px;
+                height: 22px;
+                color: white;
+            }
         }
     }
 }

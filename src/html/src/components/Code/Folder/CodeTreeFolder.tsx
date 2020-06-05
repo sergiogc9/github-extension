@@ -1,12 +1,12 @@
 import React from 'react';
 import keys from 'lodash/keys';
 import { Collapse } from 'react-collapse';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import FolderIcon from 'components/common/FolderIcon';
+import FolderIcon from 'components/common/Icon/FolderIcon';
 import CodeTreeFile from 'components/Code/File/CodeTreeFile';
 import { CodeTreeFolder as CodeTreeFolderType } from 'lib/Github/GithubTree';
 import { FolderPlaceholder } from 'components/common/Placeholder';
+import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
 type ComponentProps = {
 	folder: CodeTreeFolderType
@@ -42,7 +42,7 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 	return (
 		<div className={`github-extension-tree-folder ${hiddenClass}`}>
 			<div className='github-extension-tree-folder-content' style={styles} onClick={onToggleCollapsed} title={folder.path}>
-				<FontAwesomeIcon icon={isOpened ? "angle-down" : "angle-right"} color="dodgerblue" className='folder-collapse-icon' />
+				<FontAwesomeIcon name={isOpened ? "angle-down" : "angle-right"} type='solid' color="dodgerblue" className='folder-collapse-icon' />
 				<FolderIcon name={folder.name} opened={isOpened} />
 				<span className={`folder-text ${matchClass}`}>  {folder.name}</span>
 			</div>

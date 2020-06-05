@@ -1,8 +1,8 @@
 import React from 'react';
 import { Alert, ScrollArea, Widget, WidgetContent, Divider, Button, TextField, FormGroupContainer, FormGroup, Checkbox } from '@duik/it';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { StorageContext, StorageHandlerContext } from 'components/Extension/Context/StorageContext';
+import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
 import './ExtensionSettings.scss';
 
@@ -28,7 +28,7 @@ const ExtensionSettings: React.FC = props => {
 									placeholder='Enter github token'
 									onBlur={ev => storageHandlers.setStorageItem('github_token', ev.target.value)}
 								/>
-								<Alert id='githubSettingsTokenAlert' leftEl={<FontAwesomeIcon icon={['fad', 'info-circle']} />} primary>Token is saved only in browser local storage.</Alert>
+								<Alert id='githubSettingsTokenAlert' leftEl={<FontAwesomeIcon name='info-circle' type='duo' />} primary>Token is saved only in browser local storage.</Alert>
 							</FormGroup>
 						</FormGroupContainer>
 					</WidgetContent>

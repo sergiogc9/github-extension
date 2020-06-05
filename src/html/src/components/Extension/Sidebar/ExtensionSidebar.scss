@@ -20,21 +20,13 @@
 
         > svg {
             margin: 0 10px;
-            font-size: 12px;
+            width: 12px;
+            height: 12px;
             cursor: pointer;
-
-            --fa-primary-color: #{$textColorBlack};
-            --fa-secondary-color: #{$textColorBlack};
-            --fa-primary-opacity: 0.7;
-            --fa-secondary-opacity: 1;
-
-            &.fa-times-circle {
-                --fa-primary-opacity: 0.3;
-            }
+            color: $textColorBlack;
 
             &.selected {
-                --fa-primary-color: #{$primaryColor};
-                --fa-secondary-color: #{$primaryColor};
+                color: $primaryColor;
             }
         }
 

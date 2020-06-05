@@ -1,11 +1,11 @@
 import React from 'react';
 import keys from 'lodash/keys';
 import { Collapse } from 'react-collapse';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import FolderIcon from 'components/common/FolderIcon';
+import FolderIcon from 'components/common/Icon/FolderIcon';
 import PullRequestFile from 'components/PullRequest/File/PullRequestFile';
 import { PullRequestFolder as PullRequestFolderType } from 'lib/Github/GithubTree';
+import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
 type ComponentProps = {
 	folder: PullRequestFolderType
@@ -36,7 +36,7 @@ const PullRequestFolder: React.FC<ComponentProps> = props => {
 	return (
 		<div className={`github-extension-tree-folder ${hiddenClass}`}>
 			<div className='github-extension-tree-folder-content' style={styles} onClick={onToggleCollapsed} title={folder.path}>
-				<FontAwesomeIcon icon={isOpened ? "angle-down" : "angle-right"} color="dodgerblue" className='folder-collapse-icon' />
+				<FontAwesomeIcon name={isOpened ? "angle-down" : "angle-right"} type='solid' color="dodgerblue" className='folder-collapse-icon' />
 				<FolderIcon name={folder.name} opened={isOpened} />
 				<span className={`folder-text ${matchClass}`}>  {folder.name}</span>
 			</div>

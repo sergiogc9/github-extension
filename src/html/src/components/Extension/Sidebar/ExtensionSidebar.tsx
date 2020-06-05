@@ -1,13 +1,13 @@
 import React from 'react';
 import TextField from '@duik/text-field';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useWaitInput } from '../../../lib/hooks/input';
-import { PageContext } from '../Context/PageContext';
-import { SearchContext } from '../Context/SearchContext';
-import Code from '../../Code/Code';
-import PullRequest from '../../PullRequest/PullRequest';
+import { useWaitInput } from 'lib/hooks/input';
+import { PageContext } from 'components/Extension/Context/PageContext';
+import { SearchContext } from 'components/Extension/Context/SearchContext';
+import Code from 'components/Code/Code';
+import PullRequest from 'components/PullRequest/PullRequest';
 import ExtensionSettings from '../Settings/ExtensionSettings';
+import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
 import './ExtensionSidebar.scss';
 
@@ -35,16 +35,14 @@ const ExtensionSidebar: React.FC = props => {
 
 	const toolbarContent = React.useMemo(() => (
 		<div id="githubExtensionAppBottomToolbar">
-			<FontAwesomeIcon icon={["fad", showSearch ? 'times' : 'search']} className={showSearch ? 'selected' : ''} onClick={() => {
+			<FontAwesomeIcon name={showSearch ? 'times' : 'search'} type='solid' className={showSearch ? 'selected' : ''} onClick={() => {
 				setShowSearch(show => {
 					if (show) setSearchValue('');
 					return !show;
 				});
 			}} />
 			{showSearch && <TextField id="githubExtensionSearchInput" placeholder="Search folders or files" value={searchValue} onChange={onChangeSearchValue} />}
-			<FontAwesomeIcon
-				icon={["fad", "cog"]}
-				className={route === 'settings' ? 'selected' : ''}
+			<FontAwesomeIcon name='cog' type='solid' className={route === 'settings' ? 'selected' : ''}
 				onClick={() => setRoute(route => route === 'settings' ? 'pageContent' : 'settings')}
 			/>
 		</div>

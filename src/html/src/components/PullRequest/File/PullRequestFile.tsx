@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FileIcon from 'components/common/FileIcon';
+import FileIcon from 'components/common/Icon/FileIcon';
 import { PageHandlerContext } from 'components/Extension/Context/PageContext';
 import { PullRequestFile as PullRequestFileType } from 'lib/Github/GithubTree';
 

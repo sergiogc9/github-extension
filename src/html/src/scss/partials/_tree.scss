@@ -1,7 +1,7 @@
 @import "../variables";
 
 @mixin githubExtensionTree() {
-	$collapse-icon-width: 10px;
+	$collapse-icon-width: 12px;
 	$icon-width: 20px;
 	$icon-font-size: 12px;
 
@@ -38,8 +38,8 @@
 
 				.folder-collapse-icon {
 					color: rgba(3, 47, 98, 0.5);
-					font-size: 10px;
 					width: $collapse-icon-width;
+					height: $collapse-icon-width;
 					user-select: none;
 				}
 
@@ -49,6 +49,12 @@
 					font-style: normal;
 					width: $icon-width;
 					user-select: none;
+
+					&.react-icon {
+						padding: 3px 0;
+						height: $icon-width;
+						transform: translateX(-1px);
+					}
 				}
 
 				i.folder-icon,

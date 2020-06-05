@@ -6,13 +6,13 @@ type ComponentProps = {
 	opened: boolean
 }
 
-const FileIcon: React.FC<ComponentProps> = props => {
+const FolderIcon: React.FC<ComponentProps> = props => {
 	const { name, opened } = props;
 
 	// Disabled custom folders, name should be used instead. Maybe enable in dark mode?
 	const svgFile = opened ? getIconForOpenFolder('') : getIconForFolder('');
 	const isDefault = svgFile === 'folder.svg' || svgFile === 'folder-open.svg';
-	return <img className={`folder-icon ${isDefault ? 'default' : ''}`} src={`icons/${svgFile}`} alt={name} />;
+	return <img className={`folder-icon ${isDefault ? 'default' : ''}`} src={`file-icons/${svgFile}`} alt={name} />;
 };
 
-export default React.memo(FileIcon);
+export default React.memo(FolderIcon);
