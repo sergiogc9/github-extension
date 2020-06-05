@@ -1,7 +1,6 @@
 import React from 'react';
 import FileIconsLibrary from 'file-icons-js';
 import { getIconForFile } from 'vscode-material-icon-theme-js';
-import { FontAwesomeIcon } from './Icon';
 
 type ComponentProps = {
 	filename: string
