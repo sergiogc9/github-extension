@@ -81,8 +81,7 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 	}, []);
 
 	const onOpenNewTab = React.useCallback(async (url: string) => {
-		const tabData = await getTabData();
-		if (tabData) chrome.tabs.update(tabData.id, { url });
+		chrome.tabs.create({ url });
 	}, []);
 
 	const pageHandlers = React.useMemo<PageHandlers>(() => ({

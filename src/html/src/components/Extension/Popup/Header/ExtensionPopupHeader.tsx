@@ -31,6 +31,9 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 			<>
 				<FontAwesomeIcon name='github' type='brand' />
 				<span>{user.login}</span>
+				<div className='header-options'>
+					<span>Pull requests</span>
+				</div>
 			</>
 		);
 	}, [status, user]);

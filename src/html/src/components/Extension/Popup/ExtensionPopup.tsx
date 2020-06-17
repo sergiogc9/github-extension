@@ -5,6 +5,7 @@ import { ExtensionStatus } from 'types/Extension';
 import ExtensionPopupHeader from './Header/ExtensionPopupHeader';
 
 import './ExtensionPopup.scss';
+import ExtensionPopupPullRequests from './PullRequests/ExtensionPopupPullRequests';
 
 type Route = 'pullRequests';
 
@@ -23,8 +24,10 @@ const ExtensionPopup: React.FC = props => {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const content = React.useMemo(() => {
-		if (route === 'pullRequests') return "PULL REQUESTS";
-	}, [route]);
+		if (status === 'synced'){
+			if (route === 'pullRequests') return <ExtensionPopupPullRequests />;
+		}
+	}, [status, route]);
 
 	return (
 		<div id="githubExtensionPopup">

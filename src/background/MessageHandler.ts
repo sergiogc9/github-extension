@@ -25,4 +25,4 @@ class MessageHandler {
     };
 }
 
-export default new MessageHandler();
+export default MessageHandler;

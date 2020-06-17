@@ -19,9 +19,9 @@ const PullRequest: React.FC = props => {
 
 		return (
 			<>
-				<span>{pullRequest.branches.base}</span>
+				<span>{pullRequest.branches!.base}</span>
 				<FontAwesomeIcon name='caret-up' type='solid' />
-				<span>{pullRequest.branches.head}</span>
+				<span>{pullRequest.branches!.head}</span>
 			</>
 		);
 	}, [pullRequest, isLoading]);

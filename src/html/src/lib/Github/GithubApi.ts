@@ -4,8 +4,9 @@ import { throttling } from "@octokit/plugin-throttling";
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 
-import { PullRequest, PullRequestTree, CodeTree, GithubTree } from './GithubTree';
+import { PullRequestTree, CodeTree, GithubTree } from './GithubTree';
 import Storage from 'lib/Storage';
+import { GithubPullRequest } from 'types/Github';
 
 const MyOctokit = Octokit.plugin(retry, throttling);
 
@@ -41,10 +42,27 @@ const onApiError = (error: any) => {
 	}
 };
 
-const createPullRequest = (data: any): PullRequest => ({
-	state: data.state,
+const parseCommonPullRequestData = (data: any) => {
+	const [_, owner, repository] = data.html_url.match(/^https:\/\/github\.com\/([^\/]*)\/([^\/]*)\/.*$/);
+
+	return {
+		title: data.title,
+		state: data.state,
+		number: data.number,
+		user: { username: data.user.login },
+		owner,
+		repository
+	};
+};
+
+const createPullRequest = (data: any): GithubPullRequest => ({
+	...parseCommonPullRequestData(data),
 	branches: { base: data.base.ref, head: data.head.ref }
 });
+
+const createPullRequestFromSearch = (data: any): GithubPullRequest[] => data.items.map((itemData: any) => ({
+	...parseCommonPullRequestData(itemData)
+}));
 
 const getArrayOfNumbers = (start: number, length: number) => Array.from(new Array(length), (val, index) => index + start);
 
@@ -160,6 +178,25 @@ class GithubApi {
 			const octokit = await getOctokit();
 			const { data } = await octokit.users.getAuthenticated();
 			return data;
+		}
+		catch (e) {
+			onApiError(e);
+			console.error("Github Api Error");
+		}
+	}
+
+	static getUserPullRequests = async () => {
+		const token = await Storage.get('github_token');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
+		}
+
+		try {
+			const query = "is:open+involves:sergiogc9+is:pr";
+			const octokit = await getOctokit();
+			const { data } = await octokit.search.issuesAndPullRequests({ q: query });
+			return createPullRequestFromSearch(data);
 		}
 		catch (e) {
 			onApiError(e);

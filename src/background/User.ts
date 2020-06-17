@@ -1,19 +1,21 @@
 import GithubApi from '@react/lib/Github/GithubApi';
-import messageHandler from './MessageHandler';
+import Extension from './Extension';
 import { Message } from 'types/Message';
 
 class User {
+    private __extension: Extension;
     private __attributes?: Record<string, any>;
 
-    constructor() {
-        messageHandler.addListener(this.__onMessage);
+    constructor(extension: Extension) {
+        this.__extension = extension;
+        this.__extension.getMessageHandler().addListener(this.__onMessage);
     }
 
     private __onMessage = (message: Message) => {
         if (message.type === 'get_user') this.__sendUser();
     }
 
-    private __sendUser = () => messageHandler.sendMessage({ type: 'user_updated', data: this.__attributes });
+    private __sendUser = () => this.__extension.getMessageHandler().sendMessage({ type: 'user_updated', data: this.__attributes });
 
     public fetch = async () => {
         this.__attributes = await GithubApi.getUserData();

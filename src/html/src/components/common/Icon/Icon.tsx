@@ -7,7 +7,7 @@ type NucleoIconName = 'default';
 type NucleoIconType = 'solid' | 'duo' | 'color' | 'animated' | 'interactive';
 type NucleoIconProps = { family: 'nucleo', name: NucleoIconName, type: NucleoIconType };
 
-type FontAwesomeIconName = 'chevron-double-right' | 'file-alt' | 'angle-down' | 'angle-right' | 'info-circle' | 'search' | 'times' | 'cog' | 'caret-up';
+type FontAwesomeIconName = 'github' | 'chevron-double-right' | 'file-alt' | 'angle-down' | 'angle-right' | 'info-circle' | 'search' | 'times' | 'cog' | 'caret-up';
 type FontAwesomeIconType = 'light' | 'regular' | 'solid' | 'duo' | 'brand';
 type FontAwesomeIconProps = { family: 'font-awesome', name: FontAwesomeIconName, type: FontAwesomeIconType };
 

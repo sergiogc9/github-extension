@@ -8,11 +8,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import GithubApi from './GithubApi';
 
-export type PullRequest = {
-	state: 'open' | 'closed',
-	branches: { base: string, head: string }
-}
-
 type RepositoryTree<T, U> = {
 	folders: Record<string, RepositoryFolder<T, U>>,
 	files: Record<string, RepositoryFile<U>>
