@@ -20,6 +20,10 @@
     "typescript",
     "react"
   ],
+  "engines": {
+    "node": "13.x.x",
+    "npm": ">=6.14.0"
+  },
   "author": "Guibert Thomas",
   "license": "ISC",
   "devDependencies": {
