@@ -23,11 +23,19 @@ const PullRequestFile: React.FC<ComponentProps> = props => {
 	const hiddenClass = React.useMemo(() => file.visible || isFolderVisible ? '' : 'hidden', [file.visible, isFolderVisible]);
 	const matchClass = React.useMemo(() => file.matchesSearch ? 'search-match' : '', [file.matchesSearch]);
 
+	const statusContent = React.useMemo(() => {
+		if (file.status === 'added') return <span className='file-status file-added' title="File added" />;
+		if (file.status === 'removed') return <span className='file-status file-removed' title="File removed" />;
+		if (file.status === 'renamed') return <span className='file-status file-renamed' title="File moved" />;
+		return null;
+	}, [file.status]);
+
 	return (
 		<div className={`github-extension-tree-file ${hiddenClass}`}>
 			<div className='github-extension-tree-file-content' style={styles} onClick={onFileClicked} title={file.path + file.name}>
 				<FileIcon filename={file.name} />
 				<span className={`file-text ${matchClass}`}>{file.name}</span>
+				{statusContent}
 			</div>
 		</div>
 	);

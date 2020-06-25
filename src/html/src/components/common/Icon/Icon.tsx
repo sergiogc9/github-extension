@@ -7,11 +7,11 @@ type NucleoIconName = 'default';
 type NucleoIconType = 'solid' | 'duo' | 'color' | 'animated' | 'interactive';
 type NucleoIconProps = { family: 'nucleo', name: NucleoIconName, type: NucleoIconType };
 
-type FontAwesomeIconName = 'github' | 'chevron-double-right' | 'file-alt' | 'angle-down' | 'angle-right' | 'info-circle' | 'search' | 'times' | 'cog' | 'caret-up';
+type FontAwesomeIconName = 'github' | 'chevron-double-right' | 'file-alt' | 'angle-down' | 'angle-right' | 'info-circle' | 'search' | 'times' | 'cog' | 'caret-up' | 'square' | 'code-commit' | 'copy';
 type FontAwesomeIconType = 'light' | 'regular' | 'solid' | 'duo' | 'brand';
 type FontAwesomeIconProps = { family: 'font-awesome', name: FontAwesomeIconName, type: FontAwesomeIconType };
 
-type SymbolicIconName = 'pull-request';
+type SymbolicIconName = 'pull-request' | 'chat-conversation-alt';
 type SymbolicIconType = 'light' | 'solid' | 'duo' | 'color';
 type SymbolicIconProps = { family: 'symbolicon', name: SymbolicIconName, type: SymbolicIconType };
 

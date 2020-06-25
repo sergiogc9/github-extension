@@ -1,12 +1,20 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-export const HeaderBranchPlaceholder: React.FC = React.memo(props => {
-	return (<ContentLoader className='placeholder' foregroundColor='var(--header-color-dark)'>
-		<rect x="35%" y="0" width="30%" height="15" />
-		<rect x="48%" y="20" rx="4" ry="4" width="10" height="10" />
-		<rect x="10%" y="35" width="80%" height="15" />
+export const PullRequestInfoPlaceholder: React.FC = React.memo(props => {
+	return (<ContentLoader className='placeholder' height={15}>
+		<rect x="5%" y="0" width="90%" height="15" rx={5} ry={5} />
 	</ContentLoader>
+	);
+});
+
+export const HeaderBranchPlaceholder: React.FC = React.memo(props => {
+	return (
+		<ContentLoader className='placeholder' foregroundColor='var(--header-color-dark)'>
+			<rect x="35%" y="0" width="30%" height="15" />
+			<rect x="48%" y="20" rx="4" ry="4" width="10" height="10" />
+			<rect x="10%" y="35" width="80%" height="15" />
+		</ContentLoader>
 	);
 });
 

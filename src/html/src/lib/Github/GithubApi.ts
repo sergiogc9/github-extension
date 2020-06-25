@@ -50,6 +50,7 @@ const parseCommonPullRequestData = (data: any) => {
 		state: data.state,
 		number: data.number,
 		user: { username: data.user.login },
+		labels: data.labels,
 		owner,
 		repository
 	};
@@ -57,7 +58,13 @@ const parseCommonPullRequestData = (data: any) => {
 
 const createPullRequest = (data: any): GithubPullRequest => ({
 	...parseCommonPullRequestData(data),
-	branches: { base: data.base.ref, head: data.head.ref }
+	branches: { base: data.base.ref, head: data.head.ref },
+	additions: data.additions,
+	deletions: data.deletions,
+	commits: data.commits,
+	changedFiles: data.changed_files,
+	comments: data.comments,
+	reviewComments: data.review_comments
 });
 
 const createPullRequestFromSearch = (data: any): GithubPullRequest[] => data.items.map((itemData: any) => ({

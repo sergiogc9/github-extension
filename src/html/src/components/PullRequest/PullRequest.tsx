@@ -1,11 +1,14 @@
 import React from 'react';
 import { useAsync } from 'react-async';
+import isEmpty from 'lodash/isEmpty';
+import numeral from 'numeral';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import PullRequestTree from './Tree/PullRequestTree';
-import { HeaderBranchPlaceholder } from 'components/common/Placeholder';
+import { HeaderBranchPlaceholder, PullRequestInfoPlaceholder } from 'components/common/Placeholder';
 import { FontAwesomeIcon, SymbolicIcon } from 'components/common/Icon/Icon';
+import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 
 import './PullRequest.scss';
 
@@ -41,10 +44,44 @@ const PullRequest: React.FC = props => {
 		</div>;
 	}, [pageData.data, branchContent]);
 
+	const infoContent = React.useMemo(() => {
+		const content = pullRequest ? (
+			<>
+				<div title="Commits">
+					<FontAwesomeIcon name="code-commit" type="duo" /><span>{pullRequest.commits}</span>
+				</div>
+				<div title="Files">
+					<FontAwesomeIcon name="copy" type="duo" /><span>{pullRequest.changedFiles}</span>
+				</div>
+				<div title="Comments"><SymbolicIcon name="chat-conversation-alt" type="solid" />
+					<span>{pullRequest.comments + pullRequest.reviewComments}</span>
+				</div>
+				<div title="Lines added" className="info-additions"><FontAwesomeIcon name="square" type="solid" />
+					<span className='text-small'>+</span><span>{numeral(pullRequest.additions).format('0a')}</span>
+				</div>
+				<div title="Lines deleted" className="info-deletions"><FontAwesomeIcon name="square" type="solid" />
+					<span className='text-small'>-</span><span>{numeral(pullRequest.deletions).format('0a')}</span>
+				</div>
+			</>
+		) : <PullRequestInfoPlaceholder />;
+
+		return <div className="github-extension-pull-request-info">{content}</div>;
+	}, [pullRequest]);
+
+	const labelsContent = React.useMemo(() => {
+		if (!pullRequest || isEmpty(pullRequest.labels)) return null;
+		return (
+			<div className='github-extension-pull-request-labels'>
+				{pullRequest.labels.map(label => <GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />)}
+			</div>
+		);
+	}, [pullRequest]);
+
 	return (
-		<div id="githubExtensionPullRequest" className='github-extension'>
+		<div id="githubExtensionPullRequest">
 			{headerContent}
-			{pullRequest && pullRequest.state}
+			{infoContent}
+			{labelsContent}
 			<PullRequestTree />
 		</div>
 	);

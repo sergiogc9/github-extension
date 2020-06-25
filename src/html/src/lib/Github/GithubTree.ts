@@ -33,7 +33,7 @@ type PRFolderAttributes = {
 
 }
 type PRFileAttributes = {
-
+	status: "added" | "removed" | "renamed" | "modified"
 }
 
 export type PullRequestFolder = RepositoryFolder<PRFolderAttributes, PRFileAttributes>;
@@ -54,7 +54,7 @@ export type CodeTree = RepositoryTree<CodeTreeFolderAttributes, CodeTreeFileAttr
 export class GithubTree<T = PullRequestTree | CodeTree> {
 	private __tree: RepositoryTree<unknown, unknown> = { folders: {}, files: {} };
 
-	private __getFolder = (path:string) => {
+	private __getFolder = (path: string) => {
 		const folderNames = path ? path.split('/') : [];
 		let folder = this.__tree;
 		// Create folder directory tree
@@ -144,6 +144,7 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 			const fileData: PullRequestFile = {
 				name: fileName,
 				path: folderPath || "",
+				status: apiFileData.status,
 				visible: true,
 				matchesSearch: false
 			};
