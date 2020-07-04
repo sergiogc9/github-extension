@@ -2,5 +2,6 @@
 
 #githubExtensionPullRequestTree {
     border-top: thin solid $headerColorDark;
+    border-bottom: thin solid $headerColorDark;
     @include githubExtensionTree();
 }

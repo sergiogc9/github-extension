@@ -3,10 +3,11 @@ import { retry } from "@octokit/plugin-retry";
 import { throttling } from "@octokit/plugin-throttling";
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
+import isEmpty from 'lodash/isEmpty';
 
 import { PullRequestTree, CodeTree, GithubTree } from './GithubTree';
 import Storage from 'lib/Storage';
-import { GithubPullRequest } from 'types/Github';
+import { GithubPullRequest, GithubReviews, GithubReview } from 'types/Github';
 
 const MyOctokit = Octokit.plugin(retry, throttling);
 
@@ -36,6 +37,7 @@ const getOctokit = async () => {
 };
 
 const onApiError = (error: any) => {
+	console.error(error);
 	if (error.status === 401) {
 		Storage.remove('github_token');
 		window.location.reload();
@@ -56,16 +58,58 @@ const parseCommonPullRequestData = (data: any) => {
 	};
 };
 
-const createPullRequest = (data: any): GithubPullRequest => ({
-	...parseCommonPullRequestData(data),
-	branches: { base: data.base.ref, head: data.head.ref },
-	additions: data.additions,
-	deletions: data.deletions,
-	commits: data.commits,
-	changedFiles: data.changed_files,
-	comments: data.comments,
-	reviewComments: data.review_comments
-});
+const addPullRequestReviews = (pullRequest: GithubPullRequest, pullRequestData: any, reviewsData: any) => {
+	const reviews: GithubReviews = {};
+	let reviewsWithComments = 0;
+	for (const reviewData of reviewsData) {
+		if (reviewData.user.login === pullRequest.user.username) continue;
+		if (!isEmpty(reviewData.body)) reviewsWithComments++;
+		const currentReview = reviews[reviewData.user.login];
+		const review: GithubReview = {
+			user: reviewData.user.login,
+			state: reviewData.state,
+			date: reviewData.submitted_at,
+			userImgUrl: reviewData.user.avatar_url
+		};
+		if (reviewData.state === 'DISMISSED') review.state = 'COMMENTED';
+		if (currentReview) {
+			if (reviewData.state === 'COMMENTED' && currentReview.state !== 'PENDING') continue;
+		}
+		reviews[reviewData.user.login] = review;
+	}
+
+	// Add pending reviewers (users)
+	for (const reviewer of pullRequestData.requested_reviewers) {
+		if (reviews[reviewer.login]) continue;
+		reviews[reviewer.login] = { user: reviewer.login, state: 'PENDING', userImgUrl: reviewer.avatar_url };
+	}
+
+	// Add pending reviewers (teams)
+	for (const team of pullRequestData.requested_teams) {
+		if (reviews[team.slug]) continue;
+		reviews[team.slug] = { user: team.name, state: 'PENDING', userImgUrl: `https://avatars2.githubusercontent.com/t/${team.id}?v=4` };
+	}
+
+	pullRequest.reviews = reviews;
+	pullRequest.comments += reviewsWithComments;
+};
+
+const createPullRequest = (data: any): GithubPullRequest => {
+	const pullRequest: GithubPullRequest = {
+		...parseCommonPullRequestData(data),
+		branches: { base: data.base.ref, head: data.head.ref },
+		additions: data.additions,
+		deletions: data.deletions,
+		commits: data.commits,
+		changedFiles: data.changed_files,
+		comments: data.comments,
+		reviewComments: data.review_comments
+	};
+
+	if (data.reviews) addPullRequestReviews(pullRequest, data, data.reviews);
+
+	return pullRequest;
+};
 
 const createPullRequestFromSearch = (data: any): GithubPullRequest[] => data.items.map((itemData: any) => ({
 	...parseCommonPullRequestData(itemData)
@@ -90,13 +134,21 @@ class GithubApi {
 		const { user, repository, number } = data;
 		try {
 			const octokit = await getOctokit();
-			const { data } = await octokit.pulls.get({ owner: user, repo: repository, pull_number: number });
-			return createPullRequest(data);
+			const requests = [
+				octokit.pulls.get({ owner: user, repo: repository, pull_number: number }),
+				octokit.pulls.listReviews({ owner: user, repo: repository, pull_number: number })
+			];
+			const [prResponse, reviewsResponse] = await Promise.all(requests);
+			return createPullRequest({ ...prResponse.data, reviews: reviewsResponse.data });
 		}
 		catch (e) {
 			onApiError(e);
 			console.error("Github Api Error");
 		}
+	}
+
+	static getPullRequestReviews = async (data: { owner: string, repo: string, pull_number: number }) => {
+
 	}
 
 	static getPullRequestFiles = async ({ data }: any) => {

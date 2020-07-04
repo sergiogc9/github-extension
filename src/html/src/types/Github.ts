@@ -4,6 +4,14 @@ type GithubLabel = {
     color: string
 };
 
+export type GithubReview = {
+    user: string,
+    state: 'COMMENTED' | 'CHANGES_REQUESTED' | 'APPROVED' | 'PENDING',
+    userImgUrl: string,
+    date?: string // Pending reviewers have no date
+};
+export type GithubReviews = Record<string, GithubReview>;
+
 export type GithubPullRequest = {
     title: string,
     state: 'open' | 'closed',
@@ -18,5 +26,6 @@ export type GithubPullRequest = {
     changedFiles: number,
     commits: number,
     comments: number
-    reviewComments: number
+    reviewComments: number,
+    reviews?: GithubReviews
 }

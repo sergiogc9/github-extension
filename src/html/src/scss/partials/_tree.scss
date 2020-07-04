@@ -10,6 +10,7 @@
 		padding: 0 3px;
 		position: relative;
 		overflow-y: auto;
+		flex-grow: 1;
 
 		& .hidden {
 			display: none;

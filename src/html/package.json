@@ -29,6 +29,7 @@
     "file-icons-js": "github:websemantics/file-icons-js",
     "lodash": "4.17.15",
     "md5": "2.2.1",
+    "moment": "2.27.0",
     "node-sass": "4.14.1",
     "numeral": "2.0.6",
     "query-string": "6.12.1",

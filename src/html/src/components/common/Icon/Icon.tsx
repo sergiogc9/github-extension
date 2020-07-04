@@ -3,7 +3,7 @@ import SVG from 'react-inlinesvg';
 
 import './Icon.scss';
 
-type NucleoIconName = 'default';
+type NucleoIconName = 'a-chat';
 type NucleoIconType = 'solid' | 'duo' | 'color' | 'animated' | 'interactive';
 type NucleoIconProps = { family: 'nucleo', name: NucleoIconName, type: NucleoIconType };
 
@@ -15,7 +15,7 @@ type SymbolicIconName = 'pull-request' | 'chat-conversation-alt';
 type SymbolicIconType = 'light' | 'solid' | 'duo' | 'color';
 type SymbolicIconProps = { family: 'symbolicon', name: SymbolicIconName, type: SymbolicIconType };
 
-type MaterialUIName = 'library-books';
+type MaterialUIName = 'library-books' | 'check';
 type MaterialUIIconProps = { family: 'material-ui', name: MaterialUIName, type?: 'default' }
 
 type IconProps =
