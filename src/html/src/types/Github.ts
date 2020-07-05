@@ -12,6 +12,12 @@ export type GithubReview = {
 };
 export type GithubReviews = Record<string, GithubReview>;
 
+export type GithubChecks = {
+    success: number,
+    failed: number,
+    pending: number
+};
+
 export type GithubPullRequest = {
     title: string,
     state: 'open' | 'closed',
@@ -27,5 +33,6 @@ export type GithubPullRequest = {
     commits: number,
     comments: number
     reviewComments: number,
-    reviews?: GithubReviews
+    reviews?: GithubReviews,
+    checks?: GithubChecks
 }

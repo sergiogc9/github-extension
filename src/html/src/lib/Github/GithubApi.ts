@@ -4,10 +4,11 @@ import { throttling } from "@octokit/plugin-throttling";
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
+import forEach from 'lodash/forEach';
 
 import { PullRequestTree, CodeTree, GithubTree } from './GithubTree';
 import Storage from 'lib/Storage';
-import { GithubPullRequest, GithubReviews, GithubReview } from 'types/Github';
+import { GithubPullRequest, GithubReviews, GithubReview, GithubChecks } from 'types/Github';
 
 const MyOctokit = Octokit.plugin(retry, throttling);
 
@@ -139,7 +140,9 @@ class GithubApi {
 				octokit.pulls.listReviews({ owner: user, repo: repository, pull_number: number })
 			];
 			const [prResponse, reviewsResponse] = await Promise.all(requests);
-			return createPullRequest({ ...prResponse.data, reviews: reviewsResponse.data });
+			const pr = createPullRequest({ ...prResponse.data, reviews: reviewsResponse.data });
+			pr.checks = await GithubApi.getPullRequestChecks({ owner: user, repo: repository, commit_sha: prResponse.data.head.sha });
+			return pr;
 		}
 		catch (e) {
 			onApiError(e);
@@ -147,8 +150,31 @@ class GithubApi {
 		}
 	}
 
-	static getPullRequestReviews = async (data: { owner: string, repo: string, pull_number: number }) => {
+	static getPullRequestChecks = async (data: { owner: string, repo: string, commit_sha: string }): Promise<GithubChecks> => {
+		const { owner, repo, commit_sha } = data;
+		const octokit = await getOctokit();
+		const requests = [
+			octokit.repos.getCombinedStatusForRef({ owner, repo, ref: commit_sha }),
+			octokit.checks.listForRef({ owner, repo, ref: commit_sha })
+		];
+		const [prStatusesResponse, runChecksResponse] = await Promise.all(requests);
 
+		const checks: GithubChecks = {
+			success: 0,
+			failed: 0,
+			pending: 0
+		};
+
+		forEach(prStatusesResponse.data.statuses, status => {
+			if (status.state === 'success') checks.success++;
+			else if (status.state === 'pending') checks.pending++;
+			else checks.failed++;
+		});
+		forEach(runChecksResponse.data.check_runs, run => {
+			if (run.status === 'completed') checks.success++;
+			else checks.pending++;
+		});
+		return checks;
 	}
 
 	static getPullRequestFiles = async ({ data }: any) => {

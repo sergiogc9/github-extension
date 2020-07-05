@@ -2,6 +2,11 @@
 
 #githubExtensionPullRequestReviewers {
     width: 50%;
+    .no-reviewers {
+        font-size: 9px;
+        text-transform: uppercase;
+        text-align: center;
+    }
     .pull-request-reviewer {
         display: flex;
         justify-content: flex-start;

@@ -6,8 +6,9 @@ import numeral from 'numeral';
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import PullRequestTree from './Tree/PullRequestTree';
+import PullRequestChecks from './Checks/PullRequestChecks';
 import PullRequestReviewers from './Reviewers/PullRequestReviewers';
-import { HeaderBranchPlaceholder, PullRequestInfoPlaceholder } from 'components/common/Placeholder';
+import { HeaderBranchPlaceholder, PullRequestInfoPlaceholder, PullRequestReviewsPlaceholder } from 'components/common/Placeholder';
 import { FontAwesomeIcon, SymbolicIcon } from 'components/common/Icon/Icon';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 
@@ -79,13 +80,15 @@ const PullRequest: React.FC = props => {
 	}, [pullRequest]);
 
 	const reviewsContent = React.useMemo(() => {
-		if (!pullRequest) return null; // TODO: Return placeholder
-
-		const reviewersContent = pullRequest.reviews && <PullRequestReviewers reviews={pullRequest.reviews} />;
+		const reviewsPlaceholder = !pullRequest && <PullRequestReviewsPlaceholder />;
+		const reviewersContent = pullRequest && pullRequest.reviews && <PullRequestReviewers reviews={pullRequest.reviews} />;
+		const checksContent = pullRequest && <PullRequestChecks checks={pullRequest.checks} />;
 
 		return (
 			<div className="github-extension-pull-request-reviews">
+				{reviewsPlaceholder}
 				{reviewersContent}
+				{checksContent}
 			</div>
 		);
 	}, [pullRequest]);

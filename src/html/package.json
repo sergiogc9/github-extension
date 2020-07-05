@@ -6,6 +6,7 @@
   "dependencies": {
     "@duik/it": "0.5.3",
     "@material-ui/core": "4.10.2",
+    "@nivo/pie": "0.62.0",
     "@octokit/plugin-retry": "3.0.1",
     "@octokit/plugin-throttling": "3.2.0",
     "@octokit/rest": "18.0.0",
