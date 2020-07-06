@@ -43,7 +43,7 @@
                 margin-right: 6px;
             }
 
-            &.selected {
+            &.selected, &:hover {
                 color: $primaryColor;
             }
         }

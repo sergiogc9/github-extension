@@ -1,0 +1,70 @@
+@use "sass:color";
+@import "../../../scss/variables";
+
+$darkness: -5%;
+
+#githubExtensionPullRequestActions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    .MuiButtonBase-root {
+        flex-basis: 49%;
+        flex-grow: 1;
+        font-size: 10px;
+        margin: 0 0.5%;
+        margin-bottom: 5px;
+        padding: 3px 20px;
+        color: white;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &.full-width {
+            flex-basis: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .react-icon {
+            width: 12px;
+            height: 12px;
+            margin-bottom: 1px;
+            --icon-primary-color: white;
+            --icon-secondary-color: white;
+        }
+
+        &.disabled-btn {
+            color: darkgray;
+
+            & .react-icon {
+                --icon-primary-color: darkgray;
+                --icon-secondary-color: darkgray;
+            }
+        }
+
+        &.merge-btn {
+            background: $githubPurpleColor;
+
+            &:hover {
+                background: scale-color($githubPurpleColor, $lightness: $darkness);
+            }
+        }
+
+        &.approve-btn {
+            background: $githubGreenColor;
+
+            &:hover {
+                background: scale-color($githubGreenColor, $lightness: $darkness);
+            }
+        }
+
+        &.request-changes-btn {
+            background: $githubRedColor;
+
+            &:hover {
+                background: scale-color($githubRedColor, $lightness: $darkness);
+            }
+        }
+    }
+}

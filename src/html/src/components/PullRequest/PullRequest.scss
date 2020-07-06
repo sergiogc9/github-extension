@@ -66,4 +66,15 @@
         align-items: center;
         padding: 7px;
     }
+
+    .github-extension-pull-request-actions {
+        display: flex;
+        justify-content: center;
+        padding: 7px;
+        padding-top: 0;
+        .placeholder {
+            margin-top: -5px;
+            margin-bottom: -5px;
+        }
+    }
 }

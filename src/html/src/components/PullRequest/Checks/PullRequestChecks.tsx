@@ -4,8 +4,7 @@ import size from 'lodash/size';
 import filter from 'lodash/filter';
 import { ResponsivePie, PieDatum } from '@nivo/pie';
 
-import { GithubPullRequest, GithubChecks } from 'types/Github';
-import { MaterialUIIcon, NucleoIcon, FontAwesomeIcon } from 'components/common/Icon/Icon';
+import { GithubPullRequest } from 'types/Github';
 
 import './PullRequestChecks.scss';
 
@@ -16,10 +15,12 @@ const getPieColor = (data: PieDatum): string => {
 	return '#e1e4e8';
 };
 
-type ComponentProps = { checks?: GithubChecks };
+type ComponentProps = { pullRequest: GithubPullRequest };
 
 const PullRequestChecks: React.FC<ComponentProps> = props => {
-	const { checks } = props;
+	const { pullRequest } = props;
+
+	const checks = pullRequest.checks;
 
 	const pieContent = React.useMemo(() => {
 		const data: PieDatum[] = checks ? map(checks, (count, key) => ({ id: key, value: count })) : [{ id: 'disabled', value: 1 }];

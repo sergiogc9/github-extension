@@ -104,7 +104,10 @@ const createPullRequest = (data: any): GithubPullRequest => {
 		commits: data.commits,
 		changedFiles: data.changed_files,
 		comments: data.comments,
-		reviewComments: data.review_comments
+		reviewComments: data.review_comments,
+		merged: data.merged,
+		mergeable: data.mergeable,
+		mergeable_status: data.mergeable_status
 	};
 
 	if (data.reviews) addPullRequestReviews(pullRequest, data, data.reviews);
