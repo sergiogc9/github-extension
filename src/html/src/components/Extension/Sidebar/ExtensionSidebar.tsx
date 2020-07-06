@@ -35,6 +35,10 @@ const ExtensionSidebar: React.FC = props => {
 
 	const toolbarContent = React.useMemo(() => (
 		<div id="githubExtensionAppBottomToolbar">
+			<FontAwesomeIcon name='redo-alt' type='solid' onClick={() => {
+				// eslint-disable-next-line no-self-assign
+				window.location.href = window.location.href;
+			}} />
 			<FontAwesomeIcon name={showSearch ? 'times' : 'search'} type='solid' className={showSearch ? 'selected' : ''} onClick={() => {
 				setShowSearch(show => {
 					if (show) setSearchValue('');

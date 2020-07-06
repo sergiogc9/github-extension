@@ -7,7 +7,8 @@ type NucleoIconName = 'a-chat';
 type NucleoIconType = 'solid' | 'duo' | 'color' | 'animated' | 'interactive';
 type NucleoIconProps = { family: 'nucleo', name: NucleoIconName, type: NucleoIconType };
 
-type FontAwesomeIconName = 'github' | 'chevron-double-right' | 'file-alt' | 'angle-down' | 'angle-right' | 'info-circle' | 'search' | 'times' | 'cog' | 'caret-up' | 'square' | 'code-commit' | 'copy';
+type FontAwesomeIconName = 'github' | 'chevron-double-right' | 'file-alt' | 'angle-down' | 'angle-right' | 'info-circle' | 'search' | 'times' | 'cog' | 'caret-up' | 'square' | 'code-commit' | 'copy'
+	| 'redo-alt';
 type FontAwesomeIconType = 'light' | 'regular' | 'solid' | 'duo' | 'brand';
 type FontAwesomeIconProps = { family: 'font-awesome', name: FontAwesomeIconName, type: FontAwesomeIconType };
 

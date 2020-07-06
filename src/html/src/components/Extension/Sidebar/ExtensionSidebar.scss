@@ -19,11 +19,29 @@
         border-top: thin solid $borderColor;
 
         > svg {
-            margin: 0 10px;
+            margin-right: 6px;
+            margin-top: 0;
             width: 12px;
             height: 12px;
             cursor: pointer;
             color: $textColorBlack;
+            flex-shrink: 0;
+
+            &.fa-redo-alt-solid {
+                width: 11px;
+                height: 11px;
+                margin-left: 6px;
+            }
+
+            &.fa-times-solid {
+                width: 14px;
+                height: 14px;
+            }
+
+            &.fa-cog-solid {
+                margin-left: auto;
+                margin-right: 6px;
+            }
 
             &.selected {
                 color: $primaryColor;
@@ -31,7 +49,9 @@
         }
 
         .form-group {
-            width: 100%;
+            flex-basis: 1px;
+            flex-grow: 1;
+            margin-right: 6px;
             .input-group {
                 border-radius: 2px;
                 border-color: $primaryColor;
