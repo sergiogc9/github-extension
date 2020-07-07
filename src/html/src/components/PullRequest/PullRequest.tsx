@@ -96,7 +96,7 @@ const PullRequest: React.FC = props => {
 	}, [pullRequest, isLoading]);
 
 	const actionsContent = React.useMemo(() => {
-		const content = !isLoading && pullRequest ? <PullRequestActions pullRequest={pullRequest} onActionDone={reload} /> : <PullRequestActionsPlaceholder />;
+		const content = !isLoading && pullRequest ? <PullRequestActions pullRequest={pullRequest} /> : <PullRequestActionsPlaceholder />;
 
 		return (
 			<div className="github-extension-pull-request-actions">

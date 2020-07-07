@@ -5,6 +5,7 @@ import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
+import find from 'lodash/find';
 
 import { PullRequestTree, CodeTree, GithubTree } from './GithubTree';
 import Storage from 'lib/Storage';
@@ -285,6 +286,53 @@ class GithubApi {
 			const octokit = await getOctokit();
 			const { data } = await octokit.search.issuesAndPullRequests({ q: query });
 			return createPullRequestFromSearch(data);
+		}
+		catch (e) {
+			onApiError(e);
+			console.error("Github Api Error");
+		}
+	}
+
+	static submitPullRequestReview = async ([{ user, repository, number, username, event, comment }]:
+		{ user: string, repository: string, number: number, username: string, event: string, comment: string }[]) => {
+		const token = await Storage.get('github_token');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
+		}
+
+		try {
+			const octokit = await getOctokit();
+			// Fetch updated reviews
+			const { data: reviews } = await octokit.pulls.listReviews({ owner: user, repo: repository, pull_number: number });
+			// Find pending user review
+			const pendingReview = find(reviews, r => r.state === 'PENDING' && r.user.login === username);
+			let response;
+			const apiEvent = event === 'CHANGES_REQUESTED' ? 'REQUEST_CHANGES' : event;
+			if (pendingReview) {
+				response = await octokit.pulls.submitReview({ owner: user, repo: repository, pull_number: number, review_id: pendingReview.id, event: apiEvent, body: comment });
+			} else {
+				response = await octokit.pulls.createReview({ owner: user, repo: repository, pull_number: number, event: apiEvent, body: comment });
+			}
+			return response.data.state;
+		}
+		catch (e) {
+			onApiError(e);
+			console.error("Github Api Error");
+		}
+	}
+
+	static mergePullRequest = async ([{ user, repository, number }]: { user: string, repository: string, number: number }[]) => {
+		const token = await Storage.get('github_token');
+		if (!token) {
+			console.error('Github token not available!');
+			return;
+		}
+
+		try {
+			const octokit = await getOctokit();
+			const { data } = await octokit.pulls.merge({ owner: user, repo: repository, pull_number: number });
+			return data.merged;
 		}
 		catch (e) {
 			onApiError(e);
