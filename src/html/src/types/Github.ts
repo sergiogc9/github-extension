@@ -34,5 +34,8 @@ export type GithubPullRequest = {
     comments: number
     reviewComments: number,
     reviews?: GithubReviews,
-    checks?: GithubChecks
+    checks?: GithubChecks,
+    merged?: boolean,
+    mergeable?: boolean,
+    mergeable_status?: 'clean' | 'blocked' | 'dirty'
 }

@@ -7,8 +7,9 @@ import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import PullRequestTree from './Tree/PullRequestTree';
 import PullRequestChecks from './Checks/PullRequestChecks';
+import PullRequestActions from './Actions/PullRequestActions';
 import PullRequestReviewers from './Reviewers/PullRequestReviewers';
-import { HeaderBranchPlaceholder, PullRequestInfoPlaceholder, PullRequestReviewsPlaceholder } from 'components/common/Placeholder';
+import { HeaderBranchPlaceholder, PullRequestInfoPlaceholder, PullRequestReviewsPlaceholder, PullRequestActionsPlaceholder } from 'components/common/Placeholder';
 import { FontAwesomeIcon, SymbolicIcon } from 'components/common/Icon/Icon';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 
@@ -16,7 +17,8 @@ import './PullRequest.scss';
 
 const PullRequest: React.FC = props => {
 	const pageData = React.useContext(PageContext)!;
-	const { data: pullRequest, error, isLoading } = useAsync({ promiseFn: GithubApi.getPullRequestInfo, data: pageData.data });
+
+	const { data: pullRequest, error, isLoading, reload } = useAsync({ promiseFn: GithubApi.getPullRequestInfo, data: pageData.data });
 
 	const branchContent = React.useMemo(() => {
 		if (isLoading) return <HeaderBranchPlaceholder />;
@@ -47,7 +49,7 @@ const PullRequest: React.FC = props => {
 	}, [pageData.data, branchContent]);
 
 	const infoContent = React.useMemo(() => {
-		const content = pullRequest ? (
+		const content = pullRequest && !isLoading ? (
 			<>
 				<div title="Commits">
 					<FontAwesomeIcon name="code-commit" type="duo" /><span>{pullRequest.commits}</span>
@@ -68,21 +70,21 @@ const PullRequest: React.FC = props => {
 		) : <PullRequestInfoPlaceholder />;
 
 		return <div className="github-extension-pull-request-info">{content}</div>;
-	}, [pullRequest]);
+	}, [pullRequest, isLoading]);
 
 	const labelsContent = React.useMemo(() => {
-		if (!pullRequest || isEmpty(pullRequest.labels)) return null;
+		if (!pullRequest || isLoading || isEmpty(pullRequest.labels)) return null;
 		return (
 			<div className='github-extension-pull-request-labels'>
 				{pullRequest.labels.map(label => <GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />)}
 			</div>
 		);
-	}, [pullRequest]);
+	}, [pullRequest, isLoading]);
 
 	const reviewsContent = React.useMemo(() => {
-		const reviewsPlaceholder = !pullRequest && <PullRequestReviewsPlaceholder />;
-		const reviewersContent = pullRequest && pullRequest.reviews && <PullRequestReviewers reviews={pullRequest.reviews} />;
-		const checksContent = pullRequest && <PullRequestChecks checks={pullRequest.checks} />;
+		const reviewsPlaceholder = (!pullRequest || isLoading) && <PullRequestReviewsPlaceholder />;
+		const reviewersContent = !isLoading && pullRequest && pullRequest.reviews && <PullRequestReviewers reviews={pullRequest.reviews} />;
+		const checksContent = !isLoading && pullRequest && <PullRequestChecks pullRequest={pullRequest} />;
 
 		return (
 			<div className="github-extension-pull-request-reviews">
@@ -91,7 +93,17 @@ const PullRequest: React.FC = props => {
 				{checksContent}
 			</div>
 		);
-	}, [pullRequest]);
+	}, [pullRequest, isLoading]);
+
+	const actionsContent = React.useMemo(() => {
+		const content = !isLoading && pullRequest ? <PullRequestActions pullRequest={pullRequest} onActionDone={reload} /> : <PullRequestActionsPlaceholder />;
+
+		return (
+			<div className="github-extension-pull-request-actions">
+				{content}
+			</div>
+		);
+	}, [pullRequest, isLoading, reload]);
 
 	return (
 		<div id="githubExtensionPullRequest">
@@ -100,6 +112,7 @@ const PullRequest: React.FC = props => {
 			{labelsContent}
 			<PullRequestTree />
 			{reviewsContent}
+			{actionsContent}
 		</div>
 	);
 };
