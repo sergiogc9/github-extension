@@ -43,7 +43,8 @@
                 margin-right: 6px;
             }
 
-            &.selected, &:hover {
+            &.selected,
+            &:hover {
                 color: $primaryColor;
             }
         }
@@ -62,6 +63,23 @@
                     padding: 3px;
                 }
             }
+        }
+    }
+
+    .page-not-defined {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        > img {
+            width: 64px;
+            aspect-ratio: 1;
+        }
+        > span {
+            font-size: 12px;
+            margin-top: 10px;
         }
     }
 }

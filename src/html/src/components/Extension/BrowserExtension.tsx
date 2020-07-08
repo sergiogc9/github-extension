@@ -9,13 +9,15 @@ import { MessageHandlersContext, MessageHandlers } from './Context/MessageContex
 import { MessageHandler, Message } from 'types/Message';
 import ExtensionSidebar from './Sidebar/ExtensionSidebar';
 import ExtensionPopup from './Popup/ExtensionPopup';
+import ExtensionAlert from './Alert/ExtensionAlert';
 
 type ComponentProps = RouteComponentProps & {};
 
 const getStorageData = async (): Promise<StorageData> => ({
 	token: await Storage.get('github_token'),
 	group_folders: await Storage.get('group_folders'),
-	lazy_load_tree: await Storage.get('lazy_load_tree')
+	lazy_load_tree: await Storage.get('lazy_load_tree'),
+	hide_unimplemented_pages: await Storage.get('hide_unimplemented_pages')
 });
 
 type TabData = { id: number, url: string };
@@ -103,6 +105,11 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 
 	// Message context stuff
 
+	const onSendContentScriptMessage = React.useCallback(async (message: Message) => {
+		const tabData = await getTabData();
+		if (tabData) chrome.tabs.sendMessage(tabData?.id, message);
+	}, []);
+
 	const onSendBackgroundMessage = React.useCallback((message: Message) => {
 		chrome.runtime.sendMessage(message);
 	}, []);
@@ -112,9 +119,10 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 	}, []);
 
 	const messageHandlers = React.useMemo<MessageHandlers>(() => ({
+		sendContentScriptMessage: onSendContentScriptMessage,
 		onBackgroundMessage: onReceiveBackgroundMessage,
 		sendBackgroundMessage: onSendBackgroundMessage
-	}), [onSendBackgroundMessage, onReceiveBackgroundMessage]);
+	}), [onSendContentScriptMessage, onSendBackgroundMessage, onReceiveBackgroundMessage]);
 
 	if (!storageData) return null;
 
@@ -124,8 +132,10 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 				<PageHandlerContext.Provider value={pageHandlers}>
 					<StorageContext.Provider value={storageData}>
 						<StorageHandlerContext.Provider value={storageHandlers}>
-							{pageData && storageData && !isPopup && <ExtensionSidebar />}
-							{storageData && isPopup && <ExtensionPopup />}
+							<ExtensionAlert>
+								{pageData && storageData && !isPopup && <ExtensionSidebar />}
+								{storageData && isPopup && <ExtensionPopup />}
+							</ExtensionAlert>
 						</StorageHandlerContext.Provider>
 					</StorageContext.Provider>
 				</PageHandlerContext.Provider>

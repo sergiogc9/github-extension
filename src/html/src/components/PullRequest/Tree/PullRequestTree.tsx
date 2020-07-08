@@ -4,6 +4,7 @@ import keys from 'lodash/keys';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
+import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import { StorageContext } from 'components/Extension/Context/StorageContext';
 import PullRequestFolder from 'components/PullRequest/Folder/PullRequestFolder';
@@ -16,7 +17,9 @@ const PullRequestTree: React.FC = props => {
 	const pageData = React.useContext(PageContext)!;
 	const storageData = React.useContext(StorageContext)!;
 	const searchValue = React.useContext(SearchContext);
-	const { data: prTree, error, isLoading } = useAsync({ promiseFn: GithubApi.getPullRequestFiles, data: pageData.data });
+	const alertHandlers = React.useContext(AlertContext)!;
+
+	const { data: prTree, isLoading } = useAsync({ promiseFn: GithubApi.getPullRequestFiles, data: pageData.data, onReject: alertHandlers.onGithubApiError });
 
 	const treeData = React.useMemo(() => {
 		if (!prTree) return null;

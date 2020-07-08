@@ -3,6 +3,8 @@ import TextField from '@duik/text-field';
 
 import { useWaitInput } from 'lib/hooks/input';
 import { PageContext } from 'components/Extension/Context/PageContext';
+import { StorageContext } from 'components/Extension/Context/StorageContext';
+import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import Code from 'components/Code/Code';
 import PullRequest from 'components/PullRequest/PullRequest';
@@ -19,6 +21,8 @@ const ExtensionSidebar: React.FC = props => {
 	const { value: searchValue, finalValue: searchFinalValue, setValue: setSearchValue, onChangeValue: onChangeSearchValue } = useWaitInput(250);
 
 	const pageContextData = React.useContext(PageContext)!;
+	const messageHandlers = React.useContext(MessageHandlersContext)!;
+	const storageContextData = React.useContext(StorageContext)!;
 
 	React.useEffect(() => {
 		if (showSearch) document.getElementById('githubExtensionSearchInput')?.focus();
@@ -26,12 +30,22 @@ const ExtensionSidebar: React.FC = props => {
 
 	const content = React.useMemo(() => {
 		if (route === 'pageContent') {
+			if (pageContextData.page === 'unknown') {
+				if (!storageContextData.hide_unimplemented_pages) messageHandlers.sendContentScriptMessage({ type: 'sidebar_status', data: 'visible' });
+				return (
+					<div className='page-not-defined'>
+						<img src='images/not-found.png' alt='' />
+						<span>This page is not implemented</span>
+					</div>
+				);
+			}
+			messageHandlers.sendContentScriptMessage({ type: 'sidebar_status', data: 'visible' });
 			if (pageContextData.page === 'code-tree') return <Code />;
 			if (pageContextData.page === 'pull-request') return <PullRequest />;
 		}
 		if (route === 'settings') return <ExtensionSettings />;
 		return null;
-	}, [route, pageContextData.page]);
+	}, [route, pageContextData.page, messageHandlers, storageContextData]);
 
 	const toolbarContent = React.useMemo(() => (
 		<div id="githubExtensionAppBottomToolbar">
@@ -39,18 +53,18 @@ const ExtensionSidebar: React.FC = props => {
 				// eslint-disable-next-line no-self-assign
 				window.location.href = window.location.href;
 			}} />
-			<FontAwesomeIcon name={showSearch ? 'times' : 'search'} type='solid' className={showSearch ? 'selected' : ''} onClick={() => {
+			{pageContextData.page !== 'unknown' && <FontAwesomeIcon name={showSearch ? 'times' : 'search'} type='solid' className={showSearch ? 'selected' : ''} onClick={() => {
 				setShowSearch(show => {
 					if (show) setSearchValue('');
 					return !show;
 				});
-			}} />
+			}} />}
 			{showSearch && <TextField id="githubExtensionSearchInput" placeholder="Search folders or files" value={searchValue} onChange={onChangeSearchValue} />}
 			<FontAwesomeIcon name='cog' type='solid' className={route === 'settings' ? 'selected' : ''}
 				onClick={() => setRoute(route => route === 'settings' ? 'pageContent' : 'settings')}
 			/>
 		</div>
-	), [showSearch, route, searchValue, onChangeSearchValue, setSearchValue]);
+	), [showSearch, route, searchValue, pageContextData.page, onChangeSearchValue, setSearchValue]);
 
 	return (
 		<div id="githubExtensionApp">

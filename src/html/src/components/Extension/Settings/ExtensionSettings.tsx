@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, ScrollArea, Widget, WidgetContent, Divider, Button, TextField, FormGroupContainer, FormGroup, Checkbox } from '@duik/it';
 
+import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { StorageContext, StorageHandlerContext } from 'components/Extension/Context/StorageContext';
 import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
@@ -9,6 +10,7 @@ import './ExtensionSettings.scss';
 const ExtensionSettings: React.FC = props => {
 	const storageData = React.useContext(StorageContext)!;
 	const storageHandlers = React.useContext(StorageHandlerContext)!;
+	const alertHandlers = React.useContext(AlertContext)!;
 
 	return (
 		<div id="githubExtensionAppSettings">
@@ -39,6 +41,15 @@ const ExtensionSettings: React.FC = props => {
 							<FormGroupContainer horizontal>
 								<FormGroup>
 									<Checkbox
+										label="Hide sidebar if page is not implemented"
+										description='There are only few github pages implemented in this extension. Enable this option to hide the sidebar in these pages.'
+										checked={storageData.hide_unimplemented_pages}
+										onChange={() => storageHandlers.setStorageItem('hide_unimplemented_pages', !storageData.hide_unimplemented_pages)} />
+								</FormGroup>
+							</FormGroupContainer>
+							<FormGroupContainer horizontal>
+								<FormGroup>
+									<Checkbox
 										label="Group empty folders"
 										description='Joins empty folders in a unique folder reducing the directory tree size.'
 										checked={storageData.group_folders}
@@ -57,7 +68,7 @@ const ExtensionSettings: React.FC = props => {
 						</FormGroupContainer>
 					</WidgetContent>
 					<WidgetContent className='save-btn'>
-						<Button primary>Apply settings</Button>
+						<Button primary onClick={() => alertHandlers.addNotification({ type: 'success', message: 'Settings saved.' })}>Apply settings</Button>
 					</WidgetContent>
 				</Widget>
 			</ScrollArea>

@@ -9,6 +9,7 @@ import HashLoader from "react-spinners/HashLoader";
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
+import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { MaterialUIIcon, SymbolicIcon, FontAwesomeIcon } from 'components/common/Icon/Icon';
 import { GithubPullRequest } from 'types/Github';
@@ -26,9 +27,10 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 
 	const pageData = React.useContext(PageContext)!;
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
+	const alertHandlers = React.useContext(AlertContext)!;
 
-	const { run: runAction, data: prActionEvent, isLoading: prActionEventLoading } = useAsync({ deferFn: GithubApi.submitPullRequestReview });
-	const { run: runMerge, data: prActionMerged, isLoading: prActionMergeLoading } = useAsync({ deferFn: GithubApi.mergePullRequest });
+	const { run: runAction, data: prActionEvent, isLoading: prActionEventLoading } = useAsync({ deferFn: GithubApi.submitPullRequestReview, onReject: alertHandlers.onGithubApiError });
+	const { run: runMerge, data: prActionMerged, isLoading: prActionMergeLoading } = useAsync({ deferFn: GithubApi.mergePullRequest, onReject: alertHandlers.onGithubApiError });
 
 	React.useEffect(() => {
 		messageHandlers.sendBackgroundMessage({ type: 'get_user' });

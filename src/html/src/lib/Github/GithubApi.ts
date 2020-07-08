@@ -17,6 +17,10 @@ let myOctokit: any;
 
 const getOctokit = async () => {
 	const token = await Storage.get('github_token');
+	if (!token) {
+		console.error('Github token not available!');
+		throw new Error('Github token not available! Please enter a valid token in settings page.');
+	}
 	if (!myOctokit || myOctokit.auth !== token) {
 		myOctokit = new MyOctokit({
 			auth: token,
@@ -39,11 +43,13 @@ const getOctokit = async () => {
 };
 
 const onApiError = (error: any) => {
+	console.error("Github Api Error");
 	console.error(error);
 	if (error.status === 401) {
 		Storage.remove('github_token');
 		window.location.reload();
 	}
+	throw error;
 };
 
 const parseCommonPullRequestData = (data: any) => {
@@ -131,11 +137,6 @@ const getPaginationData = (apiResponse: any) => {
 
 class GithubApi {
 	static getPullRequestInfo = async ({ data }: any) => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 		const { user, repository, number } = data;
 		try {
 			const octokit = await getOctokit();
@@ -150,7 +151,6 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
@@ -182,11 +182,6 @@ class GithubApi {
 	}
 
 	static getPullRequestFiles = async ({ data }: any) => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 		const { user, repository, number } = data;
 
 		try {
@@ -210,17 +205,11 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static getCodeTree = async ({ data }: any) => {
-		const token = await Storage.get('github_token');
 		const lazyLoad = await Storage.get('lazy_load_tree');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 		const { user, repository, tree: treeSha } = data;
 
 		try {
@@ -234,16 +223,10 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static getFolderTreeData = async (user: string, repository: string, sha: string) => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 
 		try {
 			const octokit = await getOctokit();
@@ -252,16 +235,10 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static getUserData = async () => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 
 		try {
 			const octokit = await getOctokit();
@@ -270,16 +247,10 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static getUserPullRequests = async () => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 
 		try {
 			const query = "is:open+involves:sergiogc9+is:pr";
@@ -289,17 +260,11 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static submitPullRequestReview = async ([{ user, repository, number, username, event, comment }]:
 		{ user: string, repository: string, number: number, username: string, event: string, comment: string }[]) => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 
 		try {
 			const octokit = await getOctokit();
@@ -318,16 +283,11 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
+			throw e;
 		}
 	}
 
 	static mergePullRequest = async ([{ user, repository, number }]: { user: string, repository: string, number: number }[]) => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 
 		try {
 			const octokit = await getOctokit();
@@ -336,7 +296,6 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 }

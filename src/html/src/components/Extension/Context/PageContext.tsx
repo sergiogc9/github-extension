@@ -3,11 +3,11 @@ import md5 from 'md5';
 import Url from 'url-parse';
 
 type GithubPage = 'code-tree' | 'pull-request';
-export type PageData = { page: GithubPage, isLoading: boolean, url: string, data: any };
+export type PageData = { page: GithubPage | 'unknown', isLoading: boolean, url: string, data: any };
 export type PageHandlers = {
 	openNewTab: (url: string) => void
 	goToPullRequestFile: (fullFileName: string) => void
-	goToRepoPath: (path:string) => void // Path can be both a folder or file path
+	goToRepoPath: (path: string) => void // Path can be both a folder or file path
 };
 
 export const getPageData = (url: string): PageData => {
@@ -22,7 +22,7 @@ export const getPageData = (url: string): PageData => {
 	// Case Pull Request
 	matchData = path.match(/^\/([^\/]*)\/([^\/]*)\/pull\/([0-9]*)/);
 	if (matchData) return { page: 'pull-request', isLoading: false, url, data: { user: matchData[1], repository: matchData[2], number: parseInt(matchData[3]) } };
-	throw new Error('Github page not defined!');
+	return { page: 'unknown', isLoading: false, url: '', data: {} };
 };
 
 export const getPullRequestFileAnchorUrl = (fullFileName: string, currentUrl: string) => {
