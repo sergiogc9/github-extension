@@ -53,7 +53,6 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 		// Listen for tab update events
 		chrome.runtime.onMessage.addListener((message: any) => {
 			if (message.type === 'tab_updated') {
-				console.log(message.data);
 				const { change, tab } = message.data;
 
 				if (change.status === 'loading' && change.url) setPageData(pageData => pageData ? { ...pageData, isLoading: true } : null);
