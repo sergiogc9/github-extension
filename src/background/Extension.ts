@@ -1,4 +1,5 @@
 import { Message } from '@react/types/Message';
+import Tab from './Tab';
 import User from './User';
 import Github from './Github';
 import MessageHandler from './MessageHandler';
@@ -9,6 +10,7 @@ class Extension {
     private __messageHandler;
     private __user;
     private __github;
+    private __tab;
 
     private __onMessage = (message: Message) => {
         if (message.type === 'get_status') this.__sendStatus();
@@ -31,6 +33,7 @@ class Extension {
         this.__messageHandler = new MessageHandler();
         this.__user = new User(this);
         this.__github = new Github(this);
+        this.__tab = new Tab(this);
 
         this.__messageHandler.addListener(this.__onMessage);
         this.__status = 'starting';

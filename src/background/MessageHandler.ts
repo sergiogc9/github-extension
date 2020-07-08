@@ -9,9 +9,9 @@ class MessageHandler {
     }
 
     private __initMessageHandlers = () => {
-        chrome.runtime.onMessage.addListener((message, sender) => {
+        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             console.log('Message received: ', message);
-            for (const listener of this.__listeners) listener(message);
+            for (const listener of this.__listeners) listener(message, sender, sendResponse);
         });
     }
 
