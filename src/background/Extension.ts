@@ -7,16 +7,16 @@ import { ExtensionStatus } from '@react/types/Extension';
 
 class Extension {
     private __status: ExtensionStatus = 'stop';
-    private __messageHandler;
-    private __user;
-    private __github;
-    private __tab;
+    private __messageHandler: MessageHandler;
+    private __user: User;
+    private __github: Github;
+    private __tab: Tab;
 
     private __onMessage = (message: Message) => {
         if (message.type === 'get_status') this.__sendStatus();
     }
 
-    private __sendStatus = () => this.__messageHandler.sendMessage({ type: 'status', data: this.__status });
+    private __sendStatus = () => this.__messageHandler.sendMessageToAll({ type: 'status', data: this.__status });
 
     private __updateStatus = () => {
         let status = this.__status;

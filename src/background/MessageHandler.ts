@@ -19,9 +19,14 @@ class MessageHandler {
         this.__listeners.push(listener);
     }
 
-    public sendMessage = (message: Message) => {
-        console.log('Sending message:', message);
-        chrome.runtime.sendMessage(message);
+    public sendMessage = (tabId, message: Message) => {
+        console.log(`Sending message to tabId ${tabId}:`, message);
+        chrome.tabs.sendMessage(tabId, message);
+    };
+
+    public sendMessageToAll = (message: Message) => {
+        console.log('Sending message to all:', message);
+        chrome.tabs.query({}, tabs => tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, message)));
     };
 }
 

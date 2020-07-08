@@ -18,7 +18,7 @@ class Github {
 
     public fetchPullRequests = async () => {
         this.__pullRequests = await GithubApi.getUserPullRequests();
-        this.__extension.getMessageHandler().sendMessage({ type: 'pull_requests_updated', data: this.__pullRequests });
+        this.__extension.getMessageHandler().sendMessageToAll({ type: 'pull_requests_updated', data: this.__pullRequests });
     }
 }
 

@@ -15,7 +15,7 @@ class User {
         if (message.type === 'get_user') this.__sendUser();
     }
 
-    private __sendUser = () => this.__extension.getMessageHandler().sendMessage({ type: 'user_updated', data: this.__attributes });
+    private __sendUser = () => this.__extension.getMessageHandler().sendMessageToAll({ type: 'user_updated', data: this.__attributes });
 
     public fetch = async () => {
         this.__attributes = await GithubApi.getUserData();
