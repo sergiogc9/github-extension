@@ -27,6 +27,7 @@ class MessageHandler {
     public sendMessageToAll = (message: Message) => {
         console.log('Sending message to all:', message);
         chrome.tabs.query({}, tabs => tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, message)));
+        chrome.runtime.sendMessage(message);
     };
 }
 

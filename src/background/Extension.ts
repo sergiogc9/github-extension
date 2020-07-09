@@ -41,7 +41,6 @@ class Extension {
         await Promise.all([
             this.__user.fetch()
         ]);
-        await new Promise(resolve => setTimeout(resolve, 2000));
         this.__updateStatus();
     }
 
