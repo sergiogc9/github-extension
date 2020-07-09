@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, ScrollArea, Widget, WidgetContent, Divider, Button, TextField, FormGroupContainer, FormGroup, Checkbox } from '@duik/it';
 
 import { AlertContext } from 'components/Extension/Context/AlertContext';
+import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { StorageContext, StorageHandlerContext } from 'components/Extension/Context/StorageContext';
 import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
@@ -9,8 +10,9 @@ import './ExtensionSettings.scss';
 
 const ExtensionSettings: React.FC = props => {
 	const storageData = React.useContext(StorageContext)!;
-	const storageHandlers = React.useContext(StorageHandlerContext)!;
 	const alertHandlers = React.useContext(AlertContext)!;
+	const storageHandlers = React.useContext(StorageHandlerContext)!;
+	const messageHandlers = React.useContext(MessageHandlersContext)!;
 
 	return (
 		<div id="githubExtensionAppSettings">
@@ -28,7 +30,10 @@ const ExtensionSettings: React.FC = props => {
 									id="githubSettingsTokenInput"
 									defaultValue={storageData.token}
 									placeholder='Enter github token'
-									onBlur={ev => storageHandlers.setStorageItem('github_token', ev.target.value)}
+									onBlur={ev => {
+										storageHandlers.setStorageItem('github_token', ev.target.value);
+										messageHandlers.sendBackgroundMessage({ type: 'token_updated' });
+									}}
 								/>
 								<Alert id='githubSettingsTokenAlert' leftEl={<FontAwesomeIcon name='info-circle' type='duo' />} primary>Token is saved only in browser local storage.</Alert>
 							</FormGroup>

@@ -239,7 +239,6 @@ class GithubApi {
 	}
 
 	static getUserData = async () => {
-
 		try {
 			const octokit = await getOctokit();
 			const { data } = await octokit.users.getAuthenticated();

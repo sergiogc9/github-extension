@@ -14,6 +14,7 @@ class Extension {
 
     private __onMessage = (message: Message) => {
         if (message.type === 'get_status') this.__sendStatus();
+        else if (message.type === 'token_updated') this.__updateUserStatus();
     }
 
     private __sendStatus = () => this.__messageHandler.sendMessageToAll({ type: 'status', data: this.__status });
@@ -29,6 +30,13 @@ class Extension {
         }
     }
 
+    private async __updateUserStatus() {
+        await Promise.all([
+            this.__user.fetch()
+        ]);
+        this.__updateStatus();
+    }
+
     public async init() {
         this.__messageHandler = new MessageHandler();
         this.__user = new User(this);
@@ -38,10 +46,7 @@ class Extension {
         this.__messageHandler.addListener(this.__onMessage);
         this.__status = 'starting';
         this.__sendStatus();
-        await Promise.all([
-            this.__user.fetch()
-        ]);
-        this.__updateStatus();
+        await this.__updateUserStatus();
     }
 
     public getUser = () => this.__user;

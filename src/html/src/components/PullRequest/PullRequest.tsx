@@ -20,7 +20,7 @@ const PullRequest: React.FC = props => {
 	const pageData = React.useContext(PageContext)!;
 	const alertHandlers = React.useContext(AlertContext)!;
 
-	const { data: pullRequest, isLoading, reload } = useAsync({ promiseFn: GithubApi.getPullRequestInfo, data: pageData.data, onReject: alertHandlers.onGithubApiError });
+	const { data: pullRequest, isLoading } = useAsync({ promiseFn: GithubApi.getPullRequestInfo, data: pageData.data, onReject: alertHandlers.onGithubApiError });
 
 	const branchContent = React.useMemo(() => {
 		if (isLoading) return <HeaderBranchPlaceholder />;
@@ -105,7 +105,7 @@ const PullRequest: React.FC = props => {
 				{content}
 			</div>
 		);
-	}, [pullRequest, isLoading, reload]);
+	}, [pullRequest, isLoading]);
 
 	return (
 		<div id="githubExtensionPullRequest">

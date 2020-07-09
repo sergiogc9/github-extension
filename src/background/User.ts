@@ -18,8 +18,10 @@ class User {
     private __sendUser = () => this.__extension.getMessageHandler().sendMessageToAll({ type: 'user_updated', data: this.__attributes });
 
     public fetch = async () => {
-        this.__attributes = await GithubApi.getUserData();
-        this.__sendUser();
+        try {
+            this.__attributes = await GithubApi.getUserData();
+            this.__sendUser();
+        } catch (e) { }
     }
 
     public getData = () => {
