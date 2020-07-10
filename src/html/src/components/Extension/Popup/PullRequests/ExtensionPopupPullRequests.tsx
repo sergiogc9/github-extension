@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import orderBy from 'lodash/orderBy';
 import HashLoader from "react-spinners/HashLoader";
+import Fade from '@material-ui/core/Fade';
 
 import { getRepositoryUrl, getPullRequestUrl, getUserUrl } from 'lib/Github/GithubUrl';
 import { SymbolicIcon } from 'components/common/Icon/Icon';
@@ -33,14 +34,13 @@ const ExtensionPopupPullRequests: React.FC<ComponentProps> = props => {
 		});
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const loaderContent = React.useMemo(() => {
-		if (!loadingPullRequests) return null;
-		return (
-			<div className='pull-request-loader'>
-				<HashLoader size={20} color='#1E90FF' />
+	const loaderContent = React.useMemo(() => (
+		<Fade in={loadingPullRequests}>
+			<div className='pull-request-loader' title='Updating pull requests'>
+				<HashLoader size={16} color='#fff' />
 			</div>
-		);
-	}, [loadingPullRequests]);
+		</Fade>
+	), [loadingPullRequests]);
 
 	const content = React.useMemo(() => pullRequests.map(pr => {
 		const repoUrl = getRepositoryUrl(pr.owner, pr.repository);

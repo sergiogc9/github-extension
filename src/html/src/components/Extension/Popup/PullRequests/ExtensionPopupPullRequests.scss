@@ -2,10 +2,20 @@
 
 #githubExtensionPopupPullRequests {
     overflow-y: auto;
+    position: relative;
     .pull-request-loader {
-        padding-top: 10px;
         display: flex;
         justify-content: center;
+        position: fixed;
+        bottom: 15px;
+        right: 20px;
+        background: $primaryColor;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
     }
     .pull-request {
         min-height: 75px;
