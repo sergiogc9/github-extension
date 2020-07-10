@@ -1,10 +1,14 @@
 import React from 'react';
+import moment from 'moment';
+import orderBy from 'lodash/orderBy';
+import HashLoader from "react-spinners/HashLoader";
 
-import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import { SymbolicIcon } from 'components/common/Icon/Icon';
-import { GithubPullRequest } from 'types/Github';
-import { PageHandlerContext } from 'components/Extension/Context/PageContext';
 import { getRepositoryUrl, getPullRequestUrl, getUserUrl } from 'lib/Github/GithubUrl';
+import { SymbolicIcon } from 'components/common/Icon/Icon';
+import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
+import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { PageHandlerContext } from 'components/Extension/Context/PageContext';
+import { GithubPullRequest } from 'types/Github';
 
 import './ExtensionPopupPullRequests.scss';
 
@@ -12,6 +16,7 @@ type ComponentProps = {}
 
 const ExtensionPopupPullRequests: React.FC<ComponentProps> = props => {
 	const [pullRequests, setPullRequests] = React.useState<GithubPullRequest[]>([]);
+	const [loadingPullRequests, setLoadingPullRequests] = React.useState<boolean>(false);
 
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
 	const pageHandlers = React.useContext(PageHandlerContext)!;
@@ -20,9 +25,22 @@ const ExtensionPopupPullRequests: React.FC<ComponentProps> = props => {
 		messageHandlers.sendBackgroundMessage({ type: 'get_pull_requests' });
 
 		messageHandlers.onBackgroundMessage(message => {
-			if (message.type === 'pull_requests_updated') setPullRequests(message.data);
+			if (message.type === 'pull_requests_loading') setLoadingPullRequests(true);
+			if (message.type === 'pull_requests_updated') {
+				setPullRequests(orderBy(message.data, 'updated_at', 'desc'));
+				setLoadingPullRequests(false);
+			}
 		});
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const loaderContent = React.useMemo(() => {
+		if (!loadingPullRequests) return null;
+		return (
+			<div className='pull-request-loader'>
+				<HashLoader size={20} color='#1E90FF' />
+			</div>
+		);
+	}, [loadingPullRequests]);
 
 	const content = React.useMemo(() => pullRequests.map(pr => {
 		const repoUrl = getRepositoryUrl(pr.owner, pr.repository);
@@ -33,8 +51,13 @@ const ExtensionPopupPullRequests: React.FC<ComponentProps> = props => {
 				<SymbolicIcon name='pull-request' type='duo' color='green' />
 				<div className='pr-content'>
 					<a href={repoUrl} onClick={() => pageHandlers.openNewTab(repoUrl)}>{pr.owner}/{pr.repository}</a>
-					<a href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>{pr.title}</a>
-					<div className='pr-content-info'>#{pr.number} opened by <a href={userUrl} onClick={() => pageHandlers.openNewTab(userUrl)}>{pr.user.username}</a></div>
+					<div className='title-content'>
+						<a href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>{pr.title}</a>
+						{pr.labels.map(label => <GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />)}
+					</div>
+					<div className='pr-content-info'>
+						#{pr.number} opened by <a href={userUrl} onClick={() => pageHandlers.openNewTab(userUrl)}>{pr.user.username}</a> - Updated {moment(pr.updated_at).fromNow()}
+					</div>
 				</div>
 			</div>
 		);
@@ -42,6 +65,7 @@ const ExtensionPopupPullRequests: React.FC<ComponentProps> = props => {
 
 	return (
 		<div id="githubExtensionPopupPullRequests">
+			{loaderContent}
 			{content}
 		</div>
 	);

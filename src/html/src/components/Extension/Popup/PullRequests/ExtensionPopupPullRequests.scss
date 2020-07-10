@@ -1,6 +1,12 @@
 @import "../../../../scss/globals";
 
 #githubExtensionPopupPullRequests {
+    overflow-y: auto;
+    .pull-request-loader {
+        padding-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
     .pull-request {
         min-height: 75px;
         padding: 5px 0;
@@ -15,23 +21,33 @@
         > svg.react-icon {
             margin: 0 10px;
             width: 15px;
+            flex-shrink: 0;
         }
 
         .pr-content {
             display: flex;
             flex-direction: column;
-            > a {
+            > a,
+            .title-content > a {
                 color: $textColorBlack;
                 cursor: pointer;
-                &:first-child {
-                    opacity: 0.8;
-                    margin-right: 20px;
-                    margin-bottom: 3px;
-                    font-size: 14px;
-                    color: gray;
-                }
                 &:hover {
                     color: $primaryColor;
+                }
+            }
+            > a {
+                opacity: 0.8;
+                margin-right: 20px;
+                margin-bottom: 3px;
+                font-size: 14px;
+                color: gray;
+            }
+            .title-content {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                .ui-github-label {
+                    margin: 3px 5px;
                 }
             }
             > .pr-content-info {

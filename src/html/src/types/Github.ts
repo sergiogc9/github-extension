@@ -19,6 +19,7 @@ export type GithubChecks = {
 };
 
 export type GithubPullRequest = {
+    updated_at: string,
     title: string,
     state: 'open' | 'closed',
     number: number,

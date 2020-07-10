@@ -13,13 +13,20 @@ class Github {
     }
 
     private __onMessage = (message: Message) => {
-        if (message.type === 'get_pull_requests') this.fetchPullRequests();
+        if (message.type === 'get_pull_requests') {
+            if (this.__pullRequests) this.__sendPullRequests();
+            this.fetchPullRequests();
+        }
     }
 
     public fetchPullRequests = async () => {
+        this.__sendPullRequestsLoading();
         this.__pullRequests = await GithubApi.getUserPullRequests();
-        this.__extension.getMessageHandler().sendMessageToAll({ type: 'pull_requests_updated', data: this.__pullRequests });
+        this.__sendPullRequests();
     }
+
+    private __sendPullRequestsLoading = () => this.__extension.getMessageHandler().sendMessageToAll({ type: 'pull_requests_loading' });
+    private __sendPullRequests = () => this.__extension.getMessageHandler().sendMessageToAll({ type: 'pull_requests_updated', data: this.__pullRequests });
 }
 
 export default Github;

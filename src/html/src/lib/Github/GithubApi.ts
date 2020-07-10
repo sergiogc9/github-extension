@@ -56,6 +56,7 @@ const parseCommonPullRequestData = (data: any) => {
 	const [_, owner, repository] = data.html_url.match(/^https:\/\/github\.com\/([^\/]*)\/([^\/]*)\/.*$/);
 
 	return {
+		updated_at: data.updated_at,
 		title: data.title,
 		state: data.state,
 		number: data.number,
@@ -250,7 +251,6 @@ class GithubApi {
 	}
 
 	static getUserPullRequests = async () => {
-
 		try {
 			const query = "is:open+involves:sergiogc9+is:pr";
 			const octokit = await getOctokit();
