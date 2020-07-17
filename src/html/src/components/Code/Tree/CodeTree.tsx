@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
+import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import { StorageContext } from 'components/Extension/Context/StorageContext';
 import CodeTreeFolder from 'components/Code/Folder/CodeTreeFolder';
@@ -18,7 +19,10 @@ const CodeTree: React.FC = props => {
 	const pageData = React.useContext(PageContext)!;
 	const storageData = React.useContext(StorageContext)!;
 	const searchValue = React.useContext(SearchContext);
-	const { data: codeTree, error, isLoading } = useAsync({ promiseFn: GithubApi.getCodeTree, data: pageData.data });
+	const alertHandlers = React.useContext(AlertContext)!;
+
+	const { data: codeTree, isLoading } = useAsync({ promiseFn: GithubApi.getCodeTree, data: pageData.data, onReject: alertHandlers.onGithubApiError });
+
 	const [treeData, setTreeData] = React.useState<CodeTreeType | null>(null);
 	const [foldersToLoad, setFoldersToLoad] = React.useState<{ path: string, sha: string }[]>([]);
 

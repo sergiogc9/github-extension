@@ -5,6 +5,7 @@ import numeral from 'numeral';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
+import { AlertContext } from 'components/Extension/Context/AlertContext';
 import PullRequestTree from './Tree/PullRequestTree';
 import PullRequestChecks from './Checks/PullRequestChecks';
 import PullRequestActions from './Actions/PullRequestActions';
@@ -17,8 +18,9 @@ import './PullRequest.scss';
 
 const PullRequest: React.FC = props => {
 	const pageData = React.useContext(PageContext)!;
+	const alertHandlers = React.useContext(AlertContext)!;
 
-	const { data: pullRequest, error, isLoading, reload } = useAsync({ promiseFn: GithubApi.getPullRequestInfo, data: pageData.data });
+	const { data: pullRequest, isLoading } = useAsync({ promiseFn: GithubApi.getPullRequestInfo, data: pageData.data, onReject: alertHandlers.onGithubApiError });
 
 	const branchContent = React.useMemo(() => {
 		if (isLoading) return <HeaderBranchPlaceholder />;
@@ -96,14 +98,14 @@ const PullRequest: React.FC = props => {
 	}, [pullRequest, isLoading]);
 
 	const actionsContent = React.useMemo(() => {
-		const content = !isLoading && pullRequest ? <PullRequestActions pullRequest={pullRequest} onActionDone={reload} /> : <PullRequestActionsPlaceholder />;
+		const content = !isLoading && pullRequest ? <PullRequestActions pullRequest={pullRequest} /> : <PullRequestActionsPlaceholder />;
 
 		return (
 			<div className="github-extension-pull-request-actions">
 				{content}
 			</div>
 		);
-	}, [pullRequest, isLoading, reload]);
+	}, [pullRequest, isLoading]);
 
 	return (
 		<div id="githubExtensionPullRequest">

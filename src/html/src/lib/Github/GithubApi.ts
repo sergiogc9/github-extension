@@ -5,6 +5,7 @@ import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
+import find from 'lodash/find';
 
 import { PullRequestTree, CodeTree, GithubTree } from './GithubTree';
 import Storage from 'lib/Storage';
@@ -16,6 +17,10 @@ let myOctokit: any;
 
 const getOctokit = async () => {
 	const token = await Storage.get('github_token');
+	if (!token) {
+		console.error('Github token not available!');
+		throw new Error('Github token not available! Please enter a valid token in settings page.');
+	}
 	if (!myOctokit || myOctokit.auth !== token) {
 		myOctokit = new MyOctokit({
 			auth: token,
@@ -38,17 +43,20 @@ const getOctokit = async () => {
 };
 
 const onApiError = (error: any) => {
+	console.error("Github Api Error");
 	console.error(error);
 	if (error.status === 401) {
 		Storage.remove('github_token');
 		window.location.reload();
 	}
+	throw error;
 };
 
 const parseCommonPullRequestData = (data: any) => {
 	const [_, owner, repository] = data.html_url.match(/^https:\/\/github\.com\/([^\/]*)\/([^\/]*)\/.*$/);
 
 	return {
+		updated_at: data.updated_at,
 		title: data.title,
 		state: data.state,
 		number: data.number,
@@ -130,11 +138,6 @@ const getPaginationData = (apiResponse: any) => {
 
 class GithubApi {
 	static getPullRequestInfo = async ({ data }: any) => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 		const { user, repository, number } = data;
 		try {
 			const octokit = await getOctokit();
@@ -149,7 +152,6 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
@@ -181,11 +183,6 @@ class GithubApi {
 	}
 
 	static getPullRequestFiles = async ({ data }: any) => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 		const { user, repository, number } = data;
 
 		try {
@@ -209,17 +206,11 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static getCodeTree = async ({ data }: any) => {
-		const token = await Storage.get('github_token');
 		const lazyLoad = await Storage.get('lazy_load_tree');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 		const { user, repository, tree: treeSha } = data;
 
 		try {
@@ -233,16 +224,10 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static getFolderTreeData = async (user: string, repository: string, sha: string) => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
 
 		try {
 			const octokit = await getOctokit();
@@ -251,17 +236,10 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static getUserData = async () => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
-
 		try {
 			const octokit = await getOctokit();
 			const { data } = await octokit.users.getAuthenticated();
@@ -269,17 +247,10 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
 		}
 	}
 
 	static getUserPullRequests = async () => {
-		const token = await Storage.get('github_token');
-		if (!token) {
-			console.error('Github token not available!');
-			return;
-		}
-
 		try {
 			const query = "is:open+involves:sergiogc9+is:pr";
 			const octokit = await getOctokit();
@@ -288,7 +259,42 @@ class GithubApi {
 		}
 		catch (e) {
 			onApiError(e);
-			console.error("Github Api Error");
+		}
+	}
+
+	static submitPullRequestReview = async ([{ user, repository, number, username, event, comment }]:
+		{ user: string, repository: string, number: number, username: string, event: string, comment: string }[]) => {
+
+		try {
+			const octokit = await getOctokit();
+			// Fetch updated reviews
+			const { data: reviews } = await octokit.pulls.listReviews({ owner: user, repo: repository, pull_number: number });
+			// Find pending user review
+			const pendingReview = find(reviews, r => r.state === 'PENDING' && r.user.login === username);
+			let response;
+			const apiEvent = event === 'CHANGES_REQUESTED' ? 'REQUEST_CHANGES' : event;
+			if (pendingReview) {
+				response = await octokit.pulls.submitReview({ owner: user, repo: repository, pull_number: number, review_id: pendingReview.id, event: apiEvent, body: comment });
+			} else {
+				response = await octokit.pulls.createReview({ owner: user, repo: repository, pull_number: number, event: apiEvent, body: comment });
+			}
+			return response.data.state;
+		}
+		catch (e) {
+			onApiError(e);
+			throw e;
+		}
+	}
+
+	static mergePullRequest = async ([{ user, repository, number }]: { user: string, repository: string, number: number }[]) => {
+
+		try {
+			const octokit = await getOctokit();
+			const { data } = await octokit.pulls.merge({ owner: user, repo: repository, pull_number: number });
+			return data.merged;
+		}
+		catch (e) {
+			onApiError(e);
 		}
 	}
 }

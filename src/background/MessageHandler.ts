@@ -9,9 +9,9 @@ class MessageHandler {
     }
 
     private __initMessageHandlers = () => {
-        chrome.runtime.onMessage.addListener((message, sender) => {
+        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             console.log('Message received: ', message);
-            for (const listener of this.__listeners) listener(message);
+            for (const listener of this.__listeners) listener(message, sender, sendResponse);
         });
     }
 
@@ -19,8 +19,14 @@ class MessageHandler {
         this.__listeners.push(listener);
     }
 
-    public sendMessage = (message: Message) => {
-        console.log('Sending message:', message);
+    public sendMessage = (tabId, message: Message) => {
+        console.log(`Sending message to tabId ${tabId}:`, message);
+        chrome.tabs.sendMessage(tabId, message);
+    };
+
+    public sendMessageToAll = (message: Message) => {
+        console.log('Sending message to all:', message);
+        chrome.tabs.query({}, tabs => tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, message)));
         chrome.runtime.sendMessage(message);
     };
 }

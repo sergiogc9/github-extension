@@ -1,6 +1,8 @@
 import React from 'react';
 import { Alert, ScrollArea, Widget, WidgetContent, Divider, Button, TextField, FormGroupContainer, FormGroup, Checkbox } from '@duik/it';
 
+import { AlertContext } from 'components/Extension/Context/AlertContext';
+import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { StorageContext, StorageHandlerContext } from 'components/Extension/Context/StorageContext';
 import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
@@ -8,7 +10,9 @@ import './ExtensionSettings.scss';
 
 const ExtensionSettings: React.FC = props => {
 	const storageData = React.useContext(StorageContext)!;
+	const alertHandlers = React.useContext(AlertContext)!;
 	const storageHandlers = React.useContext(StorageHandlerContext)!;
+	const messageHandlers = React.useContext(MessageHandlersContext)!;
 
 	return (
 		<div id="githubExtensionAppSettings">
@@ -26,7 +30,10 @@ const ExtensionSettings: React.FC = props => {
 									id="githubSettingsTokenInput"
 									defaultValue={storageData.token}
 									placeholder='Enter github token'
-									onBlur={ev => storageHandlers.setStorageItem('github_token', ev.target.value)}
+									onBlur={ev => {
+										storageHandlers.setStorageItem('github_token', ev.target.value);
+										messageHandlers.sendBackgroundMessage({ type: 'token_updated' });
+									}}
 								/>
 								<Alert id='githubSettingsTokenAlert' leftEl={<FontAwesomeIcon name='info-circle' type='duo' />} primary>Token is saved only in browser local storage.</Alert>
 							</FormGroup>
@@ -36,6 +43,15 @@ const ExtensionSettings: React.FC = props => {
 					<WidgetContent>
 						<FormGroupContainer>
 							<label>Options</label>
+							<FormGroupContainer horizontal>
+								<FormGroup>
+									<Checkbox
+										label="Hide sidebar if page is not implemented"
+										description='There are only few github pages implemented in this extension. Enable this option to hide the sidebar in these pages.'
+										checked={storageData.hide_unimplemented_pages}
+										onChange={() => storageHandlers.setStorageItem('hide_unimplemented_pages', !storageData.hide_unimplemented_pages)} />
+								</FormGroup>
+							</FormGroupContainer>
 							<FormGroupContainer horizontal>
 								<FormGroup>
 									<Checkbox
@@ -57,7 +73,7 @@ const ExtensionSettings: React.FC = props => {
 						</FormGroupContainer>
 					</WidgetContent>
 					<WidgetContent className='save-btn'>
-						<Button primary>Apply settings</Button>
+						<Button primary onClick={() => alertHandlers.addNotification({ type: 'success', message: 'Settings saved.' })}>Apply settings</Button>
 					</WidgetContent>
 				</Widget>
 			</ScrollArea>

@@ -19,6 +19,7 @@ export type GithubChecks = {
 };
 
 export type GithubPullRequest = {
+    updated_at: string,
     title: string,
     state: 'open' | 'closed',
     number: number,
@@ -39,3 +40,9 @@ export type GithubPullRequest = {
     mergeable?: boolean,
     mergeable_status?: 'clean' | 'blocked' | 'dirty'
 }
+
+export type GithubPullRequestChanges = {
+    comments: number,
+    commits: number,
+    reviews: number
+};
