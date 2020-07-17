@@ -40,3 +40,9 @@ export type GithubPullRequest = {
     mergeable?: boolean,
     mergeable_status?: 'clean' | 'blocked' | 'dirty'
 }
+
+export type GithubPullRequestChanges = {
+    comments: number,
+    commits: number,
+    reviews: number
+};
