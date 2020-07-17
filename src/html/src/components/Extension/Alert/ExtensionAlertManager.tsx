@@ -17,7 +17,7 @@ const ExtensionAlertManager: React.FC<ComponentProps> = props => {
 	const handlers: AlertHandlers = React.useMemo(() => {
 		return {
 			addNotification: alert => enqueueSnackbar(alert.message, { variant: alert.type, persist: alert.persist }),
-			onGithubApiError: error => enqueueSnackbar(error.message, { variant: 'error' })
+			onGithubApiError: error => enqueueSnackbar(error.message, { variant: 'error', preventDuplicate: true })
 		};
 	}, [enqueueSnackbar]);
 

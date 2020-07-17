@@ -6,6 +6,7 @@ import numeral from 'numeral';
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import { AlertContext } from 'components/Extension/Context/AlertContext';
+import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import PullRequestTree from './Tree/PullRequestTree';
 import PullRequestChecks from './Checks/PullRequestChecks';
 import PullRequestActions from './Actions/PullRequestActions';
@@ -19,8 +20,13 @@ import './PullRequest.scss';
 const PullRequest: React.FC = props => {
 	const pageData = React.useContext(PageContext)!;
 	const alertHandlers = React.useContext(AlertContext)!;
+	const messageHandlers = React.useContext(MessageHandlersContext)!;
 
 	const { data: pullRequest, isLoading } = useAsync({ promiseFn: GithubApi.getPullRequestInfo, data: pageData.data, onReject: alertHandlers.onGithubApiError });
+
+	React.useEffect(() => {
+		if (pullRequest) messageHandlers.sendBackgroundMessage({ type: 'pull_request_seen', data: pullRequest });
+	}, [pullRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const branchContent = React.useMemo(() => {
 		if (isLoading) return <HeaderBranchPlaceholder />;

@@ -6,7 +6,7 @@ import Storage from 'lib/Storage';
 import { PageContext, PageHandlerContext, PageData, PageHandlers, getPageData, getPullRequestFileAnchorUrl } from './Context/PageContext';
 import { StorageContext, StorageHandlerContext, StorageData, StorageHandlers } from './Context/StorageContext';
 import { MessageHandlersContext, MessageHandlers } from './Context/MessageContext';
-import { MessageHandler, Message } from 'types/Message';
+import { MessageHandler, Message, MessageSendResponse } from 'types/Message';
 import ExtensionSidebar from './Sidebar/ExtensionSidebar';
 import ExtensionPopup from './Popup/ExtensionPopup';
 import ExtensionAlert from './Alert/ExtensionAlert';
@@ -100,13 +100,13 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 
 	// Message context stuff
 
-	const onSendContentScriptMessage = React.useCallback(async (message: Message) => {
+	const onSendContentScriptMessage = React.useCallback(async (message: Message, sendResponse?: MessageSendResponse) => {
 		const tabData = await getTabData();
 		if (tabData) chrome.runtime.sendMessage({ type: 'tab_helper', data: { action: 'send_data', message } });
 	}, []);
 
-	const onSendBackgroundMessage = React.useCallback((message: Message) => {
-		chrome.runtime.sendMessage(message);
+	const onSendBackgroundMessage = React.useCallback((message: Message, sendResponse?: MessageSendResponse) => {
+		chrome.runtime.sendMessage(message, sendResponse);
 	}, []);
 
 	const onReceiveBackgroundMessage = React.useCallback((func: MessageHandler) => {

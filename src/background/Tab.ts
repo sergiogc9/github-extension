@@ -1,5 +1,5 @@
 import Extension from './Extension';
-import { Message } from 'types/Message';
+import { Message, MessageSendResponse } from 'types/Message';
 
 class Tab {
     private __extension: Extension;
@@ -13,7 +13,7 @@ class Tab {
         });
     }
 
-    private __onMessage = async (message: Message, sender: chrome.runtime.MessageSender, sendResponse: (data: any) => void) => {
+    private __onMessage = async (message: Message, sender: chrome.runtime.MessageSender, sendResponse: MessageSendResponse) => {
         const { type, data } = message;
 
         if (type === 'tab_helper') {
