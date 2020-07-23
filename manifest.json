@@ -2,9 +2,9 @@
   "manifest_version": 2,
   "name": "The Github Fox extension",
   "short_name": "The Github Fox extension",
-  "version": "0.1.0",
+  "version": "0.1.1.1",
   "description": "",
-  "permissions": ["tabs", "activeTab", "storage"],
+  "permissions": ["tabs", "storage"],
   "web_accessible_resources": ["html/index.html"],
   "browser_action": {
     "default_title": "The Github Fox extension popup",

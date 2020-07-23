@@ -3,6 +3,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
+    "skipLibCheck": true,
     "sourceMap": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
