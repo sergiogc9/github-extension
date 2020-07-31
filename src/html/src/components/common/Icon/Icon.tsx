@@ -12,7 +12,7 @@ type FontAwesomeIconName = 'github' | 'chevron-double-right' | 'file-alt' | 'ang
 type FontAwesomeIconType = 'light' | 'regular' | 'solid' | 'duo' | 'brand';
 type FontAwesomeIconProps = { family: 'font-awesome', name: FontAwesomeIconName, type: FontAwesomeIconType };
 
-type SymbolicIconName = 'pull-request' | 'chat-conversation-alt';
+type SymbolicIconName = 'pull-request' | 'chat-conversation-alt' | 'clipboard-check';
 type SymbolicIconType = 'light' | 'solid' | 'duo' | 'color';
 type SymbolicIconProps = { family: 'symbolicon', name: SymbolicIconName, type: SymbolicIconType };
 
@@ -89,7 +89,15 @@ const Icon: React.FC<ComponentProps> = props => {
 		}
 	}, [svgRef, color, secondaryColor, rotate]);
 
-	return <SVG className={`react-icon ${iconClasses}`} src={`icons/${iconFile}.svg`} innerRef={svgRef} onLoad={onLoadSvg} onClick={onClick} />;
+	return <SVG
+		className={`react-icon ${iconClasses}`}
+		src={`icons/${iconFile}.svg`}
+		innerRef={svgRef}
+		onLoad={onLoadSvg}
+		onClick={onClick}
+		cacheRequests
+		loader={<svg className={`react-icon ${iconClasses}`}></svg>}
+	/>;
 };
 
 export const NucleoIcon: React.FC<CommonProps & Omit<NucleoIconProps, 'family'>> = React.memo(props => <Icon family='nucleo' {...props} />);

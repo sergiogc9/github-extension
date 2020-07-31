@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "Chrome Extension with React and Typescript Starter Pack",
-  "short_name": "React & Typescript based Chrome Extension",
-  "version": "1.0.0",
-  "description": "Chrome Extension with React and Typescript Starter Pack",
-  "permissions": ["tabs", "activeTab", "storage"],
+  "name": "The Github Fox extension",
+  "short_name": "The Github Fox extension",
+  "version": "0.1.1.1",
+  "description": "",
+  "permissions": ["tabs", "storage"],
   "web_accessible_resources": ["html/index.html"],
   "browser_action": {
-    "default_title": "React Chrome Extension Starter",
+    "default_title": "The Github Fox extension popup",
     "default_popup": "./html/index.html?popup=true"
   },
   "icons": {

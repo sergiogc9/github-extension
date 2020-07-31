@@ -1,10 +1,10 @@
 import React from 'react';
-import { MessageHandler } from 'types/Message';
+import { Message, MessageHandler, MessageSendResponse } from 'types/Message';
 
 export type MessageHandlers = {
-    sendContentScriptMessage: MessageHandler,
+    sendContentScriptMessage: (message: Message, sendResponse?: MessageSendResponse) => void,
     onBackgroundMessage: (handler: MessageHandler) => void,
-    sendBackgroundMessage: MessageHandler
+    sendBackgroundMessage: (message: Message, sendResponse?: MessageSendResponse) => void,
 };
 
 export const MessageHandlersContext = React.createContext<MessageHandlers | null>(null);

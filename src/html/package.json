@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
-    "@duik/it": "0.5.3",
+    "@duik/it": "0.6.0",
     "@material-ui/core": "4.10.2",
     "@nivo/pie": "0.62.0",
     "@octokit/plugin-retry": "3.0.1",
@@ -51,9 +51,10 @@
     "vscode-material-icon-theme-js": "1.0.7"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "watch:build": "cra-build-watch -v --build-path ../../dist/html",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false react-scripts build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -70,5 +71,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.122",
+    "source-map-explorer": "2.4.2"
   }
 }
