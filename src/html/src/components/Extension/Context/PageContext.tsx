@@ -17,8 +17,8 @@ export const getPageData = (url: string): PageData => {
 	let matchData = path.match(/^\/([^\/]+)\/([^\/]+)$/);
 	if (matchData) return { page: 'code-tree', isLoading: false, url, data: { user: matchData[1], repository: matchData[2], tree: 'default' } };
 	// Case custom branch
-	matchData = path.match(/^\/([^\/]*)\/([^\/]*)\/tree\/([^\/]*)$/);
-	if (matchData) return { page: 'code-tree', isLoading: false, url, data: { user: matchData[1], repository: matchData[2], tree: matchData[3] } };
+	matchData = path.match(/^\/([^\/]*)\/([^\/]*)\/(tree|blob)\/([^\/]*)/);
+	if (matchData) return { page: 'code-tree', isLoading: false, url, data: { user: matchData[1], repository: matchData[2], tree: matchData[4] } };
 	// Case Pull Request
 	matchData = path.match(/^\/([^\/]*)\/([^\/]*)\/pull\/([0-9]*)/);
 	if (matchData) return { page: 'pull-request', isLoading: false, url, data: { user: matchData[1], repository: matchData[2], number: parseInt(matchData[3]) } };
