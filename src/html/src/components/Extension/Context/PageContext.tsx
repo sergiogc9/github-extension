@@ -13,9 +13,9 @@ export type PageHandlers = {
 export const getPageData = (url: string): PageData => {
 	const parsedUrl = new Url(url);
 	const path = parsedUrl.pathname.replace(/\/$/, ''); // only pathname without final slash
-	// Case master branch
+	// Case default branch
 	let matchData = path.match(/^\/([^\/]+)\/([^\/]+)$/);
-	if (matchData) return { page: 'code-tree', isLoading: false, url, data: { user: matchData[1], repository: matchData[2], tree: 'master' } };
+	if (matchData) return { page: 'code-tree', isLoading: false, url, data: { user: matchData[1], repository: matchData[2], tree: 'default' } };
 	// Case custom branch
 	matchData = path.match(/^\/([^\/]*)\/([^\/]*)\/tree\/([^\/]*)$/);
 	if (matchData) return { page: 'code-tree', isLoading: false, url, data: { user: matchData[1], repository: matchData[2], tree: matchData[3] } };

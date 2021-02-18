@@ -3,6 +3,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import queryString from 'query-string';
 
 import Storage from 'lib/Storage';
+import GithubApi from 'lib/Github/GithubApi';
 import { PageContext, PageHandlerContext, PageData, PageHandlers, getPageData, getPullRequestFileAnchorUrl } from './Context/PageContext';
 import { StorageContext, StorageHandlerContext, StorageData, StorageHandlers } from './Context/StorageContext';
 import { MessageHandlersContext, MessageHandlers } from './Context/MessageContext';
@@ -29,6 +30,7 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 	const { location } = props;
 
 	const [pageData, setPageData] = React.useState<PageData | null>(null);
+	const [finalPageData, setFinalPageData] = React.useState<PageData | null>(null);
 	const [storageData, setStorageData] = React.useState<StorageData>();
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,14 +42,24 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 		(async () => {
 			setStorageData(await getStorageData());
 			const tabData = await getTabData();
-			if (tabData) {
-				setPageData(getPageData(tabData.url));
-			} else {
-				const tabUrl = queryString.parse(location.search).chromeUrl as string;
-				setPageData(getPageData(tabUrl));
-			}
+			const url = tabData ? tabData.url : queryString.parse(location.search).chromeUrl as string;
+			const pageData = getPageData(url);
+
+			setPageData(pageData);
 		})();
 	}, []); //eslint-disable-line react-hooks/exhaustive-deps
+
+	React.useEffect(() => {
+		(async () => {
+			if (pageData) {
+				if (pageData.page === 'code-tree' && pageData.data.tree === 'default') {
+					const defaultBranch = await GithubApi.getRepoDefaultBranch(pageData.data.user, pageData.data.repository);
+					pageData.data.tree = defaultBranch;
+				}
+				setFinalPageData(pageData);
+			}
+		})();
+	}, [pageData]); //eslint-disable-line react-hooks/exhaustive-deps
 
 	React.useEffect(() => {
 		// Listen for tab update events
@@ -123,12 +135,12 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 
 	return (
 		<MessageHandlersContext.Provider value={messageHandlers}>
-			<PageContext.Provider value={pageData}>
+			<PageContext.Provider value={finalPageData}>
 				<PageHandlerContext.Provider value={pageHandlers}>
 					<StorageContext.Provider value={storageData}>
 						<StorageHandlerContext.Provider value={storageHandlers}>
 							<ExtensionAlert>
-								{pageData && storageData && !isPopup && <ExtensionSidebar />}
+								{finalPageData && storageData && !isPopup && <ExtensionSidebar />}
 								{storageData && isPopup && <ExtensionPopup />}
 							</ExtensionAlert>
 						</StorageHandlerContext.Provider>

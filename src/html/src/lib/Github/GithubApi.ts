@@ -15,6 +15,8 @@ const MyOctokit = Octokit.plugin(retry, throttling);
 
 let myOctokit: any;
 
+const __defaultRepoBranchesCache: Record<string, string> = {};
+
 const getOctokit = async () => {
 	const token = await Storage.get('github_token');
 	if (!token) {
@@ -203,6 +205,27 @@ class GithubApi {
 			const tree = new GithubTree<PullRequestTree>();
 			tree.initFromPullRequestFiles(data);
 			return tree;
+		}
+		catch (e) {
+			onApiError(e);
+		}
+	}
+
+	static getRepoDefaultBranch = async (user: string, repository: string) => {
+		try {
+			const cacheKey = user + '/' + repository;
+			if (!__defaultRepoBranchesCache[cacheKey]) {
+				__defaultRepoBranchesCache[cacheKey] = 'fetching';
+				const octokit = await getOctokit();
+				const { data: repoData } = await octokit.repos.get({ repo: repository, owner: user });
+				__defaultRepoBranchesCache[cacheKey] = repoData.default_branch;
+			} else if (__defaultRepoBranchesCache[cacheKey] === 'fetching') {
+				// Avoid multiple api calls for same repository
+				return await new Promise(resolve => setTimeout(() => {
+					GithubApi.getRepoDefaultBranch(user, repository).then(resolve);
+				}, 100));
+			}
+			return __defaultRepoBranchesCache[cacheKey];
 		}
 		catch (e) {
 			onApiError(e);
