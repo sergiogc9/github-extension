@@ -26,6 +26,13 @@ const getTabData = () => new Promise<TabData | null>(resolve => {
 	chrome.runtime.sendMessage({ type: 'tab_helper', data: { action: 'get_current' } }, resolve);
 });
 
+const fixDefaultRepoBranch = async (pageData: PageData) => {
+	if (pageData.page === 'code-tree' && pageData.data.tree === 'default') {
+		const defaultBranch = await GithubApi.getRepoDefaultBranch(pageData.data.user, pageData.data.repository);
+		pageData.data.tree = defaultBranch;
+	}
+};
+
 const BrowserExtension: React.FC<ComponentProps> = props => {
 	const { location } = props;
 
@@ -52,10 +59,7 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 	React.useEffect(() => {
 		(async () => {
 			if (pageData) {
-				if (pageData.page === 'code-tree' && pageData.data.tree === 'default') {
-					const defaultBranch = await GithubApi.getRepoDefaultBranch(pageData.data.user, pageData.data.repository);
-					pageData.data.tree = defaultBranch;
-				}
+				await fixDefaultRepoBranch(pageData);
 				setFinalPageData(pageData);
 			}
 		})();
@@ -84,6 +88,7 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 		const tabData = await getTabData();
 		if (tabData) {
 			const pageData = getPageData(tabData.url);
+			await fixDefaultRepoBranch(pageData);
 			const url = `https://github.com/${pageData.data.user}/${pageData.data.repository}/blob/${pageData.data.tree}/${path}`;
 			chrome.runtime.sendMessage({ type: 'tab_helper', data: { action: 'update_tab', url } });
 		}
