@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, RouteComponentProps } from "react-router";
 import queryString from 'query-string';
+import find from 'lodash/find';
 
 import Storage from 'lib/Storage';
 import GithubApi from 'lib/Github/GithubApi';
@@ -26,10 +27,16 @@ const getTabData = () => new Promise<TabData | null>(resolve => {
 	chrome.runtime.sendMessage({ type: 'tab_helper', data: { action: 'get_current' } }, resolve);
 });
 
-const fixDefaultRepoBranch = async (pageData: PageData) => {
-	if (pageData.page === 'code-tree' && pageData.data.tree === 'default') {
-		const defaultBranch = await GithubApi.getRepoDefaultBranch(pageData.data.user, pageData.data.repository);
-		pageData.data.tree = defaultBranch;
+const getCorrectRepoBranch = async (pageData: PageData) => {
+	if (pageData.page === 'code-tree') {
+		if (pageData.data.tree === 'default') {
+			const defaultBranch = await GithubApi.getRepoDefaultBranch(pageData.data.user, pageData.data.repository);
+			pageData.data.tree = defaultBranch;
+		} else {
+			const branches = await GithubApi.getRepoBranches(pageData.data.user, pageData.data.repository) as string[];
+			const branch = find(branches, br => pageData.data.tree.match(`^${br}`));
+			if (branch) pageData.data.tree = branch;
+		}
 	}
 };
 
@@ -59,7 +66,7 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 	React.useEffect(() => {
 		(async () => {
 			if (pageData) {
-				await fixDefaultRepoBranch(pageData);
+				await getCorrectRepoBranch(pageData);
 				setFinalPageData(pageData);
 			}
 		})();
@@ -88,7 +95,7 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 		const tabData = await getTabData();
 		if (tabData) {
 			const pageData = getPageData(tabData.url);
-			await fixDefaultRepoBranch(pageData);
+			await getCorrectRepoBranch(pageData);
 			const url = `https://github.com/${pageData.data.user}/${pageData.data.repository}/blob/${pageData.data.tree}/${path}`;
 			chrome.runtime.sendMessage({ type: 'tab_helper', data: { action: 'update_tab', url } });
 		}

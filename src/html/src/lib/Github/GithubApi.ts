@@ -15,7 +15,8 @@ const MyOctokit = Octokit.plugin(retry, throttling);
 
 let myOctokit: any;
 
-const __defaultRepoBranchesCache: Record<string, string> = {};
+const __defaultRepoDefaultBranchCache: Record<string, string> = {};
+const __defaultRepoBranchesCache: Record<string, 'fetching' | string[]> = {};
 
 const getOctokit = async () => {
 	const token = await Storage.get('github_token');
@@ -214,15 +215,36 @@ class GithubApi {
 	static getRepoDefaultBranch = async (user: string, repository: string) => {
 		try {
 			const cacheKey = user + '/' + repository;
-			if (!__defaultRepoBranchesCache[cacheKey]) {
-				__defaultRepoBranchesCache[cacheKey] = 'fetching';
+			if (!__defaultRepoDefaultBranchCache[cacheKey]) {
+				__defaultRepoDefaultBranchCache[cacheKey] = 'fetching';
 				const octokit = await getOctokit();
 				const { data: repoData } = await octokit.repos.get({ repo: repository, owner: user });
-				__defaultRepoBranchesCache[cacheKey] = repoData.default_branch;
-			} else if (__defaultRepoBranchesCache[cacheKey] === 'fetching') {
+				__defaultRepoDefaultBranchCache[cacheKey] = repoData.default_branch;
+			} else if (__defaultRepoDefaultBranchCache[cacheKey] === 'fetching') {
 				// Avoid multiple api calls for same repository
 				return await new Promise(resolve => setTimeout(() => {
 					GithubApi.getRepoDefaultBranch(user, repository).then(resolve);
+				}, 100));
+			}
+			return __defaultRepoDefaultBranchCache[cacheKey];
+		}
+		catch (e) {
+			onApiError(e);
+		}
+	}
+
+	static getRepoBranches = async (user: string, repository: string) => {
+		try {
+			const cacheKey = user + '/' + repository;
+			if (!__defaultRepoBranchesCache[cacheKey]) {
+				__defaultRepoBranchesCache[cacheKey] = 'fetching';
+				const octokit = await getOctokit();
+				const { data: branches } = await octokit.repos.listBranches({ repo: repository, owner: user });
+				__defaultRepoBranchesCache[cacheKey] = branches.map((br: any) => br.name);
+			} else if (__defaultRepoBranchesCache[cacheKey] === 'fetching') {
+				// Avoid multiple api calls for same repository
+				return await new Promise(resolve => setTimeout(() => {
+					GithubApi.getRepoBranches(user, repository).then(resolve);
 				}, 100));
 			}
 			return __defaultRepoBranchesCache[cacheKey];
