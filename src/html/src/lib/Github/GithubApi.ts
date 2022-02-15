@@ -156,7 +156,7 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 
 	static getPullRequestChecks = async (data: { owner: string, repo: string, commit_sha: string }): Promise<GithubChecks> => {
 		const { owner, repo, commit_sha } = data;
@@ -183,7 +183,7 @@ class GithubApi {
 			else checks.pending++;
 		});
 		return checks;
-	}
+	};
 
 	static getPullRequestFiles = async ({ data }: any) => {
 		const { user, repository, number } = data;
@@ -210,7 +210,7 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 
 	static getRepoDefaultBranch = async (user: string, repository: string) => {
 		try {
@@ -231,7 +231,7 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 
 	static getRepoBranches = async (user: string, repository: string) => {
 		try {
@@ -252,7 +252,7 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 
 	static getCodeTree = async ({ data }: any) => {
 		const lazyLoad = await Storage.get('lazy_load_tree');
@@ -270,7 +270,7 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 
 	static getFolderTreeData = async (user: string, repository: string, sha: string) => {
 
@@ -282,7 +282,7 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 
 	static getUserData = async () => {
 		try {
@@ -293,11 +293,11 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 
-	static getUserPullRequests = async () => {
+	static getUserPullRequests = async (username: string) => {
 		try {
-			const query = "is:open+involves:sergiogc9+is:pr";
+			const query = `is:open+involves:${username}+is:pr`;
 			const octokit = await getOctokit();
 			const { data } = await octokit.search.issuesAndPullRequests({ q: query });
 			return createPullRequestFromSearch(data);
@@ -305,7 +305,7 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 
 	static submitPullRequestReview = async ([{ user, repository, number, username, event, comment }]:
 		{ user: string, repository: string, number: number, username: string, event: string, comment: string }[]) => {
@@ -329,7 +329,7 @@ class GithubApi {
 			onApiError(e);
 			throw e;
 		}
-	}
+	};
 
 	static mergePullRequest = async ([{ user, repository, number }]: { user: string, repository: string, number: number }[]) => {
 
@@ -341,7 +341,7 @@ class GithubApi {
 		catch (e) {
 			onApiError(e);
 		}
-	}
+	};
 }
 
 export default GithubApi;

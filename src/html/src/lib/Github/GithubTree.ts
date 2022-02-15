@@ -63,7 +63,7 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 			folder = folder.folders[folderName];
 		}
 		return folder;
-	}
+	};
 
 	private __addFolder = (path: string, data: any) => {
 		const folderNames = path ? path.split('/') : [];
@@ -78,13 +78,13 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 			folder = folder.folders[folderName];
 		}
 		return folder;
-	}
+	};
 
 	private __addFile = (path: string, fileName: string, data: any) => {
 		const folder = this.__addFolder(path, {});
 		// Add file to folder
 		folder.files[fileName] = data;
-	}
+	};
 
 	private __addApiTree = (apiData: any, recursive: boolean) => {
 		if (apiData.truncated) alert('Github extension: Repository tree is too big, some directories or files have not been loaded. Please enable lazy loading in settings.');
@@ -109,7 +109,7 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 				this.__addFile(folderPath, fileName, fileData);
 			}
 		}
-	}
+	};
 
 	private __recursiveJoinFolder = (folder: RepositoryFolder<any, any>, prev: string): RepositoryFolder<any, any> => {
 		const path = prev ? prev + "/" + folder.name : folder.name;
@@ -122,7 +122,7 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 			name: path,
 			folders: mapValues(folder.folders, f => this.__recursiveJoinFolder(f, ""))
 		};
-	}
+	};
 
 	private __recursiveFilter = (folder: RepositoryFolder<any, any>, text: string): RepositoryFolder<any, any> => {
 		forEach(folder.folders, f => this.__recursiveFilter(f, text));
@@ -150,12 +150,12 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 			};
 			this.__addFile(folderPath, fileName, fileData);
 		}
-	}
+	};
 
 	// Data is the response of get tree call. In this case a branch tree
 	public initFromCodeTree = (apiData: any, recursive: boolean) => {
 		this.__addApiTree(apiData, recursive);
-	}
+	};
 
 	public loadFolder = async (pageData: any, folderPath: string, sha: string) => {
 		const treeApiData = await GithubApi.getFolderTreeData(pageData.user, pageData.repository, sha);
@@ -163,15 +163,15 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 		treeApiData.tree = treeApiData.tree.map((item: any) => ({ ...item, path: folderPath + item.path }));
 		(this.__getFolder(folderPath) as CodeTreeFolder).loaded = true;
 		this.__addApiTree(treeApiData, false);
-	}
+	};
 
 	public joinEmptyDirectories = () => {
 		this.__tree.folders = mapValues(this.__tree.folders, folder => this.__recursiveJoinFolder(folder, ""));
-	}
+	};
 
 	public filter = (text: string) => {
 		this.__recursiveFilter(this.__tree, text);
-	}
+	};
 
-	public getTree = (): T => { return cloneDeep(this.__tree) as any; } // Clone tree to force folder and file components to render
+	public getTree = (): T => { return cloneDeep(this.__tree) as any; }; // Clone tree to force folder and file components to render
 }
