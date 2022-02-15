@@ -1,7 +1,13 @@
 {
-  "name": "github-chrome-extension",
-  "version": "0.1.0",
-  "description": "Github chrome extension with React",
+  "name": "fox-github-extension",
+  "version": "0.1.2",
+  "description": "Fox Github extension",
+	"author": "Sergio Gómez Cosgaya <sergiogcosgaya@gmail.com>",
+  "keywords": [
+    "chrome",
+    "extension",
+    "github"
+  ],
   "scripts": {
     "clean": "rm -rf dist && cpy manifest.json dist && cpy src/assets/* dist/assets",
     "prebuild": "npm run clean",
@@ -14,18 +20,6 @@
     "watch": "npm-run-all --parallel watch:*",
     "zip": "bestzip extension.zip dist/*"
   },
-  "keywords": [
-    "chrome",
-    "extension",
-    "typescript",
-    "react"
-  ],
-  "engines": {
-    "node": ">=16",
-    "npm": ">=8"
-  },
-  "author": "Guibert Thomas",
-  "license": "ISC",
   "devDependencies": {
     "@types/chrome": "0.0.104",
     "@types/node": "13.13.2",
@@ -55,5 +49,9 @@
     "eslint-plugin-react-hooks": "2.5.1",
     "lodash": "4.17.19",
     "moment": "2.27.0"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
   }
 }
