@@ -1,5 +1,5 @@
 import React from 'react';
-import md5 from 'md5';
+import {sha256} from 'sha.js';
 import Url from 'url-parse';
 
 type GithubPage = 'code-tree' | 'pull-request';
@@ -27,7 +27,7 @@ export const getPageData = (url: string): PageData => {
 
 export const getPullRequestFileAnchorUrl = (fullFileName: string, currentUrl: string) => {
 	const pageData = getPageData(currentUrl);
-	const fullFileNamesHash = `diff-${md5(fullFileName)}`;
+	const fullFileNamesHash = `diff-${new sha256().update(fullFileName).digest('hex')}`;
 	return `https://github.com/${pageData.data.user}/${pageData.data.repository}/pull/${pageData.data.number}/files#${fullFileNamesHash}`;
 };
 

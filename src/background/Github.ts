@@ -30,8 +30,9 @@ class Github {
     }
 
     public fetchPullRequests = async () => {
+        const username = this.__extension.getUser().getData().login;
         this.__sendPullRequestsLoading();
-        const userPullRequests = await GithubApi.getUserPullRequests();
+        const userPullRequests = await GithubApi.getUserPullRequests(username);
         await this.__retrievePullRequestsFromUserPullRequests(userPullRequests);
         this.__sendPullRequests();
     }
