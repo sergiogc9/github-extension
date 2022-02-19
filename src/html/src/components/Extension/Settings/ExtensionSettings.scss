@@ -1,58 +1,58 @@
-@import "../../../scss/variables";
+@import '../../../scss/variables';
 
 #githubExtensionAppSettings {
-    flex-grow: 1;
-    overflow: hidden;
+	flex-grow: 1;
+	overflow: hidden;
 
-    .card {
-        border: none;
-        box-shadow: none;
-        border-radius: 0;
-        background: none;
+	.card {
+		border: none;
+		box-shadow: none;
+		border-radius: 0;
+		background: none;
 
-        .card-body {
-            border-radius: 0;
-            padding: 15px;
+		.card-body {
+			border-radius: 0;
+			padding: 15px;
 
-            .form-check-description {
-                font-size: 12px;
-            }
+			.form-check-description {
+				font-size: 12px;
+			}
 
-            &.header {
-                background-color: $headerColor;
-            }
+			&.header {
+				background-color: $headerColor;
+			}
 
-            &.save-btn {
-                text-align: center;
-                button {
-                    padding: 0 10px;
-                    height: 30px;
-                }
-            }
-        }
-    }
+			&.save-btn {
+				text-align: center;
+				button {
+					padding: 0 10px;
+					height: 30px;
+				}
+			}
+		}
+	}
 
-    #githubSettingsTokenInput {
-        font-size: 11px;
-    }
+	#githubSettingsTokenInput {
+		font-size: 11px;
+	}
 
-    #githubSettingsTokenAlert {
-        width: auto;
-        background-color: cadetblue;
-        align-items: center;
-        font-size: 12px;
-        padding: 10px;
+	#githubSettingsTokenAlert {
+		width: auto;
+		background-color: cadetblue;
+		align-items: center;
+		font-size: 12px;
+		padding: 10px;
 
-        .alert-left-el {
-            margin-right: 10px;
-            margin-top: 0;
-            align-self: center;
+		.alert-left-el {
+			margin-right: 10px;
+			margin-top: 0;
+			align-self: center;
 
-            > .react-icon {
-                width: 22px;
-                height: 22px;
-                color: white;
-            }
-        }
-    }
+			> .react-icon {
+				width: 22px;
+				height: 22px;
+				color: white;
+			}
+		}
+	}
 }

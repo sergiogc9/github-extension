@@ -1,26 +1,18 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "skipLibCheck": true,
-    "sourceMap": false,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "types": ["@types/chrome", "node"],
-    "typeRoots": ["node_modules/@types"],
-    "moduleResolution": "node",
-    "lib": ["es2017", "dom"],
-    "jsx": "preserve",
-    "baseUrl": "./src/html/src",
-    "paths": {
-      "@react/*": [
-        "./*"
-      ],
-      "@root/*": [
-        "../../../src/*"
-      ]
-    }
-  },
-  "include": ["src/background", "src/contentscript", "src/html/src/**/*"]
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "./src/html/src",
+		"esModuleInterop": true,
+		"jsx": "preserve",
+		"lib": ["esnext", "dom"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"paths": {
+			"@html/*": ["./*"],
+			"@root/*": ["../../../src/*"]
+		},
+		"skipLibCheck": true,
+		"target": "es6"
+	},
+	"include": ["src/background", "src/contentscript", "src/html/src/**/*"]
 }

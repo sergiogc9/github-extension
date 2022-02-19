@@ -1,48 +1,13 @@
 {
-	"extends": "react-app",
+	"root": true,
+	"extends": ["@sergiogc9/eslint-config/react", "@sergiogc9/eslint-config"],
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
 	"rules": {
-		"semi": [
-			"error",
-			"always"
-		],
-		"arrow-parens": [
-			"error",
-			"as-needed"
-		],
-		"max-len": [
-			"error",
-			{
-				"code": 200,
-				"ignoreComments": true
-			}
-		],
-		"indent": [
-			"error",
-			"tab",
-			{
-				"SwitchCase": 1
-			}
-		],
-		"comma-dangle": [
-			"error",
-			"never"
-		],
-		"sort-keys": "off",
-		"sort-imports": "off",
-		"max-classes-per-file": "off",
-		"curly": "off",
-		"no-empty": "error",
-		"space-in-parens": [
-			"error",
-			"never"
-		],
-		"array-callback-return": [
-			"warn",
-			{
-				"allowImplicit": true
-			}
-		],
-		"no-throw-literal": "off",
-		"no-useless-escape": "off"
+		"jsx-a11y/click-events-have-key-events": "off",
+		"jsx-a11y/label-has-associated-control": "off",
+		"jsx-a11y/no-static-element-interactions": "off",
+		"react/require-default-props": "off"
 	}
 }

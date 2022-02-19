@@ -6,47 +6,41 @@ import forEach from 'lodash/forEach';
 import some from 'lodash/some';
 import cloneDeep from 'lodash/cloneDeep';
 
-import GithubApi from './GithubApi';
-
 type RepositoryTree<T, U> = {
-	folders: Record<string, RepositoryFolder<T, U>>,
-	files: Record<string, RepositoryFile<U>>
-}
+	folders: Record<string, RepositoryFolder<T, U>>;
+	files: Record<string, RepositoryFile<U>>;
+};
 
 type RepositoryFolder<T, U> = {
-	folders: Record<string, RepositoryFolder<T, U>>,
-	files: Record<string, RepositoryFile<U>>,
-	name: string
-	path: string
-	visible: boolean // A folder is visible if any folder or file in its subtree is visible
-	matchesSearch: boolean
+	folders: Record<string, RepositoryFolder<T, U>>;
+	files: Record<string, RepositoryFile<U>>;
+	name: string;
+	path: string;
+	visible: boolean; // A folder is visible if any folder or file in its subtree is visible
+	matchesSearch: boolean;
 } & T;
 
 type RepositoryFile<U> = {
-	name: string
-	path: string // Full path without file
-	visible: boolean
-	matchesSearch: boolean
+	name: string;
+	path: string; // Full path without file
+	visible: boolean;
+	matchesSearch: boolean;
 } & U;
 
-type PRFolderAttributes = {
-
-}
+type PRFolderAttributes = Record<string, unknown>;
 type PRFileAttributes = {
-	status: "added" | "removed" | "renamed" | "modified"
-}
+	status: 'added' | 'removed' | 'renamed' | 'modified';
+};
 
 export type PullRequestFolder = RepositoryFolder<PRFolderAttributes, PRFileAttributes>;
 export type PullRequestFile = RepositoryFile<PRFileAttributes>;
 export type PullRequestTree = RepositoryTree<PRFolderAttributes, PRFileAttributes>;
 
 type CodeTreeFolderAttributes = {
-	sha: string,
-	loaded: boolean
-}
-type CodeTreeFileAttributes = {
-
-}
+	sha: string;
+	loaded: boolean;
+};
+type CodeTreeFileAttributes = Record<string, unknown>;
 export type CodeTreeFolder = RepositoryFolder<CodeTreeFolderAttributes, CodeTreeFileAttributes>;
 export type CodeTreeFile = RepositoryFile<CodeTreeFileAttributes>;
 export type CodeTree = RepositoryTree<CodeTreeFolderAttributes, CodeTreeFileAttributes>;
@@ -72,9 +66,19 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 		// Create folder directory tree
 		while (!isEmpty(folderNames) && !isEmpty(folderNames[0])) {
 			const folderName = folderNames.shift()!;
-			whilePath = whilePath ? whilePath + "/" + folderName : folderName;
-			const defaultFolderData = { folders: {}, files: {}, name: folderName, path: whilePath, visible: true, matchesSearch: false };
-			folder.folders[folderName] = folder.folders[folderName] || { ...defaultFolderData, ...data };
+			whilePath = whilePath ? `${whilePath}/${folderName}` : folderName;
+			const defaultFolderData = {
+				folders: {},
+				files: {},
+				name: folderName,
+				path: whilePath,
+				visible: true,
+				matchesSearch: false
+			};
+			folder.folders[folderName] = folder.folders[folderName] || {
+				...defaultFolderData,
+				...data
+			};
 			folder = folder.folders[folderName];
 		}
 		return folder;
@@ -87,7 +91,12 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 	};
 
 	private __addApiTree = (apiData: any, recursive: boolean) => {
-		if (apiData.truncated) alert('Github extension: Repository tree is too big, some directories or files have not been loaded. Please enable lazy loading in settings.');
+		if (apiData.truncated)
+			// eslint-disable-next-line no-alert
+			alert(
+				'Github extension: Repository tree is too big, some directories or files have not been loaded. Please enable lazy loading in settings.'
+			);
+		// eslint-disable-next-line no-restricted-syntax
 		for (const treeItem of apiData.tree) {
 			// Case folder
 			if (treeItem.type === 'tree') {
@@ -99,10 +108,11 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 			}
 			// Case file
 			else if (treeItem.type === 'blob') {
-				const [_, folderPath, fileName] = treeItem.path.match(/^(.*\/{1})*([^\/].*)$/);
+				// eslint-disable-next-line no-useless-escape
+				const [, folderPath, fileName] = treeItem.path.match(/^(.*\/{1})*([^\/].*)$/);
 				const fileData: CodeTreeFile = {
 					name: fileName,
-					path: folderPath || "",
+					path: folderPath || '',
 					visible: true,
 					matchesSearch: false
 				};
@@ -112,7 +122,7 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 	};
 
 	private __recursiveJoinFolder = (folder: RepositoryFolder<any, any>, prev: string): RepositoryFolder<any, any> => {
-		const path = prev ? prev + "/" + folder.name : folder.name;
+		const path = prev ? `${prev}/${folder.name}` : folder.name;
 		if (size(folder.folders) === 1 && size(folder.files) === 0) {
 			const uniqueSubFolder = folder.folders[keys(folder.folders)[0]];
 			return this.__recursiveJoinFolder(uniqueSubFolder, path);
@@ -120,7 +130,7 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 		return {
 			...folder,
 			name: path,
-			folders: mapValues(folder.folders, f => this.__recursiveJoinFolder(f, ""))
+			folders: mapValues(folder.folders, f => this.__recursiveJoinFolder(f, ''))
 		};
 	};
 
@@ -133,17 +143,23 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 		// Check not root case
 		if (folder.name) {
 			folder.matchesSearch = !isEmpty(text) && folder.name.toLowerCase().includes(text.toLowerCase());
-			folder.visible = isEmpty(text) || folder.matchesSearch || some(folder.folders, f => f.visible) || some(folder.files, f => f.visible);
+			folder.visible =
+				isEmpty(text) ||
+				folder.matchesSearch ||
+				some(folder.folders, f => f.visible) ||
+				some(folder.files, f => f.visible);
 		}
 	};
 
 	// Data is the response of pull request files call
 	public initFromPullRequestFiles = (apiData: any) => {
+		// eslint-disable-next-line no-restricted-syntax
 		for (const apiFileData of apiData) {
-			const [_, folderPath, fileName] = apiFileData.filename.match(/^(.*\/{1})*([^\/].*)$/);
+			// eslint-disable-next-line no-useless-escape
+			const [, folderPath, fileName] = apiFileData.filename.match(/^(.*\/{1})*([^\/].*)$/);
 			const fileData: PullRequestFile = {
 				name: fileName,
-				path: folderPath || "",
+				path: folderPath || '',
 				status: apiFileData.status,
 				visible: true,
 				matchesSearch: false
@@ -157,21 +173,24 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 		this.__addApiTree(apiData, recursive);
 	};
 
-	public loadFolder = async (pageData: any, folderPath: string, sha: string) => {
-		const treeApiData = await GithubApi.getFolderTreeData(pageData.user, pageData.repository, sha);
-
-		treeApiData.tree = treeApiData.tree.map((item: any) => ({ ...item, path: folderPath + item.path }));
+	public loadFolder = (folderApiData: any, folderPath: string) => {
+		folderApiData.tree = folderApiData.tree.map((item: any) => ({
+			...item,
+			path: folderPath + item.path
+		}));
 		(this.__getFolder(folderPath) as CodeTreeFolder).loaded = true;
-		this.__addApiTree(treeApiData, false);
+		this.__addApiTree(folderApiData, false);
 	};
 
 	public joinEmptyDirectories = () => {
-		this.__tree.folders = mapValues(this.__tree.folders, folder => this.__recursiveJoinFolder(folder, ""));
+		this.__tree.folders = mapValues(this.__tree.folders, folder => this.__recursiveJoinFolder(folder, ''));
 	};
 
 	public filter = (text: string) => {
 		this.__recursiveFilter(this.__tree, text);
 	};
 
-	public getTree = (): T => { return cloneDeep(this.__tree) as any; }; // Clone tree to force folder and file components to render
+	public getTree = (): T => {
+		return cloneDeep(this.__tree) as any;
+	}; // Clone tree to force folder and file components to render
 }

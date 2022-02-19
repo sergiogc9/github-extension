@@ -13,13 +13,17 @@ import { TreePlaceHolder } from 'components/common/Placeholder';
 
 import './PullRequestTree.scss';
 
-const PullRequestTree: React.FC = props => {
+const PullRequestTree: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
 	const storageData = React.useContext(StorageContext)!;
 	const searchValue = React.useContext(SearchContext);
 	const alertHandlers = React.useContext(AlertContext)!;
 
-	const { data: prTree, isLoading } = useAsync({ promiseFn: GithubApi.getPullRequestFiles, data: pageData.data, onReject: alertHandlers.onGithubApiError });
+	const { data: prTree, isLoading } = useAsync({
+		promiseFn: GithubApi.getPullRequestFiles,
+		data: pageData.data,
+		onReject: alertHandlers.onGithubApiError
+	});
 
 	const treeData = React.useMemo(() => {
 		if (!prTree) return null;
@@ -35,14 +39,18 @@ const PullRequestTree: React.FC = props => {
 
 		return (
 			<>
-				{keys(treeData.folders).map(folderName => <PullRequestFolder key={folderName} folder={treeData.folders[folderName]} deep={0} />)}
-				{keys(treeData.files).map(fileName => <PullRequestFile key={fileName} file={treeData.files[fileName]} deep={0} isFolderVisible={false} />)}
+				{keys(treeData.folders).map(folderName => (
+					<PullRequestFolder key={folderName} folder={treeData.folders[folderName]} deep={0} />
+				))}
+				{keys(treeData.files).map(fileName => (
+					<PullRequestFile key={fileName} file={treeData.files[fileName]} deep={0} isFolderVisible={false} />
+				))}
 			</>
 		);
 	}, [treeData, isLoading]);
 
 	return (
-		<div id="githubExtensionPullRequestTree" className='github-extension-tree'>
+		<div id="githubExtensionPullRequestTree" className="github-extension-tree">
 			{treeContent}
 		</div>
 	);

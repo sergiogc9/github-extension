@@ -1,7 +1,7 @@
-@import "../../../scss/partials/tree";
+@import '../../../scss/partials/tree';
 
 #githubExtensionPullRequestTree {
-    border-top: thin solid $headerColorDark;
-    border-bottom: thin solid $headerColorDark;
-    @include githubExtensionTree();
+	border-top: thin solid $headerColorDark;
+	border-bottom: thin solid $headerColorDark;
+	@include githubExtensionTree();
 }

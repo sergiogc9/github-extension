@@ -20,21 +20,25 @@ type ComponentProps = { pullRequest: GithubPullRequest };
 const PullRequestChecks: React.FC<ComponentProps> = props => {
 	const { pullRequest } = props;
 
-	const checks = pullRequest.checks;
+	const { checks } = pullRequest;
 
 	const pieContent = React.useMemo(() => {
-		const data: PieDatum[] = checks ? map(checks, (count, key) => ({ id: key, value: count })) : [{ id: 'disabled', value: 1 }];
+		const data: PieDatum[] = checks
+			? map(checks, (count, key) => ({ id: key, value: count }))
+			: [{ id: 'disabled', value: 1 }];
 
-		return <ResponsivePie
-			data={data}
-			innerRadius={0.65}
-			cornerRadius={2}
-			padAngle={size(filter(checks, c => !!c)) > 1 ? 4 : 0}
-			colors={getPieColor}
-			enableRadialLabels={false}
-			enableSlicesLabels={false}
-			isInteractive={false}
-		/>;
+		return (
+			<ResponsivePie
+				data={data}
+				innerRadius={0.65}
+				cornerRadius={2}
+				padAngle={size(filter(checks, c => !!c)) > 1 ? 4 : 0}
+				colors={getPieColor}
+				enableRadialLabels={false}
+				enableSlicesLabels={false}
+				isInteractive={false}
+			/>
+		);
 	}, [checks]);
 
 	const content = React.useMemo(() => {
@@ -48,21 +52,18 @@ const PullRequestChecks: React.FC<ComponentProps> = props => {
 
 		return (
 			<>
-				<div className='checks-pie'>
-					{pieContent}
-				</div>
-				<div className='checks-text'>
-					{checksTexts.map((text, i) => <div key={i}>{text}</div>)}
+				<div className="checks-pie">{pieContent}</div>
+				<div className="checks-text">
+					{checksTexts.map((text, i) => (
+						// eslint-disable-next-line react/no-array-index-key
+						<div key={i}>{text}</div>
+					))}
 				</div>
 			</>
 		);
 	}, [checks, pieContent]);
 
-	return (
-		<div id="githubExtensionPullRequestChecks">
-			{content}
-		</div>
-	);
+	return <div id="githubExtensionPullRequestChecks">{content}</div>;
 };
 
 export default React.memo(PullRequestChecks);

@@ -1,4 +1,4 @@
-@import "../variables";
+@import '../variables';
 
 @mixin githubExtensionHeader() {
 	.github-extension-header,
@@ -17,7 +17,7 @@
 			margin: 5px 0;
 		}
 
-		svg.placeholder[role="img"] {
+		svg.placeholder[role='img'] {
 			height: 50px;
 			width: 100%;
 		}

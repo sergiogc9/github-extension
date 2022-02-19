@@ -1,9 +1,9 @@
-@import "../../scss/partials/header";
+@import '../../scss/partials/header';
 
 #githubExtensionCode {
-    flex-grow: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    @include githubExtensionHeader();
+	flex-grow: 1;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	@include githubExtensionHeader();
 }

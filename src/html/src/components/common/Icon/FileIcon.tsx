@@ -3,8 +3,8 @@ import FileIconsLibrary from 'file-icons-js';
 import { getIconForFile } from 'vscode-material-icon-theme-js';
 
 type ComponentProps = {
-	filename: string
-}
+	filename: string;
+};
 
 /* Forced icons to use vscode icons set
 Options:
@@ -15,12 +15,12 @@ Two extensions, first extension wildcard: *.js -> matches map.js, test.js etc...
 Full file name: package-json.lock
 */
 const vscodeIcons: Record<string, true> = {
-	'tsx': true,
+	tsx: true,
 	'test.*': true,
 	'*.snap': true,
-	'scss': true,
+	scss: true,
 	'.gitignore': true,
-	'md': true,
+	md: true,
 	'package-json.lock': true,
 	'package.json': true,
 	'gulpfile.js': true
@@ -36,8 +36,7 @@ const FileIcon: React.FC<ComponentProps> = props => {
 		const ext1 = extensions.pop();
 		const ext2 = extensions.pop();
 		forceVSCodeIcon = vscodeIcons[`${ext2}.${ext1}`] || vscodeIcons[`${ext2}.*`] || vscodeIcons[`*.${ext1}`];
-	}
-	else forceVSCodeIcon = vscodeIcons[extensions.pop() || ""];
+	} else forceVSCodeIcon = vscodeIcons[extensions.pop() || ''];
 	forceVSCodeIcon = forceVSCodeIcon || vscodeIcons[filename];
 
 	// Using file-icons-js
@@ -48,11 +47,11 @@ const FileIcon: React.FC<ComponentProps> = props => {
 
 	// Using vscode icons
 	const svgFile = getIconForFile(filename);
-	if (svgFile !== 'file.svg') return <img className='file-icon' src={`file-icons/${svgFile}`} alt={filename} />;
+	if (svgFile !== 'file.svg') return <img className="file-icon" src={`file-icons/${svgFile}`} alt={filename} />;
 
 	// Default icon fallback (FA based or file-icon-js based)
 	// return <FontAwesomeIcon name='file-alt' type='duo' color="cadetblue" secondaryColor="cadetblue" className="file-icon" />;
-	return <i className={`text-icon medium-blue file-icon`} />;
+	return <i className="text-icon medium-blue file-icon" />;
 };
 
 export default React.memo(FileIcon);

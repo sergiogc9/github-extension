@@ -1,4 +1,4 @@
-@import "../variables";
+@import '../variables';
 
 @mixin githubExtensionTree() {
 	$collapse-icon-width: 12px;
@@ -70,8 +70,7 @@
 
 				.folder-icon {
 					&.default {
-						filter: invert(43%) sepia(82%) saturate(2523%) hue-rotate(194deg) brightness(103%)
-							contrast(105%);
+						filter: invert(43%) sepia(82%) saturate(2523%) hue-rotate(194deg) brightness(103%) contrast(105%);
 					}
 				}
 

@@ -5,35 +5,60 @@ import './Icon.scss';
 
 type NucleoIconName = 'a-chat';
 type NucleoIconType = 'solid' | 'duo' | 'color' | 'animated' | 'interactive';
-type NucleoIconProps = { family: 'nucleo', name: NucleoIconName, type: NucleoIconType };
+type NucleoIconProps = {
+	family: 'nucleo';
+	name: NucleoIconName;
+	type: NucleoIconType;
+};
 
-type FontAwesomeIconName = 'github' | 'chevron-double-right' | 'file-alt' | 'angle-down' | 'angle-right' | 'info-circle' | 'search' | 'times' | 'cog' | 'caret-up' | 'square' | 'code-commit' | 'copy'
+type FontAwesomeIconName =
+	| 'github'
+	| 'chevron-double-right'
+	| 'file-alt'
+	| 'angle-down'
+	| 'angle-right'
+	| 'info-circle'
+	| 'search'
+	| 'times'
+	| 'cog'
+	| 'caret-up'
+	| 'square'
+	| 'code-commit'
+	| 'copy'
 	| 'redo-alt';
 type FontAwesomeIconType = 'light' | 'regular' | 'solid' | 'duo' | 'brand';
-type FontAwesomeIconProps = { family: 'font-awesome', name: FontAwesomeIconName, type: FontAwesomeIconType };
+type FontAwesomeIconProps = {
+	family: 'font-awesome';
+	name: FontAwesomeIconName;
+	type: FontAwesomeIconType;
+};
 
 type SymbolicIconName = 'pull-request' | 'chat-conversation-alt' | 'clipboard-check';
 type SymbolicIconType = 'light' | 'solid' | 'duo' | 'color';
-type SymbolicIconProps = { family: 'symbolicon', name: SymbolicIconName, type: SymbolicIconType };
+type SymbolicIconProps = {
+	family: 'symbolicon';
+	name: SymbolicIconName;
+	type: SymbolicIconType;
+};
 
 type MaterialUIName = 'library-books' | 'check';
-type MaterialUIIconProps = { family: 'material-ui', name: MaterialUIName, type?: 'default' }
+type MaterialUIIconProps = {
+	family: 'material-ui';
+	name: MaterialUIName;
+	type?: 'default';
+};
 
-type IconProps =
-	NucleoIconProps |
-	FontAwesomeIconProps |
-	SymbolicIconProps |
-	MaterialUIIconProps;
+type IconProps = NucleoIconProps | FontAwesomeIconProps | SymbolicIconProps | MaterialUIIconProps;
 
 type CommonProps = {
-	className?: string,
-	onClick?: () => void,
-	color?: string,
-	secondaryColor?: string,
-	spin?: 'slow' | 'normal' | 'fast', // if other is needed, use directly the spin() scss animation
-	pulse?: number, // Up to ten
-	rotate?: number // In degrees
-	flip?: 'vertical' | 'horizontal' | 'both'
+	className?: string;
+	color?: string;
+	flip?: 'vertical' | 'horizontal' | 'both';
+	onClick?: () => void;
+	pulse?: number; // Up to ten
+	rotate?: number; // In degrees
+	secondaryColor?: string;
+	spin?: 'slow' | 'normal' | 'fast'; // if other is needed, use directly the spin() scss animation
 };
 
 type ComponentProps = CommonProps & IconProps;
@@ -63,7 +88,7 @@ const Icon: React.FC<ComponentProps> = props => {
 	}, [family]);
 
 	const iconClasses = React.useMemo(() => {
-		let classes = [iconFamilyClass, iconFile];
+		const classes = [iconFamilyClass, iconFile];
 		if (type === 'color') classes.push('keep-color');
 		if (className) classes.push(className);
 		if (spin) {
@@ -89,20 +114,30 @@ const Icon: React.FC<ComponentProps> = props => {
 		}
 	}, [svgRef, color, secondaryColor, rotate]);
 
-	return <SVG
-		className={`react-icon ${iconClasses}`}
-		src={`icons/${iconFile}.svg`}
-		innerRef={svgRef}
-		onLoad={onLoadSvg}
-		onClick={onClick}
-		cacheRequests
-		loader={<svg className={`react-icon ${iconClasses}`}></svg>}
-	/>;
+	return (
+		<SVG
+			className={`react-icon ${iconClasses}`}
+			src={`icons/${iconFile}.svg`}
+			innerRef={svgRef}
+			onLoad={onLoadSvg}
+			onClick={onClick}
+			cacheRequests
+			loader={<svg className={`react-icon ${iconClasses}`} />}
+		/>
+	);
 };
 
-export const NucleoIcon: React.FC<CommonProps & Omit<NucleoIconProps, 'family'>> = React.memo(props => <Icon family='nucleo' {...props} />);
-export const FontAwesomeIcon: React.FC<CommonProps & Omit<FontAwesomeIconProps, 'family'>> = React.memo(props => <Icon family='font-awesome' {...props} />);
-export const SymbolicIcon: React.FC<CommonProps & Omit<SymbolicIconProps, 'family'>> = React.memo(props => <Icon family='symbolicon' {...props} />);
-export const MaterialUIIcon: React.FC<CommonProps & Omit<MaterialUIIconProps, 'family'>> = React.memo(props => <Icon family='material-ui' {...props} />);
+export const NucleoIcon: React.FC<CommonProps & Omit<NucleoIconProps, 'family'>> = React.memo(props => (
+	<Icon family="nucleo" {...props} />
+));
+export const FontAwesomeIcon: React.FC<CommonProps & Omit<FontAwesomeIconProps, 'family'>> = React.memo(props => (
+	<Icon family="font-awesome" {...props} />
+));
+export const SymbolicIcon: React.FC<CommonProps & Omit<SymbolicIconProps, 'family'>> = React.memo(props => (
+	<Icon family="symbolicon" {...props} />
+));
+export const MaterialUIIcon: React.FC<CommonProps & Omit<MaterialUIIconProps, 'family'>> = React.memo(props => (
+	<Icon family="material-ui" {...props} />
+));
 
 export default React.memo(Icon);

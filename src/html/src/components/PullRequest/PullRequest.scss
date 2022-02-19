@@ -1,80 +1,80 @@
-@import "../../scss/partials/header";
+@import '../../scss/partials/header';
 
 #githubExtensionPullRequest {
-    flex-grow: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    @include githubExtensionHeader();
+	flex-grow: 1;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	@include githubExtensionHeader();
 
-    #githubExtensionPullRequestHeader {
-        height: 95px;
-    }
+	#githubExtensionPullRequestHeader {
+		height: 95px;
+	}
 
-    .github-extension-pull-request-info {
-        display: flex;
-        justify-content: space-evenly;
-        padding: 10px;
-        > div {
-            display: flex;
-            align-items: center;
-            transition: transform ease-in 0.1s;
-            cursor: pointer;
+	.github-extension-pull-request-info {
+		display: flex;
+		justify-content: space-evenly;
+		padding: 10px;
+		> div {
+			display: flex;
+			align-items: center;
+			transition: transform ease-in 0.1s;
+			cursor: pointer;
 
-            &:hover {
-                transform: scale(1.2);
-            }
+			&:hover {
+				transform: scale(1.2);
+			}
 
-            > svg {
-                width: 14px;
-                height: 14px;
-                margin-right: 3px;
-            }
-            > span {
-                font-size: 11px;
-                line-height: 15px;
-                &.text-small {
-                    font-size: 9px;
-                }
-            }
+			> svg {
+				width: 14px;
+				height: 14px;
+				margin-right: 3px;
+			}
+			> span {
+				font-size: 11px;
+				line-height: 15px;
+				&.text-small {
+					font-size: 9px;
+				}
+			}
 
-            &.info-additions {
-                svg {
-                    color: green;
-                    width: 6px;
-                }
-            }
-            &.info-deletions {
-                svg {
-                    color: red;
-                    width: 6px;
-                }
-            }
-        }
-    }
+			&.info-additions {
+				svg {
+					color: green;
+					width: 6px;
+				}
+			}
+			&.info-deletions {
+				svg {
+					color: red;
+					width: 6px;
+				}
+			}
+		}
+	}
 
-    .github-extension-pull-request-labels {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 5px;
-        padding-top: 0;
-    }
+	.github-extension-pull-request-labels {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding: 5px;
+		padding-top: 0;
+	}
 
-    .github-extension-pull-request-reviews {
-        display: flex;
-        align-items: center;
-        padding: 7px;
-    }
+	.github-extension-pull-request-reviews {
+		display: flex;
+		align-items: center;
+		padding: 7px;
+	}
 
-    .github-extension-pull-request-actions {
-        display: flex;
-        justify-content: center;
-        padding: 7px;
-        padding-top: 0;
-        .placeholder {
-            margin-top: -5px;
-            margin-bottom: -5px;
-        }
-    }
+	.github-extension-pull-request-actions {
+		display: flex;
+		justify-content: center;
+		padding: 7px;
+		padding-top: 0;
+		.placeholder {
+			margin-top: -5px;
+			margin-bottom: -5px;
+		}
+	}
 }

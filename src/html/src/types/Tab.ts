@@ -1,1 +1,1 @@
-export type TabData = { id: number, url: string };
+export type TabData = { id: number; url: string };

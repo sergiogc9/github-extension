@@ -8,10 +8,14 @@ export const useTimeout = () => {
 		if (timeoutId.current) clearTimeout(timeoutId.current);
 	}, []);
 
-	const run = React.useCallback((callback: Function, delay: number) => {
-		clear();
-		timeoutId.current = setTimeout(callback, delay);
-	}, [clear]);
+	const run = React.useCallback(
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		(callback: Function, delay: number) => {
+			clear();
+			timeoutId.current = setTimeout(callback, delay);
+		},
+		[clear]
+	);
 
 	return { run, clear };
 };

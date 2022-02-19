@@ -1,0 +1,7 @@
+{
+	"extends": ["@sergiogc9/eslint-config"],
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"root": true
+}

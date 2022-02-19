@@ -1,37 +1,37 @@
-@import "../../../../scss/globals";
+@import '../../../../scss/globals';
 
 #githubExtensionPopupHeader {
-    width: 100%;
-    height: 50px;
-    background: $popupHeaderColor;
-    color: $textColorWhite;
-    display: flex;
-    align-items: center;
-    padding: 0 14px;
-    flex-shrink: 0;
+	width: 100%;
+	height: 50px;
+	background: $popupHeaderColor;
+	color: $textColorWhite;
+	display: flex;
+	align-items: center;
+	padding: 0 14px;
+	flex-shrink: 0;
 
-    > svg {
-        width: 26px;
-        height: 26px;
-        margin-right: 14px;
-        color: $textColorWhite;
-    }
+	> svg {
+		width: 26px;
+		height: 26px;
+		margin-right: 14px;
+		color: $textColorWhite;
+	}
 
-    > span {
-        font-size: 16px;
-    }
+	> span {
+		font-size: 16px;
+	}
 
-    .header-options {
-        margin-left: auto;
+	.header-options {
+		margin-left: auto;
 
-        > span {
-            cursor: pointer;
-            font-weight: bolder;
-            font-size: 14px;
-            color: $textColorWhite;
-            &:hover {
-                color: white;
-            }
-        }
-    }
+		> span {
+			cursor: pointer;
+			font-weight: bolder;
+			font-size: 14px;
+			color: $textColorWhite;
+			&:hover {
+				color: white;
+			}
+		}
+	}
 }

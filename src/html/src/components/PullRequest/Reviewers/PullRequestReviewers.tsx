@@ -17,14 +17,14 @@ const PullRequestReviewers: React.FC<ComponentProps> = props => {
 
 		return values(reviews).map(review => {
 			let icon;
-			if (review.state === 'APPROVED') icon = <MaterialUIIcon name='check' />;
-			else if (review.state === 'CHANGES_REQUESTED') icon = <FontAwesomeIcon name='times' type='light' />;
-			else if (review.state === 'COMMENTED') icon = <NucleoIcon name='a-chat' type='solid' />;
-			else icon = <div className='pending-circle'></div>;
+			if (review.state === 'APPROVED') icon = <MaterialUIIcon name="check" />;
+			else if (review.state === 'CHANGES_REQUESTED') icon = <FontAwesomeIcon name="times" type="light" />;
+			else if (review.state === 'COMMENTED') icon = <NucleoIcon name="a-chat" type="solid" />;
+			else icon = <div className="pending-circle" />;
 
 			return (
-				<div className='pull-request-reviewer' key={review.user}>
-					<img src={review.userImgUrl + "&s=20"} alt='' />
+				<div className="pull-request-reviewer" key={review.user}>
+					<img src={`${review.userImgUrl}&s=20`} alt="" />
 					<span>{review.user}</span>
 					{icon}
 				</div>
@@ -32,11 +32,7 @@ const PullRequestReviewers: React.FC<ComponentProps> = props => {
 		});
 	}, [reviews]);
 
-	return (
-		<div id="githubExtensionPullRequestReviewers">
-			{content}
-		</div>
-	);
+	return <div id="githubExtensionPullRequestReviewers">{content}</div>;
 };
 
 export default React.memo(PullRequestReviewers);

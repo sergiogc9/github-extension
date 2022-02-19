@@ -2,9 +2,9 @@ import React from 'react';
 import { getIconForFolder, getIconForOpenFolder } from 'vscode-material-icon-theme-js';
 
 type ComponentProps = {
-	name: string
-	opened: boolean
-}
+	name: string;
+	opened: boolean;
+};
 
 const FolderIcon: React.FC<ComponentProps> = props => {
 	const { name, opened } = props;

@@ -6,8 +6,8 @@ Improve your experience in Github using this extension. It adds a sidebar in cod
 
 - [Table of contents](#table-of-contents)
 - [Features](#features)
-    - [Sidebar](#sidebar)
-    - [Popup](#popup)
+  - [Sidebar](#sidebar)
+  - [Popup](#popup)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Credits](#credits)
@@ -21,7 +21,6 @@ Improve your experience in Github using this extension. It adds a sidebar in cod
   <img src="snapshots/pull-request-merged.png">
   <img src="snapshots/popup.png">
 </details>
-
 
 This extensions adds a **sidebar** at left of the page in every Github page focused on showing the repository tree with a nice search and filter.
 

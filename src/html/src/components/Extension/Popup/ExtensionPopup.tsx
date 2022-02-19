@@ -3,16 +3,17 @@ import React from 'react';
 import Storage from 'lib/Storage';
 import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { ExtensionStatus } from 'types/Extension';
+
 import ExtensionPopupHeader from './Header/ExtensionPopupHeader';
 import ExtensionPopupPullRequests from './PullRequests/ExtensionPopupPullRequests';
-import { ExtensionStatus } from 'types/Extension';
 
 import './ExtensionPopup.scss';
 
 type Route = 'pullRequests';
 
-const ExtensionPopup: React.FC = props => {
-	const [route, setRoute] = React.useState<Route>('pullRequests');
+const ExtensionPopup: React.FC = () => {
+	const [route] = React.useState<Route>('pullRequests');
 	const [status, setStatus] = React.useState<ExtensionStatus>('stop');
 
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
@@ -27,10 +28,14 @@ const ExtensionPopup: React.FC = props => {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	React.useEffect(() => {
-		const checkStatus = async (status: ExtensionStatus) => {
-			if (status === 'error') {
+		const checkStatus = async (currentStatus: ExtensionStatus) => {
+			if (currentStatus === 'error') {
 				if (!(await Storage.get('github_token')))
-					alertHandlers.addNotification({ type: 'error', message: 'Github token not available! Please enter a valid token in settings page available in the sidebar.' });
+					alertHandlers.addNotification({
+						type: 'error',
+						message: 'Github token not available! Please enter a valid token in settings page available in the sidebar.'
+					});
+				// eslint-disable-next-line no-alert
 				else alert('Some error ocurred, please try again later or reinstall the extension.');
 			}
 		};

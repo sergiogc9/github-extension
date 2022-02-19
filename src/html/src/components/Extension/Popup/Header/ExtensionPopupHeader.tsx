@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 import './ExtensionPopupHeader.scss';
 
 type ComponentProps = {
-	status: ExtensionStatus
-}
+	status: ExtensionStatus;
+};
 
 const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 	const { status } = props;
@@ -27,22 +27,19 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 
 	const content = React.useMemo(() => {
 		if (status === 'starting' || !user) return 'Loading...';
-		if (status === 'synced') return (
-			<>
-				<FontAwesomeIcon name='github' type='brand' />
-				<span>{user.login}</span>
-				<div className='header-options'>
-					<span>Pull requests</span>
-				</div>
-			</>
-		);
+		if (status === 'synced')
+			return (
+				<>
+					<FontAwesomeIcon name="github" type="brand" />
+					<span>{user.login}</span>
+					<div className="header-options">
+						<span>Pull requests</span>
+					</div>
+				</>
+			);
 	}, [status, user]);
 
-	return (
-		<div id="githubExtensionPopupHeader">
-			{content}
-		</div>
-	);
+	return <div id="githubExtensionPopupHeader">{content}</div>;
 };
 
 export default React.memo(ExtensionPopupHeader);
