@@ -118,7 +118,6 @@ const Icon: React.FC<ComponentProps> = props => {
 		<SVG
 			className={`react-icon ${iconClasses}`}
 			src={`icons/${iconFile}.svg`}
-			innerRef={svgRef}
 			onLoad={onLoadSvg}
 			onClick={onClick}
 			cacheRequests
