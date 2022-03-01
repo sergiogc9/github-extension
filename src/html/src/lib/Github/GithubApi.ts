@@ -146,7 +146,7 @@ const getArrayOfNumbers = (start: number, length: number) =>
 const getPaginationData = (apiResponse: any) => {
 	const { link } = apiResponse.headers;
 	if (!link) return { page: 1, total: 1 };
-	const [_, nextPage, totalPages] = link.match(/&page=(\d)>.*&page=(\d)/);
+	const [, nextPage, totalPages] = link.match(/&page=(\d)>.*&page=(\d)/);
 	return { page: parseInt(nextPage, 10) - 1, total: parseInt(totalPages, 10) };
 };
 

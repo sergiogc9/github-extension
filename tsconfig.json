@@ -14,5 +14,5 @@
 		"skipLibCheck": true,
 		"target": "es6"
 	},
-	"include": ["src/background", "src/contentscript", "src/html/src/**/*"]
+	"include": ["src/background", "src/contentscript", "src/html/src/**/*", "./webpack.config.js"]
 }

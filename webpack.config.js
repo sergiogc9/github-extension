@@ -2,7 +2,8 @@ const { CheckerPlugin, TsConfigPathsPlugin } = require('awesome-typescript-loade
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { optimize } = require('webpack');
 const { join } = require('path');
-let prodPlugins = [];
+
+const prodPlugins = [];
 
 if (process.env.NODE_ENV === 'production') {
 	prodPlugins.push(new optimize.AggressiveMergingPlugin(), new optimize.OccurrenceOrderPlugin());
