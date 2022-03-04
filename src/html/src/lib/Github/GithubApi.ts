@@ -12,6 +12,7 @@ import find from 'lodash/find';
 import Storage from 'lib/Storage';
 import { GithubPullRequest, GithubReviews, GithubReview, GithubChecks } from 'types/Github';
 
+import Log from 'lib/Log';
 import { PullRequestTree, CodeTree, GithubTree } from './GithubTree';
 
 const MyOctokit = Octokit.plugin(retry, throttling);
@@ -24,7 +25,7 @@ const __defaultRepoBranchesCache: Record<string, 'fetching' | string[]> = {};
 const getOctokit = async () => {
 	const token = await Storage.get('github_token');
 	if (!token) {
-		console.error('Github token not available!');
+		Log.error('Github token not available!');
 		throw new Error('Github token not available! Please enter a valid token in settings page.');
 	}
 	if (!myOctokit || myOctokit.auth !== token) {
@@ -32,16 +33,16 @@ const getOctokit = async () => {
 			auth: token,
 			throttle: {
 				onRateLimit: (retryAfter: number, options: any) => {
-					console.warn(`Request quota exhausted for request ${options.method} ${options.url}`);
+					Log.warn(`Request quota exhausted for request ${options.method} ${options.url}`);
 					if (options.request.retryCount === 0) {
 						// only retries once
-						console.log(`Retrying after ${retryAfter} seconds!`);
+						Log.info(`Retrying after ${retryAfter} seconds!`);
 						return true;
 					}
 				},
 				onAbuseLimit: (retryAfter: number, options: any) => {
 					// does not retry, only logs a warning
-					console.warn(`Abuse detected for request ${options.method} ${options.url}`);
+					Log.warn(`Abuse detected for request ${options.method} ${options.url}`);
 				}
 			}
 		});
@@ -50,8 +51,8 @@ const getOctokit = async () => {
 };
 
 const onApiError = (error: any) => {
-	console.error('Github Api Error');
-	console.error(error);
+	Log.error('Github Api Error');
+	Log.error(error);
 	if (error.status === 401) {
 		Storage.remove('github_token');
 		window.location.reload();
