@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import find from 'lodash/find';
+import { Toasts } from '@sergiogc9/react-ui';
 
 import Storage from 'lib/Storage';
 import GithubApi from 'lib/Github/GithubApi';
@@ -20,7 +21,6 @@ import { StorageContext, StorageHandlerContext, StorageData, StorageHandlers } f
 import { MessageHandlersContext, MessageHandlers } from './Context/MessageContext';
 import ExtensionSidebar from './Sidebar/ExtensionSidebar';
 import ExtensionPopup from './Popup/ExtensionPopup';
-import ExtensionAlert from './Alert/ExtensionAlert';
 
 const getStorageData = async (): Promise<StorageData> => ({
 	token: await Storage.get('github_token'),
@@ -188,10 +188,10 @@ const BrowserExtension = () => {
 				<PageHandlerContext.Provider value={pageHandlers}>
 					<StorageContext.Provider value={storageData}>
 						<StorageHandlerContext.Provider value={storageHandlers}>
-							<ExtensionAlert>
+							<Toasts placement="top">
 								{finalPageData && storageData && !isPopup && <ExtensionSidebar />}
 								{storageData && isPopup && <ExtensionPopup />}
-							</ExtensionAlert>
+							</Toasts>
 						</StorageHandlerContext.Provider>
 					</StorageContext.Provider>
 				</PageHandlerContext.Provider>

@@ -1,7 +1,7 @@
 import React from 'react';
+import { useToasts } from '@sergiogc9/react-ui';
 
 import Storage from 'lib/Storage';
-import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
 
@@ -17,7 +17,8 @@ const ExtensionPopup: React.FC = () => {
 	const [status, setStatus] = React.useState<ExtensionStatus>('stop');
 
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
-	const alertHandlers = React.useContext(AlertContext)!;
+
+	const { addToast } = useToasts();
 
 	React.useEffect(() => {
 		messageHandlers.sendBackgroundMessage({ type: 'get_status' });
@@ -30,11 +31,14 @@ const ExtensionPopup: React.FC = () => {
 	React.useEffect(() => {
 		const checkStatus = async (currentStatus: ExtensionStatus) => {
 			if (currentStatus === 'error') {
-				if (!(await Storage.get('github_token')))
-					alertHandlers.addNotification({
-						type: 'error',
-						message: 'Github token not available! Please enter a valid token in settings page available in the sidebar.'
+				if (!(await Storage.get('github_token'))) {
+					addToast({
+						key: 'github_token_not_available',
+						message:
+							'Github token not available! Please enter a valid token in settings page available in the sidebar.',
+						status: 'error'
 					});
+				}
 				// eslint-disable-next-line no-alert
 				else alert('Some error ocurred, please try again later or reinstall the extension.');
 			}

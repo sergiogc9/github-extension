@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@duik/text-field';
 
-import { useWaitInput } from 'lib/hooks/input';
+import { useWaitInput } from 'lib/hooks/useWaitInput';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import { StorageContext } from 'components/Extension/Context/StorageContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';

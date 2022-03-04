@@ -2,14 +2,14 @@ import React from 'react';
 import { useAsync } from 'react-async';
 import keys from 'lodash/keys';
 
-import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
-import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import { StorageContext } from 'components/Extension/Context/StorageContext';
 import PullRequestFolder from 'components/PullRequest/Folder/PullRequestFolder';
 import PullRequestFile from 'components/PullRequest/File/PullRequestFile';
 import { TreePlaceHolder } from 'components/common/Placeholder';
+import GithubApi from 'lib/Github/GithubApi';
+import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 
 import './PullRequestTree.scss';
 
@@ -17,12 +17,13 @@ const PullRequestTree: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
 	const storageData = React.useContext(StorageContext)!;
 	const searchValue = React.useContext(SearchContext);
-	const alertHandlers = React.useContext(AlertContext)!;
+
+	const { onGithubApiError } = useOnGithubApiError();
 
 	const { data: prTree, isLoading } = useAsync({
 		promiseFn: GithubApi.getPullRequestFiles,
 		data: pageData.data,
-		onReject: alertHandlers.onGithubApiError
+		onReject: onGithubApiError
 	});
 
 	const treeData = React.useMemo(() => {

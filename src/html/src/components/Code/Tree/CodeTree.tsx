@@ -4,13 +4,13 @@ import keys from 'lodash/keys';
 import isEmpty from 'lodash/isEmpty';
 
 import { PageContext } from 'components/Extension/Context/PageContext';
-import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import { StorageContext } from 'components/Extension/Context/StorageContext';
 import CodeTreeFolder from 'components/Code/Folder/CodeTreeFolder';
 import CodeTreeFile from 'components/Code/File/CodeTreeFile';
 import { TreePlaceHolder } from 'components/common/Placeholder';
 import GithubApi from 'lib/Github/GithubApi';
+import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 import { CodeTree as CodeTreeType } from 'lib/Github/GithubTree';
 
 import './CodeTree.scss';
@@ -19,12 +19,13 @@ const CodeTree: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
 	const storageData = React.useContext(StorageContext)!;
 	const searchValue = React.useContext(SearchContext);
-	const alertHandlers = React.useContext(AlertContext)!;
+
+	const { onGithubApiError } = useOnGithubApiError();
 
 	const { data: codeTree, isLoading } = useAsync({
 		promiseFn: GithubApi.getCodeTree,
 		data: pageData.data,
-		onReject: alertHandlers.onGithubApiError
+		onReject: onGithubApiError
 	});
 
 	const [treeData, setTreeData] = React.useState<CodeTreeType | null>(null);
