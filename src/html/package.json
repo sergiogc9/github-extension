@@ -7,7 +7,8 @@
 		"analyze": "source-map-explorer 'build/static/js/*.js'",
 		"build": "INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false react-scripts build",
 		"eject": "react-scripts eject",
-		"start": "react-scripts start"
+		"start": "react-scripts start",
+		"watch:build": "node ./scripts/cra-build-watch/bin/cra-build-watch.js -v --build-path ../../dist/html"
 	},
 	"devDependencies": {
 		"@sergiogc9/eslint-config": "1.0.7",

@@ -21,7 +21,7 @@
 		"prewatch": "npm run clean",
 		"typescript:check": "tsc --noEmit",
 		"watch:background": "NODE_ENV=development webpack --config webpack.config.js -w",
-		"watch:html": "watch 'yarn build:html' ./src/html/src",
+		"watch:html": "npm run watch:build --prefix src/html",
 		"watch": "npm-run-all --parallel watch:*",
 		"zip": "bestzip extension.zip dist/*"
 	},
@@ -34,6 +34,7 @@
 		"babel-eslint": "10.1.0",
 		"bestzip": "2.2.0",
 		"cpy-cli": "3.1.1",
+		"cra-build-watch": "3.4.0",
 		"css-loader": "3.5.3",
 		"eslint": "8.9.0",
 		"eslint-plugin-eslint-comments": "3.2.0",
