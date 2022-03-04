@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import find from 'lodash/find';
 
@@ -21,8 +21,6 @@ import { MessageHandlersContext, MessageHandlers } from './Context/MessageContex
 import ExtensionSidebar from './Sidebar/ExtensionSidebar';
 import ExtensionPopup from './Popup/ExtensionPopup';
 import ExtensionAlert from './Alert/ExtensionAlert';
-
-type ComponentProps = RouteComponentProps;
 
 const getStorageData = async (): Promise<StorageData> => ({
 	token: await Storage.get('github_token'),
@@ -49,8 +47,8 @@ const getCorrectRepoBranch = async (pageData: PageData) => {
 	}
 };
 
-const BrowserExtension: React.FC<ComponentProps> = props => {
-	const { location } = props;
+const BrowserExtension = () => {
+	const location = useLocation();
 
 	const [pageData, setPageData] = React.useState<PageData | null>(null);
 	const [finalPageData, setFinalPageData] = React.useState<PageData | null>(null);
@@ -202,4 +200,4 @@ const BrowserExtension: React.FC<ComponentProps> = props => {
 	);
 };
 
-export default React.memo(withRouter(BrowserExtension));
+export default React.memo(BrowserExtension);
