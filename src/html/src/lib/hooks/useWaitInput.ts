@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useTimeout } from './common';
+import { useTimeout } from './useTimeout';
 
 // Hook to handle inputs changes waiting some time to get a final value (useful to not fetch at each input change)
 export const useWaitInput = (ms: number) => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useToasts } from '@sergiogc9/react-ui';
 import {
 	Alert,
 	ScrollArea,
@@ -12,7 +13,6 @@ import {
 	Checkbox
 } from '@duik/it';
 
-import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { StorageContext, StorageHandlerContext } from 'components/Extension/Context/StorageContext';
 import { FontAwesomeIcon } from 'components/common/Icon/Icon';
@@ -21,9 +21,10 @@ import './ExtensionSettings.scss';
 
 const ExtensionSettings: React.FC = () => {
 	const storageData = React.useContext(StorageContext)!;
-	const alertHandlers = React.useContext(AlertContext)!;
 	const storageHandlers = React.useContext(StorageHandlerContext)!;
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
+
+	const { addToast } = useToasts();
 
 	return (
 		<div id="githubExtensionAppSettings">
@@ -95,12 +96,9 @@ const ExtensionSettings: React.FC = () => {
 					<WidgetContent className="save-btn">
 						<Button
 							primary
-							onClick={() =>
-								alertHandlers.addNotification({
-									type: 'success',
-									message: 'Settings saved.'
-								})
-							}
+							onClick={() => {
+								addToast({ key: 'settings-saved', message: 'Settings saved', status: 'success' });
+							}}
 						>
 							Apply settings
 						</Button>

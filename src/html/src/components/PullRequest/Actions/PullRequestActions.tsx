@@ -9,9 +9,9 @@ import HashLoader from 'react-spinners/HashLoader';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
-import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { MaterialUIIcon, SymbolicIcon, FontAwesomeIcon } from 'components/common/Icon/Icon';
+import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 import { GithubPullRequest } from 'types/Github';
 
 import './PullRequestActions.scss';
@@ -27,7 +27,8 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 
 	const pageData = React.useContext(PageContext)!;
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
-	const alertHandlers = React.useContext(AlertContext)!;
+
+	const { onGithubApiError } = useOnGithubApiError();
 
 	const {
 		run: runAction,
@@ -35,7 +36,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 		isLoading: prActionEventLoading
 	} = useAsync({
 		deferFn: GithubApi.submitPullRequestReview,
-		onReject: alertHandlers.onGithubApiError
+		onReject: onGithubApiError
 	});
 	const {
 		run: runMerge,
@@ -43,7 +44,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 		isLoading: prActionMergeLoading
 	} = useAsync({
 		deferFn: GithubApi.mergePullRequest,
-		onReject: alertHandlers.onGithubApiError
+		onReject: onGithubApiError
 	});
 
 	React.useEffect(() => {

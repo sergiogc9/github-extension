@@ -5,7 +5,6 @@ import numeral from 'numeral';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
-import { AlertContext } from 'components/Extension/Context/AlertContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import {
 	HeaderBranchPlaceholder,
@@ -15,6 +14,7 @@ import {
 } from 'components/common/Placeholder';
 import { FontAwesomeIcon, SymbolicIcon } from 'components/common/Icon/Icon';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
+import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 
 import PullRequestTree from './Tree/PullRequestTree';
 import PullRequestChecks from './Checks/PullRequestChecks';
@@ -25,13 +25,14 @@ import './PullRequest.scss';
 
 const PullRequest: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
-	const alertHandlers = React.useContext(AlertContext)!;
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
+
+	const { onGithubApiError } = useOnGithubApiError();
 
 	const { data: pullRequest, isLoading } = useAsync({
 		promiseFn: GithubApi.getPullRequestInfo,
 		data: pageData.data,
-		onReject: alertHandlers.onGithubApiError
+		onReject: onGithubApiError
 	});
 
 	React.useEffect(() => {
