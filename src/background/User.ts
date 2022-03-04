@@ -1,4 +1,5 @@
 import GithubApi from '@html/lib/Github/GithubApi';
+import Log from '@html/lib/Log';
 
 import { Message } from 'types/Message';
 
@@ -16,7 +17,7 @@ class User {
 			this.__attributes = await GithubApi.getUserData();
 			this.__sendUser();
 		} catch (e) {
-			console.error(e);
+			Log.error(e);
 		}
 	};
 

@@ -1,3 +1,4 @@
+import Log from '@html/lib/Log';
 import { Message, MessageHandler as MessageHandlerType } from '@html/types/Message';
 
 class MessageHandler {
@@ -12,19 +13,19 @@ class MessageHandler {
 	};
 
 	public sendMessage = (tabId, message: Message) => {
-		console.log(`Sending message to tabId ${tabId}:`, message);
+		Log.info(`Sending message to tabId ${tabId}:`, message);
 		chrome.tabs.sendMessage(tabId, message);
 	};
 
 	public sendMessageToAll = (message: Message) => {
-		console.log('Sending message to all:', message);
+		Log.info('Sending message to all:', message);
 		chrome.tabs.query({}, tabs => tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, message)));
 		chrome.runtime.sendMessage(message);
 	};
 
 	private __initMessageHandlers = () => {
 		chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-			console.log('Message received: ', message);
+			Log.info('Message received: ', message);
 			// eslint-disable-next-line no-restricted-syntax
 			for (const listener of this.__listeners) listener(message, sender, sendResponse);
 		});
