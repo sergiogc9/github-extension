@@ -2454,18 +2454,20 @@
   dependencies:
     screenfull "5.1.0"
 
-"@sergiogc9/react-ui-theme@0.2.0", "@sergiogc9/react-ui-theme@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.2.0.tgz#48e74335509164bf293a1234002326bfadb3c7d5"
-  integrity sha512-n9ZuF4j5IqgbXf9FEmqGlJjlpNdcFmpFcRyVw4HXNkdsq/STZQFBKezgoMeUbsqA/bo8mOncNZ2cDGnHKUStGQ==
+"@sergiogc9/react-ui-theme@0.3.0", "@sergiogc9/react-ui-theme@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.3.0.tgz#6bb56e71930e4198b5d2f5f9fc1042e27248b9d9"
+  integrity sha512-GOGtyH+NLsLr/z5OwhbrdaL1S3ewWpRue5JpXITtY+t6LuUV2jHcfCMCevFusxIoHFR/deoQL6l4gXWyzgpfsg==
+  dependencies:
+    lodash "4.17.20"
 
-"@sergiogc9/react-ui@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.2.0.tgz#5bd97d6331ed42465c9669ab3fd8a558257005fe"
-  integrity sha512-qRyB5CuLJxRvSRDqYis+Oua3STrUstaEuaxVOwNN7MUq0FTvMbOW3OABQB29mwuqMYDI3k2AOw9mZ6AtmO/IFA==
+"@sergiogc9/react-ui@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.3.0.tgz#aa66834caf94110f2e33d5181b7106c1ef2c2ba5"
+  integrity sha512-mwEUv6T7AruG55PBP1685b1U+bM7GJDlQSVNSUd8Mk4VTJ71Z4cOAmuZV+LYD7c1wuL/mYlqfCGES+6EOsut9g==
   dependencies:
     "@sergiogc9/react-hooks" "0.2.1"
-    "@sergiogc9/react-ui-theme" "^0.2.0"
+    "@sergiogc9/react-ui-theme" "^0.3.0"
     "@sergiogc9/react-utils" "0.0.6"
     "@styled-system/css" "5.1.5"
     "@styled-system/should-forward-prop" "5.1.5"
@@ -3127,6 +3129,20 @@
   dependencies:
     "@types/hoist-non-react-statics" "*"
     "@types/react" "*"
+    csstype "^3.0.2"
+
+"@types/styled-system@5.1.15":
+  version "5.1.15"
+  resolved "https://registry.yarnpkg.com/@types/styled-system/-/styled-system-5.1.15.tgz#075f969cc028a895dba916c07708e2fe828d7077"
+  integrity sha512-1uls4wipZn8FtYFZ7upRVFDoEeOXTQTs2zuyOZPn02T6rjIxtvj2P2lG5qsxXHhKuKsu3thveCZrtaeLE/ibLg==
+  dependencies:
+    csstype "^3.0.2"
+
+"@types/styled-system__css@5.0.16":
+  version "5.0.16"
+  resolved "https://registry.yarnpkg.com/@types/styled-system__css/-/styled-system__css-5.0.16.tgz#cae75cef03dfa1020703e842a8b1c14d8f9a8f33"
+  integrity sha512-Cji5miCIpR27m8yzH6y3cLU6106N4GVyPgUhBQ4nL7VxgoeAtRdAriKdGTnRgJzSpT3HyB7h5G//cDWOl0M1jQ==
+  dependencies:
     csstype "^3.0.2"
 
 "@types/styled-system__should-forward-prop@5.1.2":

@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTheme } from 'styled-components';
 import moment from 'moment';
 import orderBy from 'lodash/orderBy';
 import HashLoader from 'react-spinners/HashLoader';
-import Fade from '@material-ui/core/Fade';
+import { Box, Content, Status } from '@sergiogc9/react-ui';
+import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { getRepositoryUrl, getPullRequestUrl, getUserUrl } from 'lib/Github/GithubUrl';
 import { SymbolicIcon, FontAwesomeIcon, MaterialUIIcon } from 'components/common/Icon/Icon';
@@ -11,7 +13,15 @@ import { MessageHandlersContext } from 'components/Extension/Context/MessageCont
 import { PageHandlerContext } from 'components/Extension/Context/PageContext';
 import { GithubPullRequest, GithubPullRequestChanges } from 'types/Github';
 
-import './ExtensionPopupPullRequests.scss';
+import {
+	StyledExtensionPopupPullRequests,
+	StyledHoveredContent,
+	StyledLoader,
+	StyledPullRequest,
+	StyledPullRequestChange,
+	StyledPullRequestChangeText,
+	StyledPullRequestStatusContentWrapper
+} from './styled';
 
 const __getPullRequestChangeKey = (pr: GithubPullRequest) => `${pr.owner}-${pr.repository}-${pr.number}`;
 
@@ -22,6 +32,8 @@ const ExtensionPopupPullRequests: React.FC = () => {
 
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
 	const pageHandlers = React.useContext(PageHandlerContext)!;
+
+	const theme = useTheme();
 
 	React.useEffect(() => {
 		messageHandlers.sendBackgroundMessage({ type: 'get_pull_requests' });
@@ -40,11 +52,9 @@ const ExtensionPopupPullRequests: React.FC = () => {
 
 	const loaderContent = React.useMemo(
 		() => (
-			<Fade in={loadingPullRequests}>
-				<div className="pull-request-loader" title="Updating pull requests">
-					<HashLoader size={16} color="#fff" />
-				</div>
-			</Fade>
+			<StyledLoader duration="0.25s" isVisible={loadingPullRequests} title="Updating pull requests">
+				<HashLoader size={16} color="#fff" />
+			</StyledLoader>
 		),
 		[loadingPullRequests]
 	);
@@ -53,41 +63,49 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		(pullRequest: GithubPullRequest) => {
 			const prChanges = pullRequestsChanges && pullRequestsChanges[__getPullRequestChangeKey(pullRequest)];
 			return (
-				<div className="pr-changes-content">
+				<Box alignItems="center" flexShrink={0} ml="auto" mr={2}>
 					{prChanges && (
 						<>
 							{!!prChanges.commits && (
-								<div title="New commits">
+								<StyledPullRequestChange title="New commits">
 									<FontAwesomeIcon name="code-commit" type="duo" />
-									<span>{prChanges.commits}</span>
-								</div>
+									<StyledPullRequestChangeText>{prChanges.commits}</StyledPullRequestChangeText>
+								</StyledPullRequestChange>
 							)}
 							{!!prChanges.comments && (
-								<div title="New comments">
+								<StyledPullRequestChange title="New comments">
 									<SymbolicIcon name="chat-conversation-alt" type="solid" />
-									<span>{prChanges.comments}</span>
-								</div>
+									<StyledPullRequestChangeText>{prChanges.comments}</StyledPullRequestChangeText>
+								</StyledPullRequestChange>
 							)}
 							{!!prChanges.reviews && (
-								<div title="Reviews updated">
+								<StyledPullRequestChange title="Reviews updated">
 									<SymbolicIcon name="clipboard-check" type="solid" />
-									<span>{prChanges.reviews}</span>
-								</div>
+									<StyledPullRequestChangeText>{prChanges.reviews}</StyledPullRequestChangeText>
+								</StyledPullRequestChange>
 							)}
 						</>
 					)}
-				</div>
+				</Box>
 			);
 		},
 		[pullRequestsChanges]
 	);
 
 	const getPullRequestStatusContent = React.useCallback((pullRequest: GithubPullRequest) => {
-		if (!pullRequest.checks) return null;
+		let content: JSX.Element | null = null;
 
-		if (pullRequest.checks.failed > 0) return <FontAwesomeIcon name="times" type="light" />;
-		if (pullRequest.checks.pending > 0) return <div className="pending-circle" />;
-		return <MaterialUIIcon name="check" />;
+		if (pullRequest.checks) {
+			if (pullRequest.checks.failed > 0) content = <FontAwesomeIcon name="times" type="light" />;
+			else if (pullRequest.checks.pending > 0) content = <Status size={10} variant="yellow" />;
+			else content = <MaterialUIIcon name="check" />;
+		}
+
+		return (
+			<Box alignItems="center" size={16}>
+				{content}
+			</Box>
+		);
 	}, []);
 
 	const content = React.useMemo(
@@ -97,41 +115,57 @@ const ExtensionPopupPullRequests: React.FC = () => {
 				const prUrl = getPullRequestUrl(pr.owner, pr.repository, pr.number);
 				const userUrl = getUserUrl(pr.user.username);
 				return (
-					<div className="pull-request" key={pr.repository + pr.number}>
-						<SymbolicIcon name="pull-request" type="duo" color="green" />
-						<div className="pr-content">
-							<a href={repoUrl} onClick={() => pageHandlers.openNewTab(repoUrl)}>
-								{pr.owner}/{pr.repository}
-							</a>
-							<div className="title-content">
-								<a href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>
+					<StyledPullRequest key={pr.repository + pr.number}>
+						<Box flexShrink={0} marginX={2} width={15}>
+							<SymbolicIcon name="pull-request" type="duo" color="green" />
+						</Box>
+						<Box flexDirection="column" mr={5}>
+							<Box>
+								<StyledHoveredContent
+									aspectSize="xs"
+									color={getColorByMode(theme, { light: 'neutral.400', dark: 'neutral.300' })}
+									href={repoUrl}
+									onClick={() => pageHandlers.openNewTab(repoUrl)}
+								>
+									{pr.owner}/{pr.repository}
+								</StyledHoveredContent>
+							</Box>
+							<Box alignItems="center" flexWrap="wrap">
+								<StyledHoveredContent href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>
 									{pr.title}
-								</a>
-								{getPullRequestStatusContent(pr)}
+								</StyledHoveredContent>
+								<StyledPullRequestStatusContentWrapper>
+									{getPullRequestStatusContent(pr)}
+								</StyledPullRequestStatusContentWrapper>
 								{pr.labels.map(label => (
 									<GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />
 								))}
-							</div>
-							<div className="pr-content-info">
+							</Box>
+							<Content aspectSize="xs" color={getColorByMode(theme, { light: 'neutral.500', dark: 'neutral.400' })}>
 								#{pr.number} opened by{' '}
-								<a href={userUrl} onClick={() => pageHandlers.openNewTab(userUrl)}>
+								<StyledHoveredContent
+									aspectSize="xs"
+									color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.300' })}
+									href={userUrl}
+									onClick={() => pageHandlers.openNewTab(userUrl)}
+								>
 									{pr.user.username}
-								</a>{' '}
+								</StyledHoveredContent>{' '}
 								- Updated {moment(pr.updated_at).fromNow()}
-							</div>
-						</div>
+							</Content>
+						</Box>
 						{getPullRequestChangesContent(pr)}
-					</div>
+					</StyledPullRequest>
 				);
 			}),
-		[pullRequests, pageHandlers, getPullRequestStatusContent, getPullRequestChangesContent]
+		[getPullRequestChangesContent, getPullRequestStatusContent, pageHandlers, pullRequests, theme]
 	);
 
 	return (
-		<div id="githubExtensionPopupPullRequests">
+		<StyledExtensionPopupPullRequests id="githubExtensionPopupPullRequests">
 			{loaderContent}
 			{content}
-		</div>
+		</StyledExtensionPopupPullRequests>
 	);
 };
 

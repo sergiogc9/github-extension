@@ -8,7 +8,7 @@ import { ExtensionStatus } from 'types/Extension';
 import ExtensionPopupHeader from './Header/ExtensionPopupHeader';
 import ExtensionPopupPullRequests from './PullRequests/ExtensionPopupPullRequests';
 
-import './ExtensionPopup.scss';
+import { StyledExtensionPopup } from './styled';
 
 type Route = 'pullRequests';
 
@@ -53,10 +53,10 @@ const ExtensionPopup: React.FC = () => {
 	}, [status, route]);
 
 	return (
-		<div id="githubExtensionPopup">
+		<StyledExtensionPopup id="githubExtensionPopup">
 			<ExtensionPopupHeader status={status} />
 			{content}
-		</div>
+		</StyledExtensionPopup>
 	);
 };
 
