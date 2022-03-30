@@ -1,10 +1,10 @@
 import React from 'react';
+import { Content } from '@sergiogc9/react-ui';
 
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
-import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
-import './ExtensionPopupHeader.scss';
+import { StyledExtensionPopupHeader, StyledGithubIcon, StyledTabLink } from './styled';
 
 type ComponentProps = {
 	status: ExtensionStatus;
@@ -30,16 +30,16 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 		if (status === 'synced')
 			return (
 				<>
-					<FontAwesomeIcon name="github" type="brand" />
-					<span>{user.login}</span>
-					<div className="header-options">
-						<span>Pull requests</span>
-					</div>
+					<StyledGithubIcon name="github" type="brand" />
+					<Content color="neutral.0">{user.login}</Content>
+					<StyledTabLink color="neutral.0" ml="auto">
+						Pull requests
+					</StyledTabLink>
 				</>
 			);
 	}, [status, user]);
 
-	return <div id="githubExtensionPopupHeader">{content}</div>;
+	return <StyledExtensionPopupHeader>{content}</StyledExtensionPopupHeader>;
 };
 
 export default React.memo(ExtensionPopupHeader);
