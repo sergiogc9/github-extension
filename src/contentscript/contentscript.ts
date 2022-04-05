@@ -1,6 +1,6 @@
 import { Message } from '@html/types/Message';
 
-import './contentscript.scss';
+import './contentscript.css';
 
 const __hideSidebar = () => {
 	document.body.classList.remove('padding-left');
