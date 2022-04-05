@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Animation, Box, Content } from '@sergiogc9/react-ui';
+import { Animation, Content, Flex } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
-const StyledExtensionPopupPullRequests = styled(Box)``;
+const StyledExtensionPopupPullRequests = styled(Flex)``;
 
 StyledExtensionPopupPullRequests.defaultProps = {
 	bg: 'common.background',
@@ -27,7 +27,7 @@ StyledLoader.defaultProps = {
 	zIndex: 10
 };
 
-const StyledPullRequest = styled(Box)`
+const StyledPullRequest = styled(Flex)`
 	${props =>
 		css({
 			borderBottomColor: getColorByMode(props.theme, { light: 'neutral.100', dark: 'neutral.600' }),
@@ -46,7 +46,7 @@ StyledPullRequest.defaultProps = {
 	paddingY: '5px'
 };
 
-const StyledPullRequestStatusContentWrapper = styled(Box)`
+const StyledPullRequestStatusContentWrapper = styled(Flex)`
 	svg {
 		${css({
 			height: 16,
@@ -71,7 +71,7 @@ const StyledHoveredContent = styled(Content)`
 		})}
 `;
 
-const StyledPullRequestChange = styled(Box)`
+const StyledPullRequestChange = styled(Flex)`
 	& svg.react-icon {
 		width: 12px;
 		height: 12px;

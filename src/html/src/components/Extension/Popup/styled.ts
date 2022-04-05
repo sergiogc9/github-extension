@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Box } from '@sergiogc9/react-ui';
+import { Flex } from '@sergiogc9/react-ui';
 
-const StyledExtensionPopup = styled(Box)``;
+const StyledExtensionPopup = styled(Flex)``;
 
 StyledExtensionPopup.defaultProps = {
 	height: 400,
