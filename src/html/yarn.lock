@@ -1222,10 +1222,17 @@
     core-js-pure "^3.20.2"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.14.0", "@babel/runtime@^7.16.3", "@babel/runtime@^7.2.0", "@babel/runtime@^7.7.6", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.16.3", "@babel/runtime@^7.2.0", "@babel/runtime@^7.7.6":
   version "7.17.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.2.tgz#66f68591605e59da47523c631416b18508779941"
   integrity sha512-hzeyJyMA1YGdJTuWU0e/j4wKXrU4OMFvY2MSlaI9B7VQb0r5cxTE3EAIS2Q7Tn2RIcDkRvTA/v2JsAEhxe99uw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.14.0", "@babel/runtime@^7.9.2":
+  version "7.17.8"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.8.tgz#3e56e4aff81befa55ac3ac6a0967349fd1c5bca2"
+  integrity sha512-dQpEpK0O9o6lj6oPu0gRDbbnk+4LeHlNcBpspf6Olzt3GIX4P1lWF1gS+pHLDFlaJvbR6q7jCfQ08zA4QJBnmA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -2381,9 +2388,9 @@
     source-map "^0.7.3"
 
 "@popperjs/core@^2.9.0":
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
-  integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
+  version "2.11.4"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.4.tgz#d8c7b8db9226d2d7664553a0741ad7d0397ee503"
+  integrity sha512-q/ytXxO5NKvyT37pmisQAItCFqA7FD/vNb8dgaJy3/630Fsc+Mz9/9f2SziBoIZ30TJooXyTwZmhi1zjXmObYg==
 
 "@reduxjs/toolkit@1.4.0":
   version "1.4.0"
@@ -2454,24 +2461,24 @@
   dependencies:
     screenfull "5.1.0"
 
-"@sergiogc9/react-ui-theme@0.3.0", "@sergiogc9/react-ui-theme@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.3.0.tgz#6bb56e71930e4198b5d2f5f9fc1042e27248b9d9"
-  integrity sha512-GOGtyH+NLsLr/z5OwhbrdaL1S3ewWpRue5JpXITtY+t6LuUV2jHcfCMCevFusxIoHFR/deoQL6l4gXWyzgpfsg==
+"@sergiogc9/react-ui-theme@0.3.3-alpha.1", "@sergiogc9/react-ui-theme@^0.3.3-alpha.1":
+  version "0.3.3-alpha.1"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.3.3-alpha.1.tgz#edb2260f6fd56fe5cca5e56a9c08815599450e7a"
+  integrity sha512-SN3PAdWIXkxRksiGMdksAi02LTq3HDMQfx1g5Hlog/FohFgMOvxI5FRmoOGcN3sbCzaQ4gEOU1gkuiMZPJnyeA==
   dependencies:
     lodash "4.17.20"
 
-"@sergiogc9/react-ui@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.3.0.tgz#aa66834caf94110f2e33d5181b7106c1ef2c2ba5"
-  integrity sha512-mwEUv6T7AruG55PBP1685b1U+bM7GJDlQSVNSUd8Mk4VTJ71Z4cOAmuZV+LYD7c1wuL/mYlqfCGES+6EOsut9g==
+"@sergiogc9/react-ui@0.3.3-alpha.1":
+  version "0.3.3-alpha.1"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.3.3-alpha.1.tgz#3effbb442a11b2277d7662396cd22abd2f4cd211"
+  integrity sha512-n6o2mwLqKsnx8lYKiYkjmTwjafkr/iwPJcem2QUjevjeRGOB4vr0QdxipfO+geG7gHmCA+z8zVDzvXyWx1efxg==
   dependencies:
     "@sergiogc9/react-hooks" "0.2.1"
-    "@sergiogc9/react-ui-theme" "^0.3.0"
+    "@sergiogc9/react-ui-theme" "^0.3.3-alpha.1"
     "@sergiogc9/react-utils" "0.0.6"
     "@styled-system/css" "5.1.5"
     "@styled-system/should-forward-prop" "5.1.5"
-    "@tippyjs/react" "4.2.4"
+    "@tippyjs/react" "4.2.6"
     "@types/react-table" "7.7.2"
     "@types/styled-system__should-forward-prop" "5.1.2"
     lodash "4.17.20"
@@ -2715,10 +2722,10 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@tippyjs/react@4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@tippyjs/react/-/react-4.2.4.tgz#b4ff76a19e3805a170c166377c8ff124cc045749"
-  integrity sha512-reg/57H/HTrMnu5kkaUMqm5o4242iZw6qEmumCk+BvwJVI+B8JMlSa23MYmS4jTCQauDhTuGivdt+EO+Tt3DQA==
+"@tippyjs/react@4.2.6":
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/@tippyjs/react/-/react-4.2.6.tgz#971677a599bf663f20bb1c60a62b9555b749cc71"
+  integrity sha512-91RicDR+H7oDSyPycI13q3b7o4O60wa2oRbjlz2fyRLmHImc4vyDwuUP8NtZaN0VARJY5hybvDYrFzhY9+Lbyw==
   dependencies:
     tippy.js "^6.3.1"
 

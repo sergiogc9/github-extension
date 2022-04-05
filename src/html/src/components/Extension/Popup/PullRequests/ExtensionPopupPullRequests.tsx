@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components';
 import moment from 'moment';
 import orderBy from 'lodash/orderBy';
 import HashLoader from 'react-spinners/HashLoader';
-import { Box, Content, Status } from '@sergiogc9/react-ui';
+import { Content, Flex, Status } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { getRepositoryUrl, getPullRequestUrl, getUserUrl } from 'lib/Github/GithubUrl';
@@ -63,7 +63,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		(pullRequest: GithubPullRequest) => {
 			const prChanges = pullRequestsChanges && pullRequestsChanges[__getPullRequestChangeKey(pullRequest)];
 			return (
-				<Box alignItems="center" flexShrink={0} ml="auto" mr={2}>
+				<Flex alignItems="center" flexShrink={0} ml="auto" mr={2}>
 					{prChanges && (
 						<>
 							{!!prChanges.commits && (
@@ -86,7 +86,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 							)}
 						</>
 					)}
-				</Box>
+				</Flex>
 			);
 		},
 		[pullRequestsChanges]
@@ -102,9 +102,9 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		}
 
 		return (
-			<Box alignItems="center" size={16}>
+			<Flex alignItems="center" size={16}>
 				{content}
-			</Box>
+			</Flex>
 		);
 	}, []);
 
@@ -116,11 +116,11 @@ const ExtensionPopupPullRequests: React.FC = () => {
 				const userUrl = getUserUrl(pr.user.username);
 				return (
 					<StyledPullRequest key={pr.repository + pr.number}>
-						<Box flexShrink={0} marginX={2} width={15}>
+						<Flex flexShrink={0} marginX={2} width={15}>
 							<SymbolicIcon name="pull-request" type="duo" color="green" />
-						</Box>
-						<Box flexDirection="column" mr={5}>
-							<Box>
+						</Flex>
+						<Flex flexDirection="column" mr={5}>
+							<Flex>
 								<StyledHoveredContent
 									aspectSize="xs"
 									color={getColorByMode(theme, { light: 'neutral.400', dark: 'neutral.300' })}
@@ -129,8 +129,8 @@ const ExtensionPopupPullRequests: React.FC = () => {
 								>
 									{pr.owner}/{pr.repository}
 								</StyledHoveredContent>
-							</Box>
-							<Box alignItems="center" flexWrap="wrap">
+							</Flex>
+							<Flex alignItems="center" flexWrap="wrap">
 								<StyledHoveredContent href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>
 									{pr.title}
 								</StyledHoveredContent>
@@ -140,7 +140,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 								{pr.labels.map(label => (
 									<GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />
 								))}
-							</Box>
+							</Flex>
 							<Content aspectSize="xs" color={getColorByMode(theme, { light: 'neutral.500', dark: 'neutral.400' })}>
 								#{pr.number} opened by{' '}
 								<StyledHoveredContent
@@ -153,7 +153,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 								</StyledHoveredContent>{' '}
 								- Updated {moment(pr.updated_at).fromNow()}
 							</Content>
-						</Box>
+						</Flex>
 						{getPullRequestChangesContent(pr)}
 					</StyledPullRequest>
 				);

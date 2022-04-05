@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Box, Content } from '@sergiogc9/react-ui';
+import { Content, Flex } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
-const StyledExtensionPopupHeader = styled(Box)`
+const StyledExtensionPopupHeader = styled(Flex)`
 	${props =>
 		css({
 			borderBottomColor: getColorByMode(props.theme, { light: 'transparent', dark: 'neutral.600' })

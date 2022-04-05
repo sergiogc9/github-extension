@@ -1,5 +1,5 @@
 import React from 'react';
-import TextField from '@duik/text-field';
+import { Content, Flex, TextField } from '@sergiogc9/react-ui';
 
 import { useWaitInput } from 'lib/hooks/useWaitInput';
 import { PageContext } from 'components/Extension/Context/PageContext';
@@ -12,7 +12,11 @@ import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
 import ExtensionSettings from '../Settings/ExtensionSettings';
 
-import './ExtensionSidebar.scss';
+import {
+	StyledExtensionSidebar,
+	StyledExtensionSidebarToolbar,
+	StyledExtensionSidebarToolbarIconWrapper
+} from './styled';
 
 type Route = 'settings' | 'pageContent';
 
@@ -20,10 +24,10 @@ const ExtensionSidebar: React.FC = () => {
 	const [route, setRoute] = React.useState<Route>('pageContent');
 	const [showSearch, setShowSearch] = React.useState(false);
 	const {
-		value: searchValue,
 		finalValue: searchFinalValue,
+		onChangeValue: onChangeSearchValue,
 		setValue: setSearchValue,
-		onChangeValue: onChangeSearchValue
+		value: searchValue
 	} = useWaitInput(250);
 
 	const pageContextData = React.useContext(PageContext)!;
@@ -43,10 +47,12 @@ const ExtensionSidebar: React.FC = () => {
 						data: 'visible'
 					});
 				return (
-					<div className="page-not-defined">
-						<img src="images/not-found.png" alt="" />
-						<span>This page is not implemented</span>
-					</div>
+					<Flex alignItems="center" flexDirection="column" height="100%" justifyContent="center" width="100%">
+						<Flex alt="" as="img" src="images/not-found.png" style={{ aspectRatio: '1' }} width={64} />
+						<Content aspectSize="s" mt={2}>
+							This page is not implemented
+						</Content>
+					</Flex>
 				);
 			}
 			messageHandlers.sendContentScriptMessage({
@@ -62,54 +68,59 @@ const ExtensionSidebar: React.FC = () => {
 
 	const toolbarContent = React.useMemo(
 		() => (
-			<div id="githubExtensionAppBottomToolbar">
-				<FontAwesomeIcon
-					name="redo-alt"
-					type="solid"
-					onClick={() => {
-						// eslint-disable-next-line no-self-assign
-						window.location.href = window.location.href;
-					}}
-				/>
-				{pageContextData.page !== 'unknown' && (
+			<StyledExtensionSidebarToolbar id="githubExtensionAppBottomToolbar">
+				<StyledExtensionSidebarToolbarIconWrapper>
 					<FontAwesomeIcon
-						name={showSearch ? 'times' : 'search'}
+						name="redo-alt"
 						type="solid"
-						className={showSearch ? 'selected' : ''}
 						onClick={() => {
-							setShowSearch(show => {
-								if (show) setSearchValue('');
-								return !show;
-							});
+							// eslint-disable-next-line no-self-assign
+							window.location.href = window.location.href;
 						}}
 					/>
+				</StyledExtensionSidebarToolbarIconWrapper>
+				{pageContextData.page !== 'unknown' && (
+					<StyledExtensionSidebarToolbarIconWrapper isSelected={showSearch}>
+						<FontAwesomeIcon
+							name={showSearch ? 'times' : 'search'}
+							type="solid"
+							onClick={() => {
+								setShowSearch(show => {
+									if (show) setSearchValue('');
+									return !show;
+								});
+							}}
+						/>
+					</StyledExtensionSidebarToolbarIconWrapper>
 				)}
 				{showSearch && (
 					<TextField
-						id="githubExtensionSearchInput"
+						aspectSize="s"
+						mr={2}
 						placeholder="Search folders or files"
 						value={searchValue}
 						onChange={onChangeSearchValue}
 					/>
 				)}
-				<FontAwesomeIcon
-					name="cog"
-					type="solid"
-					className={route === 'settings' ? 'selected' : ''}
-					onClick={() => setRoute(currentRoute => (currentRoute === 'settings' ? 'pageContent' : 'settings'))}
-				/>
-			</div>
+				<StyledExtensionSidebarToolbarIconWrapper isSelected={route === 'settings'} ml="auto">
+					<FontAwesomeIcon
+						name="cog"
+						type="solid"
+						onClick={() => setRoute(currentRoute => (currentRoute === 'settings' ? 'pageContent' : 'settings'))}
+					/>
+				</StyledExtensionSidebarToolbarIconWrapper>
+			</StyledExtensionSidebarToolbar>
 		),
-		[showSearch, route, searchValue, pageContextData.page, onChangeSearchValue, setSearchValue]
+		[pageContextData.page, showSearch, searchValue, onChangeSearchValue, route, setSearchValue]
 	);
 
 	return (
-		<div id="githubExtensionApp">
+		<StyledExtensionSidebar id="githubExtensionApp">
 			<SearchContext.Provider value={searchFinalValue}>
 				{content}
 				{toolbarContent}
 			</SearchContext.Provider>
-		</div>
+		</StyledExtensionSidebar>
 	);
 };
 
