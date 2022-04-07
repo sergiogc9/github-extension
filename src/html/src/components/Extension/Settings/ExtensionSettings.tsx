@@ -16,9 +16,10 @@ const ExtensionSettings: React.FC = () => {
 	const theme = useTheme();
 
 	return (
-		<Flex id="githubExtensionAppSettings" flexDirection="column" flexGrow={1} overflow="hidden">
+		<Flex flexDirection="column" flexGrow={1} overflow="hidden">
 			<Flex
 				alignItems="center"
+				bg="github.sidebar.header"
 				borderBottom="thin solid"
 				borderBottomColor={getColorByMode(theme, { light: 'neutral.100', dark: 'neutral.600' })}
 				height={60}

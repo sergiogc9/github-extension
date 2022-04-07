@@ -1,15 +1,9 @@
-@import '../../scss/partials/header';
-
 #githubExtensionPullRequest {
 	flex-grow: 1;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	@include githubExtensionHeader();
-
-	#githubExtensionPullRequestHeader {
-		height: 95px;
-	}
 
 	.github-extension-pull-request-info {
 		display: flex;

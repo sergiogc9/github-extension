@@ -1,5 +1,5 @@
 import React from 'react';
-import { Content, Flex, TextField } from '@sergiogc9/react-ui';
+import { Flex, Text, TextField } from '@sergiogc9/react-ui';
 
 import { useWaitInput } from 'lib/hooks/useWaitInput';
 import { PageContext } from 'components/Extension/Context/PageContext';
@@ -48,10 +48,10 @@ const ExtensionSidebar: React.FC = () => {
 					});
 				return (
 					<Flex alignItems="center" flexDirection="column" height="100%" justifyContent="center" width="100%">
-						<Flex alt="" as="img" src="images/not-found.png" style={{ aspectRatio: '1' }} width={64} />
-						<Content aspectSize="s" mt={2}>
+						<img alt="" src="images/not-found.png" style={{ aspectRatio: '1' }} width={64} />
+						<Text aspectSize="s" mt={2}>
 							This page is not implemented
-						</Content>
+						</Text>
 					</Flex>
 				);
 			}
@@ -68,8 +68,8 @@ const ExtensionSidebar: React.FC = () => {
 
 	const toolbarContent = React.useMemo(
 		() => (
-			<StyledExtensionSidebarToolbar id="githubExtensionAppBottomToolbar">
-				<StyledExtensionSidebarToolbarIconWrapper>
+			<StyledExtensionSidebarToolbar>
+				<StyledExtensionSidebarToolbarIconWrapper isSelected={false}>
 					<FontAwesomeIcon
 						name="redo-alt"
 						type="solid"
@@ -115,7 +115,7 @@ const ExtensionSidebar: React.FC = () => {
 	);
 
 	return (
-		<StyledExtensionSidebar id="githubExtensionApp">
+		<StyledExtensionSidebar>
 			<SearchContext.Provider value={searchFinalValue}>
 				{content}
 				{toolbarContent}

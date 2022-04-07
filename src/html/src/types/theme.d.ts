@@ -2,7 +2,10 @@ import 'styled-components';
 
 import { Theme, ThemeColors, ThemePalette } from '@sergiogc9/react-ui-theme';
 
-type GithubColors = Record<'header', string>;
+type GithubColors = {
+	popup: Record<'header', string>;
+	sidebar: Record<'header' | 'toolbar', string>;
+};
 type FinalThemePalette = ThemePalette & {
 	github: GithubColors;
 };

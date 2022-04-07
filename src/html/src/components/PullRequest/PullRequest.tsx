@@ -1,13 +1,15 @@
 import React from 'react';
+import { useTheme } from 'styled-components';
 import { useAsync } from 'react-async';
 import isEmpty from 'lodash/isEmpty';
 import numeral from 'numeral';
+import { Text } from '@sergiogc9/react-ui';
+import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import {
-	HeaderBranchPlaceholder,
 	PullRequestInfoPlaceholder,
 	PullRequestReviewsPlaceholder,
 	PullRequestActionsPlaceholder
@@ -21,11 +23,20 @@ import PullRequestChecks from './Checks/PullRequestChecks';
 import PullRequestActions from './Actions/PullRequestActions';
 import PullRequestReviewers from './Reviewers/PullRequestReviewers';
 
+import { HeaderBranchSkeleton } from './skeletons';
+import {
+	StyledPullRequestHeader,
+	StyledPullRequestHeaderBranch,
+	StyledPullRequestHeaderLink,
+	StyledPullRequestHeaderTitle
+} from './styled';
 import './PullRequest.scss';
 
 const PullRequest: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
 	const messageHandlers = React.useContext(MessageHandlersContext)!;
+
+	const theme = useTheme();
 
 	const { onGithubApiError } = useOnGithubApiError();
 
@@ -44,36 +55,60 @@ const PullRequest: React.FC = () => {
 	}, [pullRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const branchContent = React.useMemo(() => {
-		if (isLoading) return <HeaderBranchPlaceholder />;
+		if (isLoading) return <HeaderBranchSkeleton />;
 		if (!pullRequest) return null;
 
 		return (
 			<>
-				<span>{pullRequest.branches!.base}</span>
+				<Text
+					aspectSize="xs"
+					bg={getColorByMode(theme, { light: 'primary.100', dark: 'neutral.700' })}
+					color={getColorByMode(theme, { light: 'primary.800', dark: 'primary.400' })}
+					lineHeight="10px"
+					fontSize="10px"
+					maxWidth="100%"
+					p={1}
+					// TODO! uncomment this once it is available on Text component
+					// textOverflow="ellipsis"
+					overflow="hidden"
+					whiteSpace="nowrap"
+				>
+					{pullRequest.branches!.base}
+				</Text>
 				<FontAwesomeIcon name="caret-up" type="solid" />
-				<span>{pullRequest.branches!.head}</span>
+				<Text
+					aspectSize="xs"
+					bg={getColorByMode(theme, { light: 'primary.100', dark: 'neutral.700' })}
+					color={getColorByMode(theme, { light: 'primary.800', dark: 'primary.400' })}
+					lineHeight="10px"
+					fontSize="10px"
+					maxWidth="100%"
+					p={1}
+					// TODO! uncomment this once it is available on Text component
+					// textOverflow="ellipsis"
+					overflow="hidden"
+					whiteSpace="nowrap"
+				>
+					{pullRequest.branches!.head}
+				</Text>
 			</>
 		);
-	}, [pullRequest, isLoading]);
+	}, [isLoading, pullRequest, theme]);
 
 	const headerContent = React.useMemo(() => {
 		const { user, repository } = pageData.data;
 		return (
-			<div id="githubExtensionPullRequestHeader" className="github-extension-header">
-				<div id="githubExtensionPullRequestHeaderTitle" className="github-extension-header-info-title">
+			<StyledPullRequestHeader>
+				<StyledPullRequestHeaderTitle>
 					<SymbolicIcon name="pull-request" type="duo" />
-					<a href={`https://github.com/${user}`} target="_blank" rel="noreferrer">
-						{user}
-					</a>
+					<StyledPullRequestHeaderLink href={`https://github.com/${user}`}>{user}</StyledPullRequestHeaderLink>
 					<FontAwesomeIcon name="chevron-double-right" type="solid" />
-					<a href={`https://github.com/${user}/${repository}`} target="_blank" className="bold" rel="noreferrer">
+					<StyledPullRequestHeaderLink fontWeight="bold" href={`hhttps://github.com/${user}/${repository}`}>
 						{repository}
-					</a>
-				</div>
-				<div id="githubExtensionPullRequestHeaderBranch" className="github-extension-header-branch">
-					{branchContent}
-				</div>
-			</div>
+					</StyledPullRequestHeaderLink>
+				</StyledPullRequestHeaderTitle>
+				<StyledPullRequestHeaderBranch>{branchContent}</StyledPullRequestHeaderBranch>
+			</StyledPullRequestHeader>
 		);
 	}, [pageData.data, branchContent]);
 

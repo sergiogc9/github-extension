@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Animation, Content, Flex } from '@sergiogc9/react-ui';
+import { Animation, Flex, Text, TextProps } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
+import React from 'react';
 
 const StyledExtensionPopupPullRequests = styled(Flex)``;
 
@@ -60,7 +61,7 @@ StyledPullRequestStatusContentWrapper.defaultProps = {
 	marginX: 1
 };
 
-const StyledHoveredContent = styled(Content)`
+const StyledHoveredText: React.FC<TextProps<React.AnchorHTMLAttributes<HTMLAnchorElement>>> = styled(Text)`
 	${props =>
 		css({
 			cursor: 'pointer',
@@ -102,7 +103,7 @@ StyledPullRequestChange.defaultProps = {
 	paddingY: '2px'
 };
 
-const StyledPullRequestChangeText = styled(Content)``;
+const StyledPullRequestChangeText = styled(Text)``;
 
 StyledPullRequestChangeText.defaultProps = {
 	fontSize: '11px',
@@ -112,7 +113,7 @@ StyledPullRequestChangeText.defaultProps = {
 
 export {
 	StyledExtensionPopupPullRequests,
-	StyledHoveredContent,
+	StyledHoveredText,
 	StyledLoader,
 	StyledPullRequest,
 	StyledPullRequestChange,

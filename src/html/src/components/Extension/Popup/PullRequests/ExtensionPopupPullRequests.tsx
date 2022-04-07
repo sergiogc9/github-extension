@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components';
 import moment from 'moment';
 import orderBy from 'lodash/orderBy';
 import HashLoader from 'react-spinners/HashLoader';
-import { Content, Flex, Status } from '@sergiogc9/react-ui';
+import { Flex, Status, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { getRepositoryUrl, getPullRequestUrl, getUserUrl } from 'lib/Github/GithubUrl';
@@ -15,7 +15,7 @@ import { GithubPullRequest, GithubPullRequestChanges } from 'types/Github';
 
 import {
 	StyledExtensionPopupPullRequests,
-	StyledHoveredContent,
+	StyledHoveredText,
 	StyledLoader,
 	StyledPullRequest,
 	StyledPullRequestChange,
@@ -121,19 +121,19 @@ const ExtensionPopupPullRequests: React.FC = () => {
 						</Flex>
 						<Flex flexDirection="column" mr={5}>
 							<Flex>
-								<StyledHoveredContent
+								<StyledHoveredText
 									aspectSize="xs"
 									color={getColorByMode(theme, { light: 'neutral.400', dark: 'neutral.300' })}
 									href={repoUrl}
 									onClick={() => pageHandlers.openNewTab(repoUrl)}
 								>
 									{pr.owner}/{pr.repository}
-								</StyledHoveredContent>
+								</StyledHoveredText>
 							</Flex>
 							<Flex alignItems="center" flexWrap="wrap">
-								<StyledHoveredContent href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>
+								<StyledHoveredText href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>
 									{pr.title}
-								</StyledHoveredContent>
+								</StyledHoveredText>
 								<StyledPullRequestStatusContentWrapper>
 									{getPullRequestStatusContent(pr)}
 								</StyledPullRequestStatusContentWrapper>
@@ -141,18 +141,18 @@ const ExtensionPopupPullRequests: React.FC = () => {
 									<GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />
 								))}
 							</Flex>
-							<Content aspectSize="xs" color={getColorByMode(theme, { light: 'neutral.500', dark: 'neutral.400' })}>
+							<Text aspectSize="xs" color={getColorByMode(theme, { light: 'neutral.500', dark: 'neutral.400' })}>
 								#{pr.number} opened by{' '}
-								<StyledHoveredContent
+								<StyledHoveredText
 									aspectSize="xs"
 									color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.300' })}
 									href={userUrl}
 									onClick={() => pageHandlers.openNewTab(userUrl)}
 								>
 									{pr.user.username}
-								</StyledHoveredContent>{' '}
+								</StyledHoveredText>{' '}
 								- Updated {moment(pr.updated_at).fromNow()}
-							</Content>
+							</Text>
 						</Flex>
 						{getPullRequestChangesContent(pr)}
 					</StyledPullRequest>

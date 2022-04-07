@@ -1,5 +1,5 @@
 import React from 'react';
-import { Content } from '@sergiogc9/react-ui';
+import { Text } from '@sergiogc9/react-ui';
 
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
@@ -31,7 +31,7 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 			return (
 				<>
 					<StyledGithubIcon name="github" type="brand" />
-					<Content color="neutral.0">{user.login}</Content>
+					<Text color="neutral.0">{user.login}</Text>
 					<StyledTabLink color="neutral.0" ml="auto">
 						Pull requests
 					</StyledTabLink>

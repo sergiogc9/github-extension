@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Content, Flex } from '@sergiogc9/react-ui';
+import { Flex, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { FontAwesomeIcon } from 'components/common/Icon/Icon';
@@ -14,7 +14,7 @@ const StyledExtensionPopupHeader = styled(Flex)`
 
 StyledExtensionPopupHeader.defaultProps = {
 	alignItems: 'center',
-	bg: 'github.header',
+	bg: 'github.popup.header',
 	borderBottomStyle: 'solid',
 	borderBottomWidth: 'thin',
 	height: 50,
@@ -32,7 +32,7 @@ const StyledGithubIcon = styled(FontAwesomeIcon)`
 	})}
 `;
 
-const StyledTabLink = styled(Content)`
+const StyledTabLink = styled(Text)`
 	${css({
 		transition: 'color ease-in-out 0.15s',
 		'&:hover': {
