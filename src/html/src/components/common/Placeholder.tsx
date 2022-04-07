@@ -29,16 +29,6 @@ export const PullRequestActionsPlaceholder: React.FC = React.memo(() => {
 	);
 });
 
-export const HeaderBranchPlaceholder: React.FC = React.memo(() => {
-	return (
-		<ContentLoader className="placeholder" foregroundColor="var(--header-color-dark)">
-			<rect x="35%" y="0" width="30%" height="15" />
-			<rect x="48%" y="20" rx="4" ry="4" width="10" height="10" />
-			<rect x="10%" y="35" width="80%" height="15" />
-		</ContentLoader>
-	);
-});
-
 export const TreePlaceHolder: React.FC = React.memo(() => {
 	let y = 0;
 	const yDiff = 25;

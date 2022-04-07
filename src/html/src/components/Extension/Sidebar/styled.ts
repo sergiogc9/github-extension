@@ -30,7 +30,7 @@ const StyledExtensionSidebarToolbar = styled(Flex)`
 
 StyledExtensionSidebarToolbar.defaultProps = {
 	alignItems: 'center',
-	bg: 'common.background',
+	bg: 'github.sidebar.toolbar',
 	borderTopStyle: 'solid',
 	borderTopWidth: 'thin',
 	minHeight: 30,

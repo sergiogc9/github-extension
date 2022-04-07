@@ -1,34 +1,56 @@
 import React from 'react';
+import { useTheme } from 'styled-components';
+import { Flex, Text } from '@sergiogc9/react-ui';
+import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { FontAwesomeIcon, MaterialUIIcon } from 'components/common/Icon/Icon';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import CodeTree from './Tree/CodeTree';
 
+import { StyledCodeHeader, StyledCodeHeaderLink, StyledCodeHeaderTitle } from './styled';
 import './Code.scss';
 
 const Code: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
 
+	const theme = useTheme();
+
 	const headerContent = React.useMemo(() => {
 		const { user, repository } = pageData.data;
 		return (
-			<div id="githubExtensionCodeHeader" className="github-extension-header">
-				<div id="githubExtensionCodeHeaderTitle" className="github-extension-header-info-title">
+			<StyledCodeHeader>
+				<StyledCodeHeaderTitle>
 					<MaterialUIIcon name="library-books" />
-					<a href={`https://github.com/${user}`} target="_blank" rel="noreferrer">
-						{user}
-					</a>
+					<StyledCodeHeaderLink href={`https://github.com/${user}`}>{user}</StyledCodeHeaderLink>
 					<FontAwesomeIcon name="chevron-double-right" type="solid" />
-					<a href={`https://github.com/${user}/${repository}`} target="_blank" className="bold" rel="noreferrer">
+					<StyledCodeHeaderLink fontWeight="bold" href={`hhttps://github.com/${user}/${repository}`}>
 						{repository}
-					</a>
-				</div>
-				<div id="githubExtensionCodeHeaderBranch" className="github-extension-header-branch">
-					<span>{pageData.data.tree}</span>
-				</div>
-			</div>
+					</StyledCodeHeaderLink>
+				</StyledCodeHeaderTitle>
+				<Flex
+					alignItems="center"
+					bg={getColorByMode(theme, { light: 'primary.100', dark: 'neutral.700' })}
+					justifyContent="center"
+					maxWidth="100%"
+					p={1}
+				>
+					<Text
+						aspectSize="xs"
+						color={getColorByMode(theme, { light: 'primary.800', dark: 'primary.400' })}
+						lineHeight="10px"
+						fontSize="10px"
+						// TODO! uncomment this once it is available on Text component
+						// textOverflow="ellipsis"
+						overflow="hidden"
+						whiteSpace="nowrap"
+						width="100%"
+					>
+						{pageData.data.tree}
+					</Text>
+				</Flex>
+			</StyledCodeHeader>
 		);
-	}, [pageData.data]);
+	}, [pageData.data, theme]);
 
 	return (
 		<div id="githubExtensionCode" className="github-extension">

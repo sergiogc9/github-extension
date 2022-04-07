@@ -6,15 +6,15 @@ const theme: DefaultTheme = {
 	mode: 'dark',
 	colors: {
 		...reactUITheme.colors,
-		github: { header: '' },
+		github: { popup: { header: '' }, sidebar: { header: '', toolbar: '' } },
 		modes: {
 			light: {
 				...reactUITheme.colors.modes.light,
-				github: { header: '#24282F' }
+				github: { popup: { header: '#24282F' }, sidebar: { header: '#F6F8FA', toolbar: '#F6F8FA' } }
 			},
 			dark: {
 				...reactUITheme.colors.modes.dark,
-				github: { header: '#2D333B' }
+				github: { popup: { header: '#2D333B' }, sidebar: { header: '#2D333B', toolbar: '#2D333B' } }
 			}
 		}
 	}
