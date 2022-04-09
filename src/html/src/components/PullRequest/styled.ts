@@ -76,9 +76,48 @@ StyledPullRequestHeaderBranch.defaultProps = {
 	width: '100%'
 };
 
+const StyledPullRequestInfoElement = styled(Flex)`
+	&:hover {
+		transform: scale(1.2);
+	}
+
+	> svg {
+		width: 14px;
+		height: 14px;
+		margin-right: 3px;
+	}
+	> span {
+		font-size: 11px;
+		line-height: 15px;
+		&.text-small {
+			font-size: 9px;
+		}
+	}
+
+	&.info-additions {
+		svg {
+			color: green;
+			width: 6px;
+		}
+	}
+	&.info-deletions {
+		svg {
+			color: red;
+			width: 6px;
+		}
+	}
+`;
+
+StyledPullRequestInfoElement.defaultProps = {
+	alignItems: 'center',
+	cursor: 'pointer',
+	transition: 'transform ease-in 0.1s'
+};
+
 export {
 	StyledPullRequestHeader,
 	StyledPullRequestHeaderBranch,
 	StyledPullRequestHeaderLink,
-	StyledPullRequestHeaderTitle
+	StyledPullRequestHeaderTitle,
+	StyledPullRequestInfoElement
 };

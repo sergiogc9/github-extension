@@ -1,7 +1,7 @@
 import React from 'react';
 import { Skeleton } from '@sergiogc9/react-ui';
 
-const HeaderBranchSkeleton = () => {
+const PullRequestHeaderBranchSkeleton = () => {
 	return (
 		<Skeleton height={49}>
 			<Skeleton.Rect borderRadius={0} height={15} left="30%" position="absolute" width="40%" />
@@ -11,4 +11,12 @@ const HeaderBranchSkeleton = () => {
 	);
 };
 
-export { HeaderBranchSkeleton };
+const PullRequestInfoSkeleton: React.FC = React.memo(() => {
+	return (
+		<Skeleton height={15}>
+			<Skeleton.Rect borderRadius={0} height={15} left="5%" position="absolute" width="90%" />
+		</Skeleton>
+	);
+});
+
+export { PullRequestHeaderBranchSkeleton, PullRequestInfoSkeleton };

@@ -4,48 +4,6 @@
 	display: flex;
 	flex-direction: column;
 
-	.github-extension-pull-request-info {
-		display: flex;
-		justify-content: space-evenly;
-		padding: 10px;
-		> div {
-			display: flex;
-			align-items: center;
-			transition: transform ease-in 0.1s;
-			cursor: pointer;
-
-			&:hover {
-				transform: scale(1.2);
-			}
-
-			> svg {
-				width: 14px;
-				height: 14px;
-				margin-right: 3px;
-			}
-			> span {
-				font-size: 11px;
-				line-height: 15px;
-				&.text-small {
-					font-size: 9px;
-				}
-			}
-
-			&.info-additions {
-				svg {
-					color: green;
-					width: 6px;
-				}
-			}
-			&.info-deletions {
-				svg {
-					color: red;
-					width: 6px;
-				}
-			}
-		}
-	}
-
 	.github-extension-pull-request-labels {
 		display: flex;
 		flex-wrap: wrap;
