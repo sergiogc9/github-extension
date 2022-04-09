@@ -150,11 +150,11 @@ const PullRequest: React.FC = () => {
 	const labelsContent = React.useMemo(() => {
 		if (!pullRequest || isLoading || isEmpty(pullRequest.labels)) return null;
 		return (
-			<div className="github-extension-pull-request-labels">
+			<Flex flexWrap="wrap" justifyContent="center" padding={1} paddingTop={0}>
 				{pullRequest.labels.map(label => (
 					<GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />
 				))}
-			</div>
+			</Flex>
 		);
 	}, [pullRequest, isLoading]);
 
