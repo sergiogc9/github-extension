@@ -3,17 +3,13 @@ import { useTheme } from 'styled-components';
 import { useAsync } from 'react-async';
 import isEmpty from 'lodash/isEmpty';
 import numeral from 'numeral';
-import { Text } from '@sergiogc9/react-ui';
+import { Flex, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import {
-	PullRequestInfoPlaceholder,
-	PullRequestReviewsPlaceholder,
-	PullRequestActionsPlaceholder
-} from 'components/common/Placeholder';
+import { PullRequestReviewsPlaceholder, PullRequestActionsPlaceholder } from 'components/common/Placeholder';
 import { FontAwesomeIcon, SymbolicIcon } from 'components/common/Icon/Icon';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
@@ -23,12 +19,13 @@ import PullRequestChecks from './Checks/PullRequestChecks';
 import PullRequestActions from './Actions/PullRequestActions';
 import PullRequestReviewers from './Reviewers/PullRequestReviewers';
 
-import { HeaderBranchSkeleton } from './skeletons';
+import { PullRequestHeaderBranchSkeleton, PullRequestInfoSkeleton } from './skeletons';
 import {
 	StyledPullRequestHeader,
 	StyledPullRequestHeaderBranch,
 	StyledPullRequestHeaderLink,
-	StyledPullRequestHeaderTitle
+	StyledPullRequestHeaderTitle,
+	StyledPullRequestInfoElement
 } from './styled';
 import './PullRequest.scss';
 
@@ -55,7 +52,7 @@ const PullRequest: React.FC = () => {
 	}, [pullRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const branchContent = React.useMemo(() => {
-		if (isLoading) return <HeaderBranchSkeleton />;
+		if (isLoading) return <PullRequestHeaderBranchSkeleton />;
 		if (!pullRequest) return null;
 
 		return (
@@ -116,34 +113,38 @@ const PullRequest: React.FC = () => {
 		const content =
 			pullRequest && !isLoading ? (
 				<>
-					<div title="Commits">
+					<StyledPullRequestInfoElement title="Commits">
 						<FontAwesomeIcon name="code-commit" type="duo" />
 						<span>{pullRequest.commits}</span>
-					</div>
-					<div title="Files">
+					</StyledPullRequestInfoElement>
+					<StyledPullRequestInfoElement title="Files">
 						<FontAwesomeIcon name="copy" type="duo" />
 						<span>{pullRequest.changedFiles}</span>
-					</div>
-					<div title="Comments">
+					</StyledPullRequestInfoElement>
+					<StyledPullRequestInfoElement title="Comments">
 						<SymbolicIcon name="chat-conversation-alt" type="solid" />
 						<span>{pullRequest.comments + pullRequest.reviewComments}</span>
-					</div>
-					<div title="Lines added" className="info-additions">
+					</StyledPullRequestInfoElement>
+					<StyledPullRequestInfoElement title="Lines added" className="info-additions">
 						<FontAwesomeIcon name="square" type="solid" />
 						<span className="text-small">+</span>
 						<span>{numeral(pullRequest.additions).format('0a')}</span>
-					</div>
-					<div title="Lines deleted" className="info-deletions">
+					</StyledPullRequestInfoElement>
+					<StyledPullRequestInfoElement title="Lines deleted" className="info-deletions">
 						<FontAwesomeIcon name="square" type="solid" />
 						<span className="text-small">-</span>
 						<span>{numeral(pullRequest.deletions).format('0a')}</span>
-					</div>
+					</StyledPullRequestInfoElement>
 				</>
 			) : (
-				<PullRequestInfoPlaceholder />
+				<PullRequestInfoSkeleton />
 			);
 
-		return <div className="github-extension-pull-request-info">{content}</div>;
+		return (
+			<Flex p={2} justifyContent="space-evenly">
+				{content}
+			</Flex>
+		);
 	}, [pullRequest, isLoading]);
 
 	const labelsContent = React.useMemo(() => {

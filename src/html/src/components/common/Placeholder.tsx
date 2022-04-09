@@ -1,14 +1,6 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-export const PullRequestInfoPlaceholder: React.FC = React.memo(() => {
-	return (
-		<ContentLoader className="placeholder" height={15}>
-			<rect x="5%" y="0" width="90%" height="15" rx={5} ry={5} />
-		</ContentLoader>
-	);
-});
-
 export const PullRequestReviewsPlaceholder: React.FC = React.memo(() => {
 	return (
 		<ContentLoader className="placeholder" height={40}>
