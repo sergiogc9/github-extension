@@ -1,5 +1,7 @@
 import React from 'react';
+import { Box, Status } from '@sergiogc9/react-ui';
 
+import { StyledTreeRow, StyledTreeRowText } from 'components/common/ui/Tree';
 import FileIcon from 'components/common/Icon/FileIcon';
 import { PageHandlerContext } from 'components/Extension/Context/PageContext';
 import { PullRequestFile as PullRequestFileType } from 'lib/Github/GithubTree';
@@ -18,34 +20,30 @@ const PullRequestFile: React.FC<ComponentProps> = props => {
 		pageHandlers.goToPullRequestFile(file.path + file.name);
 	}, [pageHandlers, file.path, file.name]);
 
-	const styles = React.useMemo(() => ({ paddingLeft: `${deep * 10}px` }), [deep]);
-
-	const hiddenClass = React.useMemo(
-		() => (file.visible || isFolderVisible ? '' : 'hidden'),
-		[file.visible, isFolderVisible]
-	);
-	const matchClass = React.useMemo(() => (file.matchesSearch ? 'search-match' : ''), [file.matchesSearch]);
-
 	const statusContent = React.useMemo(() => {
-		if (file.status === 'added') return <span className="file-status file-added" title="File added" />;
-		if (file.status === 'removed') return <span className="file-status file-removed" title="File removed" />;
-		if (file.status === 'renamed') return <span className="file-status file-renamed" title="File moved" />;
+		const commonProps = {
+			ml: 1,
+			size: 9
+		};
+		if (file.status === 'added') return <Status {...commonProps} bg="green.600" title="File added" />;
+		if (file.status === 'removed') return <Status {...commonProps} bg="red.600" title="File removed" />;
+		if (file.status === 'renamed') return <Status {...commonProps} bg="blue.500" title="File moved" />;
 		return null;
 	}, [file.status]);
 
 	return (
-		<div className={`github-extension-tree-file ${hiddenClass}`}>
-			<div
-				className="github-extension-tree-file-content"
-				style={styles}
+		<Box>
+			<StyledTreeRow
+				deep={deep}
+				isVisible={file.visible || isFolderVisible}
 				onClick={onFileClicked}
 				title={file.path + file.name}
 			>
 				<FileIcon filename={file.name} />
-				<span className={`file-text ${matchClass}`}>{file.name}</span>
+				<StyledTreeRowText fontWeight={file.matchesSearch ? 'bold' : undefined}>{file.name}</StyledTreeRowText>
 				{statusContent}
-			</div>
-		</div>
+			</StyledTreeRow>
+		</Box>
 	);
 };
 

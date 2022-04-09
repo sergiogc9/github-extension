@@ -3,7 +3,6 @@
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	@include githubExtensionHeader();
 
 	.github-extension-pull-request-info {
 		display: flex;

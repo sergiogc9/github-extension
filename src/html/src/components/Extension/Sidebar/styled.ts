@@ -3,15 +3,11 @@ import css from '@styled-system/css';
 import { Flex } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
-const StyledExtensionSidebar = styled(Flex)`
-	${props =>
-		css({
-			borderRightColor: getColorByMode(props.theme, { light: 'neutral.200', dark: 'neutral.600' })
-		})}
-`;
+const StyledExtensionSidebar = styled(Flex)``;
 
 StyledExtensionSidebar.defaultProps = {
 	bg: 'common.background',
+	borderRightColor: 'github.common.border',
 	borderRightStyle: 'solid',
 	borderRightWidth: 'thin',
 	flexDirection: 'column',
@@ -21,16 +17,12 @@ StyledExtensionSidebar.defaultProps = {
 	width: '100%'
 };
 
-const StyledExtensionSidebarToolbar = styled(Flex)`
-	${props =>
-		css({
-			borderTopColor: getColorByMode(props.theme, { light: 'neutral.200', dark: 'neutral.600' })
-		})}
-`;
+const StyledExtensionSidebarToolbar = styled(Flex)``;
 
 StyledExtensionSidebarToolbar.defaultProps = {
 	alignItems: 'center',
 	bg: 'github.sidebar.toolbar',
+	borderTopColor: 'github.common.border',
 	borderTopStyle: 'solid',
 	borderTopWidth: 'thin',
 	minHeight: 30,

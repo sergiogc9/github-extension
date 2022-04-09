@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 const StyledExtensionPopupHeader = styled(Flex)`
 	${props =>
 		css({
-			borderBottomColor: getColorByMode(props.theme, { light: 'transparent', dark: 'neutral.600' })
+			borderBottomColor: getColorByMode(props.theme, { light: 'transparent', dark: 'github.common.border' })
 		})}
 `;
 

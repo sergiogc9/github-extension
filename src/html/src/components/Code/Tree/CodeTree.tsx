@@ -3,17 +3,15 @@ import { useAsync } from 'react-async';
 import keys from 'lodash/keys';
 import isEmpty from 'lodash/isEmpty';
 
+import { StyledTree, TreeSkeleton } from 'components/common/ui/Tree';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import { StorageContext } from 'components/Extension/Context/StorageContext';
 import CodeTreeFolder from 'components/Code/Folder/CodeTreeFolder';
 import CodeTreeFile from 'components/Code/File/CodeTreeFile';
-import { TreePlaceHolder } from 'components/common/Placeholder';
 import GithubApi from 'lib/Github/GithubApi';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 import { CodeTree as CodeTreeType } from 'lib/Github/GithubTree';
-
-import './CodeTree.scss';
 
 const CodeTree: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
@@ -62,7 +60,7 @@ const CodeTree: React.FC = () => {
 	}, []);
 
 	const treeContent = React.useMemo(() => {
-		if (isLoading || !treeData) return <TreePlaceHolder />;
+		if (isLoading || !treeData) return <TreeSkeleton />;
 
 		return (
 			<>
@@ -81,11 +79,7 @@ const CodeTree: React.FC = () => {
 		);
 	}, [treeData, onLoadSubTree, isLoading]);
 
-	return (
-		<div id="githubExtensionCodeTree" className="github-extension-tree">
-			{treeContent}
-		</div>
-	);
+	return <StyledTree>{treeContent}</StyledTree>;
 };
 
 export default React.memo(CodeTree);
