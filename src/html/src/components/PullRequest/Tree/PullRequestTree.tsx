@@ -2,16 +2,14 @@ import React from 'react';
 import { useAsync } from 'react-async';
 import keys from 'lodash/keys';
 
+import { StyledTree, TreeSkeleton } from 'components/common/ui/Tree';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import { StorageContext } from 'components/Extension/Context/StorageContext';
 import PullRequestFolder from 'components/PullRequest/Folder/PullRequestFolder';
 import PullRequestFile from 'components/PullRequest/File/PullRequestFile';
-import { TreePlaceHolder } from 'components/common/Placeholder';
 import GithubApi from 'lib/Github/GithubApi';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
-
-import './PullRequestTree.scss';
 
 const PullRequestTree: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
@@ -36,7 +34,7 @@ const PullRequestTree: React.FC = () => {
 	}, [prTree, searchValue, storageData.group_folders]);
 
 	const treeContent = React.useMemo(() => {
-		if (isLoading || !treeData) return <TreePlaceHolder />;
+		if (isLoading || !treeData) return <TreeSkeleton />;
 
 		return (
 			<>
@@ -50,11 +48,7 @@ const PullRequestTree: React.FC = () => {
 		);
 	}, [treeData, isLoading]);
 
-	return (
-		<div id="githubExtensionPullRequestTree" className="github-extension-tree">
-			{treeContent}
-		</div>
-	);
+	return <StyledTree isPullRequest>{treeContent}</StyledTree>;
 };
 
 export default React.memo(PullRequestTree);

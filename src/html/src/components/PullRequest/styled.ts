@@ -1,16 +1,13 @@
 import styled from 'styled-components';
-import css from '@styled-system/css';
 import { Flex, Link } from '@sergiogc9/react-ui';
-import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
-const StyledPullRequestHeader = styled(Flex)`
-	${props => css({ borderBottomColor: getColorByMode(props.theme, { light: 'neutral.100', dark: 'neutral.600' }) })}
-`;
+const StyledPullRequestHeader = styled(Flex)``;
 
 StyledPullRequestHeader.defaultProps = {
 	alignItems: 'center',
 	bg: 'github.sidebar.header',
 	borderBottom: 'thin solid',
+	borderBottomColor: 'github.common.border',
 	flexDirection: 'column',
 	flexShrink: 0,
 	justifyContent: 'center',

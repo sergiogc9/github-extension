@@ -1,11 +1,12 @@
 import React from 'react';
 import keys from 'lodash/keys';
 import { Collapse } from 'react-collapse';
+import { Box } from '@sergiogc9/react-ui';
 
+import { StyledTreeRow, StyledTreeRowText, TreeFolderSkeleton } from 'components/common/ui/Tree';
 import CodeTreeFile from 'components/Code/File/CodeTreeFile';
 import FolderIcon from 'components/common/Icon/FolderIcon';
 import { FontAwesomeIcon } from 'components/common/Icon/Icon';
-import { FolderPlaceholder } from 'components/common/Placeholder';
 import { CodeTreeFolder as CodeTreeFolderType } from 'lib/Github/GithubTree';
 
 type ComponentProps = {
@@ -25,17 +26,9 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 		setIsOpened(collapsed => !collapsed);
 	}, [folder.path, folder.sha, folder.loaded, onLoadFolder]);
 
-	const styles = React.useMemo(() => ({ paddingLeft: `${deep * 10}px` }), [deep]);
-	const hiddenClass = React.useMemo(() => (folder.visible ? '' : 'hidden'), [folder.visible]);
-	const matchClass = React.useMemo(() => (folder.matchesSearch ? 'search-match' : ''), [folder.matchesSearch]);
-
 	const treeContent = React.useMemo(() => {
-		if (isOpened && !folder.loaded)
-			return (
-				<div style={{ paddingLeft: `${(deep + 2) * 10}px` }}>
-					<FolderPlaceholder />
-				</div>
-			);
+		if (isOpened && !folder.loaded) return <TreeFolderSkeleton deep={deep} />;
+
 		return (
 			<>
 				{keys(folder.folders).map(folderName => (
@@ -59,13 +52,8 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 	}, [isOpened, folder, deep, onLoadFolder]);
 
 	return (
-		<div className={`github-extension-tree-folder ${hiddenClass}`}>
-			<div
-				className="github-extension-tree-folder-content"
-				style={styles}
-				onClick={onToggleCollapsed}
-				title={folder.path}
-			>
+		<Box>
+			<StyledTreeRow deep={deep} isVisible={folder.visible} onClick={onToggleCollapsed} title={folder.path}>
 				<FontAwesomeIcon
 					name={isOpened ? 'angle-down' : 'angle-right'}
 					type="solid"
@@ -73,10 +61,10 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 					className="folder-collapse-icon"
 				/>
 				<FolderIcon name={folder.name} opened={isOpened} />
-				<span className={`folder-text ${matchClass}`}> {folder.name}</span>
-			</div>
+				<StyledTreeRowText fontWeight={folder.matchesSearch ? 'bold' : undefined}> {folder.name}</StyledTreeRowText>
+			</StyledTreeRow>
 			<Collapse isOpened={isOpened}>{treeContent}</Collapse>
-		</div>
+		</Box>
 	);
 };
 

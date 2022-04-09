@@ -1,7 +1,9 @@
 import React from 'react';
 import keys from 'lodash/keys';
 import { Collapse } from 'react-collapse';
+import { Box } from '@sergiogc9/react-ui';
 
+import { StyledTreeRow, StyledTreeRowText } from 'components/common/ui/Tree';
 import FolderIcon from 'components/common/Icon/FolderIcon';
 import PullRequestFile from 'components/PullRequest/File/PullRequestFile';
 import { PullRequestFolder as PullRequestFolderType } from 'lib/Github/GithubTree';
@@ -37,19 +39,9 @@ const PullRequestFolder: React.FC<ComponentProps> = props => {
 		);
 	}, [folder, deep]);
 
-	const styles = React.useMemo(() => ({ paddingLeft: `${deep * 10}px` }), [deep]);
-
-	const hiddenClass = React.useMemo(() => (folder.visible ? '' : 'hidden'), [folder.visible]);
-	const matchClass = React.useMemo(() => (folder.matchesSearch ? 'search-match' : ''), [folder.matchesSearch]);
-
 	return (
-		<div className={`github-extension-tree-folder ${hiddenClass}`}>
-			<div
-				className="github-extension-tree-folder-content"
-				style={styles}
-				onClick={onToggleCollapsed}
-				title={folder.path}
-			>
+		<Box>
+			<StyledTreeRow deep={deep} isVisible={folder.visible} onClick={onToggleCollapsed} title={folder.path}>
 				<FontAwesomeIcon
 					name={isOpened ? 'angle-down' : 'angle-right'}
 					type="solid"
@@ -57,10 +49,10 @@ const PullRequestFolder: React.FC<ComponentProps> = props => {
 					className="folder-collapse-icon"
 				/>
 				<FolderIcon name={folder.name} opened={isOpened} />
-				<span className={`folder-text ${matchClass}`}> {folder.name}</span>
-			</div>
+				<StyledTreeRowText fontWeight={folder.matchesSearch ? 'bold' : undefined}> {folder.name}</StyledTreeRowText>
+			</StyledTreeRow>
 			<Collapse isOpened={isOpened}>{treeContent}</Collapse>
-		</div>
+		</Box>
 	);
 };
 

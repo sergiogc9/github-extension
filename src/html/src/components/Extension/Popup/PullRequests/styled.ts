@@ -31,7 +31,6 @@ StyledLoader.defaultProps = {
 const StyledPullRequest = styled(Flex)`
 	${props =>
 		css({
-			borderBottomColor: getColorByMode(props.theme, { light: 'neutral.100', dark: 'neutral.600' }),
 			transition: 'background-color ease-in-out 0.15s',
 			'&:hover': {
 				bg: getColorByMode(props.theme, { light: 'neutral.50', dark: 'neutral.700' })
@@ -43,6 +42,7 @@ StyledPullRequest.defaultProps = {
 	alignItems: 'center',
 	borderBottomStyle: 'solid',
 	borderBottomWidth: 'thin',
+	borderBottomColor: 'github.common.border',
 	minHeight: 75,
 	paddingY: '5px'
 };

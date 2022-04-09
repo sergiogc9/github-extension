@@ -1,7 +1,5 @@
 import React from 'react';
-import { useTheme } from 'styled-components';
 import { Alert, Button, CheckBox, Divider, Flex, TextField, Title, useToasts } from '@sergiogc9/react-ui';
-import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { StorageContext, StorageHandlerContext } from 'components/Extension/Context/StorageContext';
@@ -13,15 +11,13 @@ const ExtensionSettings: React.FC = () => {
 
 	const { addToast } = useToasts();
 
-	const theme = useTheme();
-
 	return (
 		<Flex flexDirection="column" flexGrow={1} overflow="hidden">
 			<Flex
 				alignItems="center"
 				bg="github.sidebar.header"
 				borderBottom="thin solid"
-				borderBottomColor={getColorByMode(theme, { light: 'neutral.100', dark: 'neutral.600' })}
+				borderBottomColor="border"
 				height={60}
 				p={3}
 			>

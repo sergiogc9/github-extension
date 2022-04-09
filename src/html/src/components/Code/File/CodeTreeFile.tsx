@@ -1,5 +1,7 @@
 import React from 'react';
+import { Box } from '@sergiogc9/react-ui';
 
+import { StyledTreeRow, StyledTreeRowText } from 'components/common/ui/Tree';
 import FileIcon from 'components/common/Icon/FileIcon';
 import { PageHandlerContext } from 'components/Extension/Context/PageContext';
 import { CodeTreeFile as CodeTreeFileType } from 'lib/Github/GithubTree';
@@ -18,26 +20,18 @@ const CodeTreeFile: React.FC<ComponentProps> = props => {
 		pageHandlers.goToRepoPath(file.path + file.name);
 	}, [pageHandlers, file.path, file.name]);
 
-	const styles = React.useMemo(() => ({ paddingLeft: `${deep * 10}px` }), [deep]);
-
-	const hiddenClass = React.useMemo(
-		() => (file.visible || isFolderVisible ? '' : 'hidden'),
-		[file.visible, isFolderVisible]
-	);
-	const matchClass = React.useMemo(() => (file.matchesSearch ? 'search-match' : ''), [file.matchesSearch]);
-
 	return (
-		<div className={`github-extension-tree-file ${hiddenClass}`}>
-			<div
-				className="github-extension-tree-file-content"
+		<Box>
+			<StyledTreeRow
+				deep={deep}
+				isVisible={file.visible || isFolderVisible}
 				onClick={onFileClicked}
-				style={styles}
 				title={file.path + file.name}
 			>
 				<FileIcon filename={file.name} />
-				<span className={`file-text ${matchClass}`}>{file.name}</span>
-			</div>
-		</div>
+				<StyledTreeRowText fontWeight={file.matchesSearch ? 'bold' : undefined}>{file.name}</StyledTreeRowText>
+			</StyledTreeRow>
+		</Box>
 	);
 };
 

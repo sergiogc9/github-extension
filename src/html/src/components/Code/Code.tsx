@@ -8,7 +8,6 @@ import { PageContext } from 'components/Extension/Context/PageContext';
 import CodeTree from './Tree/CodeTree';
 
 import { StyledCodeHeader, StyledCodeHeaderLink, StyledCodeHeaderTitle } from './styled';
-import './Code.scss';
 
 const Code: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
@@ -53,10 +52,10 @@ const Code: React.FC = () => {
 	}, [pageData.data, theme]);
 
 	return (
-		<div id="githubExtensionCode" className="github-extension">
+		<Flex flexDirection="column" flexGrow={1} overflow="hidden">
 			{headerContent}
 			<CodeTree />
-		</div>
+		</Flex>
 	);
 };
 
