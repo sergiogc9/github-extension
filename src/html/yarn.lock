@@ -2461,20 +2461,20 @@
   dependencies:
     screenfull "5.1.0"
 
-"@sergiogc9/react-ui-theme@0.3.3", "@sergiogc9/react-ui-theme@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.3.3.tgz#5cdd29c73cfa5448afe3ef4aa136cab4ad568da2"
-  integrity sha512-4VZVdkSSJikrYcwLUFwF1rInl3khAqGmhV4kgD4i1CcszIByHuvlNraFsIjQtZDNyAG9ITTdWHo/n8X4r/tmsQ==
+"@sergiogc9/react-ui-theme@0.4.0", "@sergiogc9/react-ui-theme@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.4.0.tgz#a7bc76ac31e6b162f08f8810068decb095be634d"
+  integrity sha512-r8gHuNqC31OJQdjow3JtBu5HjB/aioQQLCm/Qcx5cHKPDTC5hZew+H4MSQkJMUq0bQ0unIzB4VMvIAZm91eblQ==
   dependencies:
     lodash "4.17.20"
 
-"@sergiogc9/react-ui@0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.3.3.tgz#a64af527f4781370c0606b1678d9cc78d3a6c559"
-  integrity sha512-tIRuqpF4y6Hgtsh8qGjolMxGtZbjDc8fWhnA+Bry9z51uYRAaeUmc0w5XSdtcBgH5BvX9Ru6c3ABz82ulEi/ww==
+"@sergiogc9/react-ui@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.4.0.tgz#be205056300ab0e12a5cb899e672d981b34d6a25"
+  integrity sha512-p3Qb6j1Y/+6yKH3lPNApRe0yCy4++vJoo6C800Rj7Vn3Ba5VIgaXygffApsbXAHL19HNl0Au/SgZ+GtdfEYXUw==
   dependencies:
     "@sergiogc9/react-hooks" "0.2.1"
-    "@sergiogc9/react-ui-theme" "^0.3.3"
+    "@sergiogc9/react-ui-theme" "^0.4.0"
     "@sergiogc9/react-utils" "0.0.6"
     "@styled-system/css" "5.1.5"
     "@styled-system/should-forward-prop" "5.1.5"

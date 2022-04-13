@@ -3,7 +3,7 @@ import reactUITheme from '@sergiogc9/react-ui-theme';
 
 const theme: DefaultTheme = {
 	...reactUITheme,
-	mode: 'dark',
+	// mode: 'dark',
 	colors: {
 		...reactUITheme.colors,
 

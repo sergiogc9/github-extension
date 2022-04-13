@@ -188,9 +188,10 @@ class GithubApi {
 		const [prStatusesResponse, runChecksResponse] = await Promise.all(requests);
 
 		const checks: GithubChecks = {
-			success: 0,
 			failed: 0,
-			pending: 0
+			neutral: 0,
+			pending: 0,
+			success: 0
 		};
 
 		forEach(prStatusesResponse.data.statuses, status => {
@@ -199,8 +200,11 @@ class GithubApi {
 			else checks.failed++;
 		});
 		forEach(runChecksResponse.data.check_runs, run => {
-			if (run.status === 'completed') checks.success++;
-			else checks.pending++;
+			if (run.status === 'completed') {
+				if (run.conclusion === 'success') checks.success++;
+				else if (['neutral', 'cancelled', 'skipped'].includes(run.conclusion)) checks.neutral++;
+				else checks.failed++;
+			} else checks.pending++;
 		});
 		return checks;
 	};
