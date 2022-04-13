@@ -1,11 +1,12 @@
 import React from 'react';
 import values from 'lodash/values';
 import isEmpty from 'lodash/isEmpty';
+import { Box, Flex, Status, Text } from '@sergiogc9/react-ui';
 
 import { GithubReviews } from 'types/Github';
 import { MaterialUIIcon, NucleoIcon, FontAwesomeIcon } from 'components/common/Icon/Icon';
 
-import './PullRequestReviewers.scss';
+import { StyledPullRequestReviewer } from './styled';
 
 type ComponentProps = { reviews?: GithubReviews };
 
@@ -13,26 +14,44 @@ const PullRequestReviewers: React.FC<ComponentProps> = props => {
 	const { reviews } = props;
 
 	const content = React.useMemo(() => {
-		if (isEmpty(reviews)) return <div className="no-reviewers">No reviews available</div>;
+		if (isEmpty(reviews))
+			return (
+				<Flex justifyContent="center">
+					<Text aspectSize="xs" fontSize="9px" lineHeight="9px">
+						NO REVIEWS AVAILABLE
+					</Text>
+				</Flex>
+			);
 
 		return values(reviews).map(review => {
 			let icon;
 			if (review.state === 'APPROVED') icon = <MaterialUIIcon name="check" />;
 			else if (review.state === 'CHANGES_REQUESTED') icon = <FontAwesomeIcon name="times" type="light" />;
 			else if (review.state === 'COMMENTED') icon = <NucleoIcon name="a-chat" type="solid" />;
-			else icon = <div className="pending-circle" />;
+			else icon = <Status flexShrink={0} mr={1} size={9} variant="yellow" />;
 
 			return (
-				<div className="pull-request-reviewer" key={review.user}>
+				<StyledPullRequestReviewer key={review.user}>
 					<img src={`${review.userImgUrl}&s=20`} alt="" />
-					<span>{review.user}</span>
+					<Text
+						aspectSize="xs"
+						fontSize="11px"
+						fontWeight="bold"
+						lineHeight="11px"
+						mr={1}
+						overflow="hidden"
+						textOverflow="ellipsis"
+						whiteSpace="nowrap"
+					>
+						{review.user}
+					</Text>
 					{icon}
-				</div>
+				</StyledPullRequestReviewer>
 			);
 		});
 	}, [reviews]);
 
-	return <div id="githubExtensionPullRequestReviewers">{content}</div>;
+	return <Box width="50%">{content}</Box>;
 };
 
 export default React.memo(PullRequestReviewers);

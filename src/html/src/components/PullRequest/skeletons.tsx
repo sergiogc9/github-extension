@@ -1,5 +1,5 @@
 import React from 'react';
-import { Skeleton } from '@sergiogc9/react-ui';
+import { Box, Skeleton } from '@sergiogc9/react-ui';
 
 const PullRequestHeaderBranchSkeleton = () => {
 	return (
@@ -11,12 +11,41 @@ const PullRequestHeaderBranchSkeleton = () => {
 	);
 };
 
-const PullRequestInfoSkeleton: React.FC = React.memo(() => {
+const PullRequestInfoSkeleton = () => {
 	return (
 		<Skeleton height={15}>
 			<Skeleton.Rect borderRadius={0} height={15} left="5%" position="absolute" width="90%" />
 		</Skeleton>
 	);
-});
+};
 
-export { PullRequestHeaderBranchSkeleton, PullRequestInfoSkeleton };
+const PullRequestReviewsSkeleton = () => {
+	return (
+		<Box p={1}>
+			<Skeleton height={50}>
+				<Skeleton.Rect borderRadius={0} height={20} left="0%" position="absolute" width="49%" />
+				<Skeleton.Rect borderRadius={0} height={20} left="0%" position="absolute" top={25} width="49%" />
+				<Skeleton.Rect borderRadius={0} height={45} left="70%" position="absolute" width="15%" />
+			</Skeleton>
+		</Box>
+	);
+};
+
+const PullRequestActionsSkeleton = () => {
+	return (
+		<Box p={1}>
+			<Skeleton height={45}>
+				<Skeleton.Rect borderRadius={0} height={20} left="0%" position="absolute" width="49%" />
+				<Skeleton.Rect borderRadius={0} height={20} left="51%" position="absolute" width="49%" />
+				<Skeleton.Rect borderRadius={0} height={20} left="0%" position="absolute" top={25} width="100%" />
+			</Skeleton>
+		</Box>
+	);
+};
+
+export {
+	PullRequestActionsSkeleton,
+	PullRequestHeaderBranchSkeleton,
+	PullRequestInfoSkeleton,
+	PullRequestReviewsSkeleton
+};

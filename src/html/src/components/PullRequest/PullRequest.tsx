@@ -9,7 +9,6 @@ import { getColorByMode } from '@sergiogc9/react-ui-theme';
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import { PullRequestReviewsPlaceholder, PullRequestActionsPlaceholder } from 'components/common/Placeholder';
 import { FontAwesomeIcon, SymbolicIcon } from 'components/common/Icon/Icon';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
@@ -19,7 +18,12 @@ import PullRequestChecks from './Checks/PullRequestChecks';
 import PullRequestActions from './Actions/PullRequestActions';
 import PullRequestReviewers from './Reviewers/PullRequestReviewers';
 
-import { PullRequestHeaderBranchSkeleton, PullRequestInfoSkeleton } from './skeletons';
+import {
+	PullRequestActionsSkeleton,
+	PullRequestHeaderBranchSkeleton,
+	PullRequestInfoSkeleton,
+	PullRequestReviewsSkeleton
+} from './skeletons';
 import {
 	StyledPullRequestHeader,
 	StyledPullRequestHeaderBranch,
@@ -27,7 +31,6 @@ import {
 	StyledPullRequestHeaderTitle,
 	StyledPullRequestInfoElement
 } from './styled';
-import './PullRequest.scss';
 
 const PullRequest: React.FC = () => {
 	const pageData = React.useContext(PageContext)!;
@@ -65,8 +68,7 @@ const PullRequest: React.FC = () => {
 					fontSize="10px"
 					maxWidth="100%"
 					p={1}
-					// TODO! uncomment this once it is available on Text component
-					// textOverflow="ellipsis"
+					textOverflow="ellipsis"
 					overflow="hidden"
 					whiteSpace="nowrap"
 				>
@@ -81,8 +83,7 @@ const PullRequest: React.FC = () => {
 					fontSize="10px"
 					maxWidth="100%"
 					p={1}
-					// TODO! uncomment this once it is available on Text component
-					// textOverflow="ellipsis"
+					textOverflow="ellipsis"
 					overflow="hidden"
 					whiteSpace="nowrap"
 				>
@@ -159,37 +160,35 @@ const PullRequest: React.FC = () => {
 	}, [pullRequest, isLoading]);
 
 	const reviewsContent = React.useMemo(() => {
-		const reviewsPlaceholder = (!pullRequest || isLoading) && <PullRequestReviewsPlaceholder />;
-		const reviewersContent = !isLoading && pullRequest && pullRequest.reviews && (
-			<PullRequestReviewers reviews={pullRequest.reviews} />
-		);
-		const checksContent = !isLoading && pullRequest && <PullRequestChecks pullRequest={pullRequest} />;
+		if (isLoading || !pullRequest) return <PullRequestReviewsSkeleton />;
 
 		return (
-			<div className="github-extension-pull-request-reviews">
-				{reviewsPlaceholder}
-				{reviewersContent}
-				{checksContent}
-			</div>
+			<Flex alignItems="center" padding={2}>
+				<PullRequestReviewers reviews={pullRequest.reviews} />
+				<PullRequestChecks pullRequest={pullRequest} />
+			</Flex>
 		);
 	}, [pullRequest, isLoading]);
 
 	const actionsContent = React.useMemo(() => {
-		const content =
-			!isLoading && pullRequest ? <PullRequestActions pullRequest={pullRequest} /> : <PullRequestActionsPlaceholder />;
+		if (isLoading || !pullRequest) return <PullRequestActionsSkeleton />;
 
-		return <div className="github-extension-pull-request-actions">{content}</div>;
+		return (
+			<Flex justifyContent="center" padding={1} paddingTop={0}>
+				<PullRequestActions pullRequest={pullRequest} />
+			</Flex>
+		);
 	}, [pullRequest, isLoading]);
 
 	return (
-		<div id="githubExtensionPullRequest">
+		<Flex flexDirection="column" flexGrow={1} overflow="hidden">
 			{headerContent}
 			{infoContent}
 			{labelsContent}
 			<PullRequestTree />
 			{reviewsContent}
 			{actionsContent}
-		</div>
+		</Flex>
 	);
 };
 

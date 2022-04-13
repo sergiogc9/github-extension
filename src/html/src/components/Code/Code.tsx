@@ -38,8 +38,7 @@ const Code: React.FC = () => {
 						color={getColorByMode(theme, { light: 'primary.800', dark: 'primary.400' })}
 						lineHeight="10px"
 						fontSize="10px"
-						// TODO! uncomment this once it is available on Text component
-						// textOverflow="ellipsis"
+						textOverflow="ellipsis"
 						overflow="hidden"
 						whiteSpace="nowrap"
 						width="100%"

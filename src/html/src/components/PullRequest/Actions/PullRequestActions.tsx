@@ -4,8 +4,8 @@ import get from 'lodash/get';
 import size from 'lodash/size';
 import filter from 'lodash/filter';
 import values from 'lodash/values';
-import Button from '@material-ui/core/Button';
 import HashLoader from 'react-spinners/HashLoader';
+import { Button, Flex } from '@sergiogc9/react-ui';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
@@ -13,8 +13,6 @@ import { MessageHandlersContext } from 'components/Extension/Context/MessageCont
 import { MaterialUIIcon, SymbolicIcon, FontAwesomeIcon } from 'components/common/Icon/Icon';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 import { GithubPullRequest } from 'types/Github';
-
-import './PullRequestActions.scss';
 
 type ComponentProps = {
 	pullRequest: GithubPullRequest;
@@ -59,21 +57,15 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 		if (!user || !pullRequest) return null;
 		if (prActionEventLoading || prActionMergeLoading)
 			return (
-				<div className="action-loader">
+				<Flex justifyContent="center" py={3} width="100%">
 					<HashLoader size={20} color="#1E90FF" />
-				</div>
+				</Flex>
 			);
 		if (pullRequest.merged || prActionMerged)
 			return (
-				<Button
-					variant="contained"
-					className="merge-btn full-width"
-					size="small"
-					disabled
-					disableElevation
-					startIcon={<SymbolicIcon name="pull-request" type="duo" />}
-				>
-					MERGED
+				<Button aspectSize="xs" isDisabled variant="default" width="100%">
+					<SymbolicIcon name="pull-request" type="duo" />
+					<Button.Text>MERGED</Button.Text>
 				</Button>
 			);
 
@@ -95,11 +87,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 
 		const approveBtn = !isPullRequestFromUser && userReviewStatus !== 'APPROVED' && (
 			<Button
-				variant="contained"
-				className="approve-btn"
-				size="small"
-				disableElevation
-				startIcon={<MaterialUIIcon name="check" />}
+				aspectSize="xs"
 				onClick={() =>
 					runAction({
 						...pageData.data,
@@ -107,17 +95,16 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 						event: 'APPROVE'
 					})
 				}
+				variant="success"
+				width="49%"
 			>
-				APPROVE
+				<MaterialUIIcon name="check" />
+				<Button.Text>APPROVE</Button.Text>
 			</Button>
 		);
 		const requestChangesBtn = !isPullRequestFromUser && (
 			<Button
-				variant="contained"
-				className="request-changes-btn"
-				size="small"
-				disableElevation
-				startIcon={<FontAwesomeIcon name="times" type="light" />}
+				aspectSize="xs"
 				onClick={() => {
 					// eslint-disable-next-line no-alert
 					const comment = prompt('Leave a comment:');
@@ -129,30 +116,33 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 							comment
 						});
 				}}
+				variant="danger"
+				width="49%"
 			>
-				CHANGE
+				<FontAwesomeIcon name="times" type="light" />
+				<Button.Text>CHANGE</Button.Text>
 			</Button>
 		);
-		const { text, disabled, btnClass } =
+		const { text, disabled } =
 			pullRequest.state === 'open' &&
 			pullRequest.mergeable &&
 			(!pullRequest.mergeable_status || pullRequest.mergeable_status === 'clean') &&
 			approvedReviews > 0 &&
 			changesRequestedReviews === 0 &&
 			prHasAllChecksSuccess
-				? { text: 'MERGE', disabled: false, btnClass: 'merge' }
-				: { text: 'MERGING IS BLOCKED', disabled: true, btnClass: 'disabled' };
+				? { text: 'MERGE', disabled: false }
+				: { text: 'MERGING IS BLOCKED', disabled: true };
+
 		const mergeBtn = (
 			<Button
-				variant="contained"
-				className={`${btnClass}-btn full-width`}
-				size="small"
-				disableElevation
-				disabled={disabled}
-				startIcon={<SymbolicIcon name="pull-request" type="duo" />}
+				aspectSize="xs"
+				isDisabled={disabled}
 				onClick={() => runMerge(pageData.data)}
+				variant="default"
+				width="100%"
 			>
-				{text}
+				<SymbolicIcon name="pull-request" type="duo" />
+				<Button.Text>{text}</Button.Text>
 			</Button>
 		);
 
@@ -175,7 +165,11 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 		runMerge
 	]);
 
-	return <div id="githubExtensionPullRequestActions">{content}</div>;
+	return (
+		<Flex id="githubExtensionPullRequestActions" flexWrap="wrap" rowGap={1} justifyContent="space-between" width="100%">
+			{content}
+		</Flex>
+	);
 };
 
 export default React.memo(PullRequestActions);

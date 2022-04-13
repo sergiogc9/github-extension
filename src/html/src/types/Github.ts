@@ -13,9 +13,10 @@ export type GithubReview = {
 export type GithubReviews = Record<string, GithubReview>;
 
 export type GithubChecks = {
-	success: number;
 	failed: number;
+	neutral: number;
 	pending: number;
+	success: number;
 };
 
 export type GithubPullRequest = {
