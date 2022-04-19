@@ -1,10 +1,11 @@
 import React from 'react';
-import { Text } from '@sergiogc9/react-ui';
+import { brands } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { Icon, Text } from '@sergiogc9/react-ui';
 
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
 
-import { StyledExtensionPopupHeader, StyledGithubIcon, StyledTabLink } from './styled';
+import { StyledExtensionPopupHeader, StyledTabLink } from './styled';
 
 type ComponentProps = {
 	status: ExtensionStatus;
@@ -30,8 +31,10 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 		if (status === 'synced')
 			return (
 				<>
-					<StyledGithubIcon name="github" type="brand" />
-					<Text color="neutral.0">{user.login}</Text>
+					<Icon.FontAwesome aspectSize="m" color="neutral.0" icon={brands('github')} />
+					<Text color="neutral.0" ml={3}>
+						{user.login}
+					</Text>
 					<StyledTabLink color="neutral.0" ml="auto">
 						Pull requests
 					</StyledTabLink>

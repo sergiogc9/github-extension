@@ -3,8 +3,6 @@ import css from '@styled-system/css';
 import { Flex, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
-import { FontAwesomeIcon } from 'components/common/Icon/Icon';
-
 const StyledExtensionPopupHeader = styled(Flex)`
 	${props =>
 		css({
@@ -23,15 +21,6 @@ StyledExtensionPopupHeader.defaultProps = {
 	width: '100%'
 };
 
-const StyledGithubIcon = styled(FontAwesomeIcon)`
-	${css({
-		color: 'neutral.0',
-		height: 26,
-		marginRight: 3,
-		width: 26
-	})}
-`;
-
 const StyledTabLink = styled(Text)`
 	${css({
 		transition: 'color ease-in-out 0.15s',
@@ -48,4 +37,4 @@ StyledTabLink.defaultProps = {
 	fontWeight: 'bold'
 };
 
-export { StyledExtensionPopupHeader, StyledGithubIcon, StyledTabLink };
+export { StyledExtensionPopupHeader, StyledTabLink };

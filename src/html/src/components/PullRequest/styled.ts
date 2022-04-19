@@ -15,21 +15,7 @@ StyledPullRequestHeader.defaultProps = {
 	rowGap: 2
 };
 
-const StyledPullRequestHeaderTitle = styled(Flex)`
-	> svg {
-		flex-shrink: 0;
-		&:first-child {
-			margin-left: 0;
-			width: 16px;
-			height: 16px;
-		}
-
-		&.fa-chevron-double-right-solid {
-			width: 8px;
-			height: 8px;
-		}
-	}
-`;
+const StyledPullRequestHeaderTitle = styled(Flex)``;
 
 StyledPullRequestHeaderTitle.defaultProps = {
 	alignItems: 'center',
@@ -52,21 +38,7 @@ StyledPullRequestHeaderLink.defaultProps = {
 	rel: 'noreferrer'
 };
 
-const StyledPullRequestHeaderBranch = styled(Flex)`
-	> svg {
-		color: $primaryColor;
-		width: 13px;
-		height: 13px;
-
-		&:first-child {
-			margin-left: 0;
-		}
-
-		&.fa-chevron-double-right {
-			font-size: 8px;
-		}
-	}
-`;
+const StyledPullRequestHeaderBranch = styled(Flex)``;
 
 StyledPullRequestHeaderBranch.defaultProps = {
 	alignItems: 'center',
@@ -80,36 +52,11 @@ const StyledPullRequestInfoElement = styled(Flex)`
 	&:hover {
 		transform: scale(1.2);
 	}
-
-	> svg {
-		width: 14px;
-		height: 14px;
-		margin-right: 3px;
-	}
-	> span {
-		font-size: 11px;
-		line-height: 15px;
-		&.text-small {
-			font-size: 9px;
-		}
-	}
-
-	&.info-additions {
-		svg {
-			color: green;
-			width: 6px;
-		}
-	}
-	&.info-deletions {
-		svg {
-			color: red;
-			width: 6px;
-		}
-	}
 `;
 
 StyledPullRequestInfoElement.defaultProps = {
 	alignItems: 'center',
+	columnGap: 1,
 	cursor: 'pointer',
 	transition: 'transform ease-in 0.1s'
 };

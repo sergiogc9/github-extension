@@ -3,11 +3,11 @@ import { useTheme } from 'styled-components';
 import moment from 'moment';
 import orderBy from 'lodash/orderBy';
 import HashLoader from 'react-spinners/HashLoader';
-import { Flex, Status, Text } from '@sergiogc9/react-ui';
+import { duotone, regular, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { Flex, Icon, Status, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { getRepositoryUrl, getPullRequestUrl, getUserUrl } from 'lib/Github/GithubUrl';
-import { SymbolicIcon, FontAwesomeIcon, MaterialUIIcon } from 'components/common/Icon/Icon';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { PageHandlerContext } from 'components/Extension/Context/PageContext';
@@ -68,19 +68,19 @@ const ExtensionPopupPullRequests: React.FC = () => {
 						<>
 							{!!prChanges.commits && (
 								<StyledPullRequestChange title="New commits">
-									<FontAwesomeIcon name="code-commit" type="duo" />
+									<Icon.FontAwesome icon={solid('code-commit')} size={12} />
 									<StyledPullRequestChangeText>{prChanges.commits}</StyledPullRequestChangeText>
 								</StyledPullRequestChange>
 							)}
 							{!!prChanges.comments && (
 								<StyledPullRequestChange title="New comments">
-									<SymbolicIcon name="chat-conversation-alt" type="solid" />
+									<Icon.FontAwesome icon={solid('message-plus')} size={9} />
 									<StyledPullRequestChangeText>{prChanges.comments}</StyledPullRequestChangeText>
 								</StyledPullRequestChange>
 							)}
 							{!!prChanges.reviews && (
 								<StyledPullRequestChange title="Reviews updated">
-									<SymbolicIcon name="clipboard-check" type="solid" />
+									<Icon.FontAwesome icon={solid('list-check')} size={12} />
 									<StyledPullRequestChangeText>{prChanges.reviews}</StyledPullRequestChangeText>
 								</StyledPullRequestChange>
 							)}
@@ -96,9 +96,10 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		let content: JSX.Element | null = null;
 
 		if (pullRequest.checks) {
-			if (pullRequest.checks.failed > 0) content = <FontAwesomeIcon name="times" type="light" />;
+			if (pullRequest.checks.failed > 0)
+				content = <Icon.FontAwesome color="red.600" icon={regular('times')} size={14} />;
 			else if (pullRequest.checks.pending > 0) content = <Status size={10} variant="yellow" />;
-			else content = <MaterialUIIcon name="check" />;
+			else content = <Icon.FontAwesome color="green.600" icon={regular('check')} size={14} />;
 		}
 
 		return (
@@ -116,8 +117,8 @@ const ExtensionPopupPullRequests: React.FC = () => {
 				const userUrl = getUserUrl(pr.user.username);
 				return (
 					<StyledPullRequest key={pr.repository + pr.number}>
-						<Flex flexShrink={0} marginX={2} width={15}>
-							<SymbolicIcon name="pull-request" type="duo" color="green" />
+						<Flex flexShrink={0} marginX={2}>
+							<Icon.FontAwesome color="primary.500" icon={duotone('code-pull-request')} size={14} />
 						</Flex>
 						<Flex flexDirection="column" mr={5}>
 							<Flex>
