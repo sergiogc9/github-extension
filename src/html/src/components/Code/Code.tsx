@@ -4,13 +4,13 @@ import { Flex, Icon, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 import { regular, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-import { PageContext } from 'components/Extension/Context/PageContext';
+import { usePageContext } from 'components/Extension/Context/PageContext';
 import CodeTree from './Tree/CodeTree';
 
 import { StyledCodeHeader, StyledCodeHeaderLink, StyledCodeHeaderTitle } from './styled';
 
 const Code: React.FC = () => {
-	const pageData = React.useContext(PageContext)!;
+	const pageData = usePageContext()!;
 
 	const theme = useTheme();
 

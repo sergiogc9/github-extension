@@ -73,3 +73,5 @@ export const getPullRequestFileAnchorUrl = (fullFileName: string, currentUrl: st
 
 export const PageContext = React.createContext<PageData | null>(null);
 export const PageHandlerContext = React.createContext<PageHandlers | null>(null);
+export const usePageContext = () => React.useContext(PageContext);
+export const usePageHandlerContext = () => React.useContext(PageHandlerContext);

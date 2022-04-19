@@ -3,9 +3,9 @@ import { Flex, Icon, Text, TextField } from '@sergiogc9/react-ui';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import { useWaitInput } from 'lib/hooks/useWaitInput';
-import { PageContext } from 'components/Extension/Context/PageContext';
-import { StorageContext } from 'components/Extension/Context/StorageContext';
-import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { usePageContext } from 'components/Extension/Context/PageContext';
+import { useStorageContext } from 'components/Extension/Context/StorageContext';
+import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import Code from 'components/Code/Code';
 import PullRequest from 'components/PullRequest/PullRequest';
@@ -30,9 +30,9 @@ const ExtensionSidebar: React.FC = () => {
 		value: searchValue
 	} = useWaitInput(250);
 
-	const pageContextData = React.useContext(PageContext)!;
-	const messageHandlers = React.useContext(MessageHandlersContext)!;
-	const storageContextData = React.useContext(StorageContext)!;
+	const pageContextData = usePageContext()!;
+	const messageHandlers = useMessageHandlersContext()!;
+	const storageContextData = useStorageContext()!;
 
 	React.useEffect(() => {
 		if (showSearch) document.getElementById('githubExtensionSearchInput')?.focus();

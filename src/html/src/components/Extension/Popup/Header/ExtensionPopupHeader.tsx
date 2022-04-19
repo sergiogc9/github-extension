@@ -2,7 +2,7 @@ import React from 'react';
 import { brands } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Icon, Text } from '@sergiogc9/react-ui';
 
-import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
 
 import { StyledExtensionPopupHeader, StyledTabLink } from './styled';
@@ -16,7 +16,7 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 
 	const [user, setUser] = React.useState<any>();
 
-	const messageHandlers = React.useContext(MessageHandlersContext)!;
+	const messageHandlers = useMessageHandlersContext()!;
 
 	React.useEffect(() => {
 		messageHandlers.sendBackgroundMessage({ type: 'get_user' });

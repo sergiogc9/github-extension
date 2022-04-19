@@ -9,8 +9,8 @@ import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { getRepositoryUrl, getPullRequestUrl, getUserUrl } from 'lib/Github/GithubUrl';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
-import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import { PageHandlerContext } from 'components/Extension/Context/PageContext';
+import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { usePageHandlerContext } from 'components/Extension/Context/PageContext';
 import { GithubPullRequest, GithubPullRequestChanges } from 'types/Github';
 
 import {
@@ -30,8 +30,8 @@ const ExtensionPopupPullRequests: React.FC = () => {
 	const [pullRequestsChanges, setPullRequestsChanges] = React.useState<Record<string, GithubPullRequestChanges>>({});
 	const [loadingPullRequests, setLoadingPullRequests] = React.useState<boolean>(false);
 
-	const messageHandlers = React.useContext(MessageHandlersContext)!;
-	const pageHandlers = React.useContext(PageHandlerContext)!;
+	const messageHandlers = useMessageHandlersContext()!;
+	const pageHandlers = usePageHandlerContext()!;
 
 	const theme = useTheme();
 

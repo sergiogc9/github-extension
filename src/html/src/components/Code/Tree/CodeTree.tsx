@@ -4,9 +4,9 @@ import keys from 'lodash/keys';
 import isEmpty from 'lodash/isEmpty';
 
 import { StyledTree, TreeSkeleton } from 'components/common/ui/Tree';
-import { PageContext } from 'components/Extension/Context/PageContext';
-import { SearchContext } from 'components/Extension/Context/SearchContext';
-import { StorageContext } from 'components/Extension/Context/StorageContext';
+import { usePageContext } from 'components/Extension/Context/PageContext';
+import { useSearchContext } from 'components/Extension/Context/SearchContext';
+import { useStorageContext } from 'components/Extension/Context/StorageContext';
 import CodeTreeFolder from 'components/Code/Folder/CodeTreeFolder';
 import CodeTreeFile from 'components/Code/File/CodeTreeFile';
 import GithubApi from 'lib/Github/GithubApi';
@@ -14,9 +14,9 @@ import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 import { CodeTree as CodeTreeType } from 'lib/Github/GithubTree';
 
 const CodeTree: React.FC = () => {
-	const pageData = React.useContext(PageContext)!;
-	const storageData = React.useContext(StorageContext)!;
-	const searchValue = React.useContext(SearchContext);
+	const pageData = usePageContext()!;
+	const storageData = useStorageContext()!;
+	const searchValue = useSearchContext();
 
 	const { onGithubApiError } = useOnGithubApiError();
 

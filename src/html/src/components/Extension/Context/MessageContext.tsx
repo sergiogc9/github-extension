@@ -8,3 +8,4 @@ export type MessageHandlers = {
 };
 
 export const MessageHandlersContext = React.createContext<MessageHandlers | null>(null);
+export const useMessageHandlersContext = () => React.useContext(MessageHandlersContext);

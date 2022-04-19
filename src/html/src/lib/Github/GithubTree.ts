@@ -29,6 +29,7 @@ type RepositoryFile<U> = {
 
 type PRFolderAttributes = Record<string, unknown>;
 type PRFileAttributes = {
+	previousName?: string;
 	status: 'added' | 'removed' | 'renamed' | 'modified';
 };
 
@@ -158,11 +159,12 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 			// eslint-disable-next-line no-useless-escape
 			const [, folderPath, fileName] = apiFileData.filename.match(/^(.*\/{1})*([^\/].*)$/);
 			const fileData: PullRequestFile = {
+				matchesSearch: false,
 				name: fileName,
 				path: folderPath || '',
+				previousName: apiFileData.previous_filename,
 				status: apiFileData.status,
-				visible: true,
-				matchesSearch: false
+				visible: true
 			};
 			this.__addFile(folderPath, fileName, fileData);
 		}

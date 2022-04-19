@@ -9,8 +9,8 @@ import { duotone, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Button, Flex } from '@sergiogc9/react-ui';
 
 import GithubApi from 'lib/Github/GithubApi';
-import { PageContext } from 'components/Extension/Context/PageContext';
-import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { usePageContext } from 'components/Extension/Context/PageContext';
+import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 import { GithubPullRequest } from 'types/Github';
 
@@ -23,8 +23,8 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 
 	const [user, setUser] = React.useState<any>();
 
-	const pageData = React.useContext(PageContext)!;
-	const messageHandlers = React.useContext(MessageHandlersContext)!;
+	const pageData = usePageContext()!;
+	const messageHandlers = useMessageHandlersContext()!;
 
 	const { onGithubApiError } = useOnGithubApiError();
 
@@ -174,7 +174,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 	]);
 
 	return (
-		<Flex id="githubExtensionPullRequestActions" flexWrap="wrap" rowGap={2} justifyContent="space-between" width="100%">
+		<Flex id="githubExtensionPullRequestActions" flexWrap="wrap" rowGap={1} justifyContent="space-between" width="100%">
 			{content}
 		</Flex>
 	);

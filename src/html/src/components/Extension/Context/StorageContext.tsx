@@ -12,3 +12,5 @@ export type StorageHandlers = {
 
 export const StorageContext = React.createContext<StorageData | null>(null);
 export const StorageHandlerContext = React.createContext<StorageHandlers | null>(null);
+export const useStorageContext = () => React.useContext(StorageContext);
+export const useStorageHandlerContext = () => React.useContext(StorageHandlerContext);

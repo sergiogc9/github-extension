@@ -8,8 +8,8 @@ import { Flex, Icon, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import GithubApi from 'lib/Github/GithubApi';
-import { PageContext } from 'components/Extension/Context/PageContext';
-import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { usePageContext } from 'components/Extension/Context/PageContext';
+import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 
@@ -33,8 +33,8 @@ import {
 } from './styled';
 
 const PullRequest: React.FC = () => {
-	const pageData = React.useContext(PageContext)!;
-	const messageHandlers = React.useContext(MessageHandlersContext)!;
+	const pageData = usePageContext()!;
+	const messageHandlers = useMessageHandlersContext()!;
 
 	const theme = useTheme();
 
