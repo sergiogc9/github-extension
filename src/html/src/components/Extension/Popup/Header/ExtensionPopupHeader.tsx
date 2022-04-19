@@ -1,18 +1,20 @@
 import React from 'react';
-import { brands } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { brands, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Icon, Text } from '@sergiogc9/react-ui';
 
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
 
-import { StyledExtensionPopupHeader, StyledTabLink } from './styled';
+import { PopupRoute } from '../types';
+import { StyledExtensionPopupHeader, StyledTabIcon, StyledTabLink } from './styled';
 
 type ComponentProps = {
+	onChangeRoute: (route: PopupRoute) => void;
 	status: ExtensionStatus;
 };
 
 const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
-	const { status } = props;
+	const { onChangeRoute, status } = props;
 
 	const [user, setUser] = React.useState<any>();
 
@@ -35,12 +37,20 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 					<Text color="neutral.0" ml={3}>
 						{user.login}
 					</Text>
-					<StyledTabLink color="neutral.0" ml="auto">
+					<StyledTabLink color="neutral.0" ml="auto" onClick={() => onChangeRoute('pullRequests')}>
 						Pull requests
 					</StyledTabLink>
+					<StyledTabIcon
+						aspectSize="xs"
+						color="neutral.0"
+						cursor="pointer"
+						icon={solid('gear')}
+						ml={3}
+						onClick={() => onChangeRoute('settings')}
+					/>
 				</>
 			);
-	}, [status, user]);
+	}, [onChangeRoute, status, user]);
 
 	return <StyledExtensionPopupHeader>{content}</StyledExtensionPopupHeader>;
 };

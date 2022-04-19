@@ -29,13 +29,12 @@ StyledLoader.defaultProps = {
 };
 
 const StyledPullRequest = styled(Flex)`
-	${props =>
-		css({
-			transition: 'background-color ease-in-out 0.15s',
-			'&:hover': {
-				bg: getColorByMode(props.theme, { light: 'neutral.50', dark: 'neutral.700' })
-			}
-		})}
+	${css({
+		transition: 'background-color ease-in-out 0.15s',
+		'&:hover': {
+			bg: 'github.common.bgHover'
+		}
+	})}
 `;
 
 StyledPullRequest.defaultProps = {
