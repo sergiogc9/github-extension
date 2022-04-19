@@ -34,16 +34,10 @@ const Code: React.FC = () => {
 						{repository}
 					</StyledCodeHeaderLink>
 				</StyledCodeHeaderTitle>
-				<Flex
-					alignItems="center"
-					bg={getColorByMode(theme, { light: 'primary.100', dark: 'neutral.700' })}
-					justifyContent="center"
-					maxWidth="100%"
-					p={1}
-				>
+				<Flex alignItems="center" bg="github.branch.bg" justifyContent="center" maxWidth="100%" p={1}>
 					<Text
 						aspectSize="xs"
-						color={getColorByMode(theme, { light: 'primary.800', dark: 'primary.400' })}
+						color="github.branch.text"
 						lineHeight="10px"
 						fontSize="10px"
 						textOverflow="ellipsis"

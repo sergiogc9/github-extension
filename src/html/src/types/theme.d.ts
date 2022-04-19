@@ -3,6 +3,7 @@ import 'styled-components';
 import { Theme, ThemeColors, ThemePalette } from '@sergiogc9/react-ui-theme';
 
 type GithubColors = {
+	branch: Record<'bg' | 'text', string>;
 	common: Record<'border' | 'bgHover', string>;
 	popup: Record<'header', string>;
 	sidebar: Record<'header' | 'toolbar', string>;

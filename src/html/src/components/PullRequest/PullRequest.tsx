@@ -62,8 +62,8 @@ const PullRequest: React.FC = () => {
 			<>
 				<Text
 					aspectSize="xs"
-					bg={getColorByMode(theme, { light: 'primary.100', dark: 'neutral.700' })}
-					color={getColorByMode(theme, { light: 'primary.800', dark: 'primary.400' })}
+					bg="github.branch.bg"
+					color="github.branch.text"
 					lineHeight="10px"
 					fontSize="10px"
 					maxWidth="100%"
@@ -74,16 +74,11 @@ const PullRequest: React.FC = () => {
 				>
 					{pullRequest.branches!.base}
 				</Text>
-				<Icon.FontAwesome
-					color={getColorByMode(theme, { light: 'neutral.500', dark: 'neutral.500' })}
-					icon={solid('caret-up')}
-					size={13}
-					mt="2px"
-				/>
+				<Icon.FontAwesome color="github.branch.text" icon={solid('caret-up')} size={13} mt="2px" />
 				<Text
 					aspectSize="xs"
-					bg={getColorByMode(theme, { light: 'primary.100', dark: 'neutral.700' })}
-					color={getColorByMode(theme, { light: 'primary.800', dark: 'primary.400' })}
+					bg="github.branch.bg"
+					color="github.branch.text"
 					lineHeight="10px"
 					fontSize="10px"
 					maxWidth="100%"
@@ -96,7 +91,7 @@ const PullRequest: React.FC = () => {
 				</Text>
 			</>
 		);
-	}, [isLoading, pullRequest, theme]);
+	}, [isLoading, pullRequest]);
 
 	const headerContent = React.useMemo(() => {
 		const { user, repository } = pageData.data;

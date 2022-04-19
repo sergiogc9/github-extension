@@ -37,6 +37,7 @@ const githubDarkPrimaryColors: ThemePalette['primary'] = {
 const getLightGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 	if (githubMode === 'light_high_contrast')
 		return {
+			branch: { bg: '#DFF7FF', text: '#0349b4' },
 			common: { bgHover: '#E7ECF0', border: '#88929D' },
 			popup: { header: '#24282F' },
 			sidebar: { header: '#FFFFFF', toolbar: '#FFFFFF' }
@@ -44,6 +45,7 @@ const getLightGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 
 	// Light
 	return {
+		branch: { bg: '#ddf4ff', text: '#0969da' },
 		common: { bgHover: '#f6f8fa', border: 'hsla(210,18%,87%,1)' },
 		popup: { header: '#24282F' },
 		sidebar: { header: '#F6F8FA', toolbar: '#F6F8FA' }
@@ -70,6 +72,7 @@ const getDarkCommonColors = (githubMode: GithubThemeMode): Partial<ThemePalette[
 const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 	if (githubMode === 'dark')
 		return {
+			branch: { bg: '#13233A', text: '#58a6ff' },
 			common: { bgHover: '#161b22', border: '#21262d' },
 			popup: { header: '#2D333B' },
 			sidebar: { header: '#161B22', toolbar: '#161B22' }
@@ -77,6 +80,7 @@ const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 
 	if (githubMode === 'dark_high_contrast')
 		return {
+			branch: { bg: '#132234', text: '#71b7ff' },
 			common: { bgHover: '#272b33', border: '#7B828E' },
 			popup: { header: '#2D333B' },
 			sidebar: { header: '#272b33', toolbar: '##272b33' }
@@ -84,6 +88,7 @@ const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 
 	// Dark-dimmed
 	return {
+		branch: { bg: 'rgba(65,132,228,0.15)', text: '#539bf5' },
 		common: { bgHover: '#2d333b', border: '#373e47' },
 		popup: { header: '#2D333B' },
 		sidebar: { header: '#2D333B', toolbar: '#2D333B' }
@@ -98,7 +103,12 @@ const generateTheme = async (githubMode?: GithubThemeMode) => {
 		mode: finalMode === 'light' || finalMode === 'light_high_contrast' ? 'light' : 'dark',
 		colors: {
 			...reactUITheme.colors,
-			github: { common: { bgHover: '', border: '' }, popup: { header: '' }, sidebar: { header: '', toolbar: '' } },
+			github: {
+				branch: { bg: '', text: '' },
+				common: { bgHover: '', border: '' },
+				popup: { header: '' },
+				sidebar: { header: '', toolbar: '' }
+			},
 			modes: {
 				light: {
 					...reactUITheme.colors.modes.light,
