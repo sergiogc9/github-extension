@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { Flex, Text } from '@sergiogc9/react-ui';
+import { Flex, Icon, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
+import { regular, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-import { FontAwesomeIcon, MaterialUIIcon } from 'components/common/Icon/Icon';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import CodeTree from './Tree/CodeTree';
 
@@ -19,9 +19,17 @@ const Code: React.FC = () => {
 		return (
 			<StyledCodeHeader>
 				<StyledCodeHeaderTitle>
-					<MaterialUIIcon name="library-books" />
+					<Icon.FontAwesome
+						color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.500' })}
+						icon={regular('book-bookmark')}
+						size={14}
+					/>
 					<StyledCodeHeaderLink href={`https://github.com/${user}`}>{user}</StyledCodeHeaderLink>
-					<FontAwesomeIcon name="chevron-double-right" type="solid" />
+					<Icon.FontAwesome
+						color={getColorByMode(theme, { light: 'neutral.700', dark: 'neutral.500' })}
+						icon={solid('chevrons-right')}
+						size={8}
+					/>
 					<StyledCodeHeaderLink fontWeight="bold" href={`hhttps://github.com/${user}/${repository}`}>
 						{repository}
 					</StyledCodeHeaderLink>

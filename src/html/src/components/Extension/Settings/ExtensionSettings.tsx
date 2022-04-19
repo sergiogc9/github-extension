@@ -17,7 +17,7 @@ const ExtensionSettings: React.FC = () => {
 				alignItems="center"
 				bg="github.sidebar.header"
 				borderBottom="thin solid"
-				borderBottomColor="border"
+				borderBottomColor="github.common.border"
 				height={60}
 				p={3}
 			>
@@ -81,6 +81,7 @@ const ExtensionSettings: React.FC = () => {
 						onClick={() => {
 							addToast({ key: 'settings-saved', message: 'Settings saved', status: 'success' });
 						}}
+						variant="primary"
 						width="50%"
 					>
 						Apply settings

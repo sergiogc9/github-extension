@@ -98,6 +98,3 @@ Once installed, follow these instructions to enable all features:
 
 Material icon icons:
 https://github.com/PKief/vscode-material-icon-theme
-
-Material icons:
-https://github.com/Templarian/MaterialDesign-SVG

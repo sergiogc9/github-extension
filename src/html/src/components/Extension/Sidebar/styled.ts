@@ -46,12 +46,6 @@ const StyledExtensionSidebarToolbarIconWrapper = styled(Flex)<{ isSelected: bool
 		css({
 			color: getColorByMode(props.theme, { light: 'primary.500', dark: 'primary.300' })
 		})}
-
-	& > svg {
-		color: currentColor;
-		height: 100%;
-		width: 100%;
-	}
 `;
 
 StyledExtensionSidebarToolbarIconWrapper.defaultProps = {

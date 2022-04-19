@@ -1,12 +1,13 @@
 import React from 'react';
+import { useTheme } from 'styled-components';
 import keys from 'lodash/keys';
 import { Collapse } from 'react-collapse';
-import { Box } from '@sergiogc9/react-ui';
+import { Box, Flex, Icon } from '@sergiogc9/react-ui';
+import { getColorByMode } from '@sergiogc9/react-ui-theme';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import { StyledTreeRow, StyledTreeRowText, TreeFolderSkeleton } from 'components/common/ui/Tree';
 import CodeTreeFile from 'components/Code/File/CodeTreeFile';
-import FolderIcon from 'components/common/Icon/FolderIcon';
-import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 import { CodeTreeFolder as CodeTreeFolderType } from 'lib/Github/GithubTree';
 
 type ComponentProps = {
@@ -18,6 +19,8 @@ type ComponentProps = {
 const CodeTreeFolder: React.FC<ComponentProps> = props => {
 	const { folder, deep } = props;
 	const { onLoadFolder } = props;
+
+	const theme = useTheme();
 
 	const [isOpened, setIsOpened] = React.useState(false);
 
@@ -51,17 +54,24 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 		);
 	}, [isOpened, folder, deep, onLoadFolder]);
 
+	const folderIconColor = getColorByMode(theme, { light: '#54aeff', dark: '#768390' });
+
 	return (
 		<Box>
 			<StyledTreeRow deep={deep} isVisible={folder.visible} onClick={onToggleCollapsed} title={folder.path}>
-				<FontAwesomeIcon
-					name={isOpened ? 'angle-down' : 'angle-right'}
-					type="solid"
-					color="dodgerblue"
-					className="folder-collapse-icon"
-				/>
-				<FolderIcon name={folder.name} opened={isOpened} />
-				<StyledTreeRowText fontWeight={folder.matchesSearch ? 'bold' : undefined}> {folder.name}</StyledTreeRowText>
+				<Flex columnGap={1} pl="2px" pr={1}>
+					<Icon.FontAwesome
+						color={folderIconColor}
+						icon={isOpened ? solid('angle-down') : solid('angle-right')}
+						size={10}
+					/>
+					<Icon.FontAwesome
+						color={folderIconColor}
+						icon={isOpened ? solid('folder-open') : solid('folder')}
+						size={12}
+					/>
+				</Flex>
+				<StyledTreeRowText fontWeight={folder.matchesSearch ? 'bold' : undefined}>{folder.name}</StyledTreeRowText>
 			</StyledTreeRow>
 			<Collapse isOpened={isOpened}>{treeContent}</Collapse>
 		</Box>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Flex, Text, TextField } from '@sergiogc9/react-ui';
+import { Flex, Icon, Text, TextField } from '@sergiogc9/react-ui';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import { useWaitInput } from 'lib/hooks/useWaitInput';
 import { PageContext } from 'components/Extension/Context/PageContext';
@@ -8,7 +9,6 @@ import { MessageHandlersContext } from 'components/Extension/Context/MessageCont
 import { SearchContext } from 'components/Extension/Context/SearchContext';
 import Code from 'components/Code/Code';
 import PullRequest from 'components/PullRequest/PullRequest';
-import { FontAwesomeIcon } from 'components/common/Icon/Icon';
 
 import ExtensionSettings from '../Settings/ExtensionSettings';
 
@@ -70,26 +70,26 @@ const ExtensionSidebar: React.FC = () => {
 		() => (
 			<StyledExtensionSidebarToolbar>
 				<StyledExtensionSidebarToolbarIconWrapper isSelected={false}>
-					<FontAwesomeIcon
-						name="redo-alt"
-						type="solid"
+					<Icon.FontAwesome
+						icon={solid('rotate-right')}
 						onClick={() => {
 							// eslint-disable-next-line no-self-assign
 							window.location.href = window.location.href;
 						}}
+						size={12}
 					/>
 				</StyledExtensionSidebarToolbarIconWrapper>
 				{pageContextData.page !== 'unknown' && (
 					<StyledExtensionSidebarToolbarIconWrapper isSelected={showSearch}>
-						<FontAwesomeIcon
-							name={showSearch ? 'times' : 'search'}
-							type="solid"
+						<Icon.FontAwesome
+							icon={showSearch ? solid('xmark') : solid('magnifying-glass')}
 							onClick={() => {
 								setShowSearch(show => {
 									if (show) setSearchValue('');
 									return !show;
 								});
 							}}
+							size={12}
 						/>
 					</StyledExtensionSidebarToolbarIconWrapper>
 				)}
@@ -103,10 +103,10 @@ const ExtensionSidebar: React.FC = () => {
 					/>
 				)}
 				<StyledExtensionSidebarToolbarIconWrapper isSelected={route === 'settings'} ml="auto">
-					<FontAwesomeIcon
-						name="cog"
-						type="solid"
+					<Icon.FontAwesome
+						icon={solid('gear')}
 						onClick={() => setRoute(currentRoute => (currentRoute === 'settings' ? 'pageContent' : 'settings'))}
+						size={12}
 					/>
 				</StyledExtensionSidebarToolbarIconWrapper>
 			</StyledExtensionSidebarToolbar>

@@ -47,14 +47,7 @@ StyledPullRequest.defaultProps = {
 	paddingY: '5px'
 };
 
-const StyledPullRequestStatusContentWrapper = styled(Flex)`
-	svg {
-		${css({
-			height: 16,
-			width: 16
-		})}
-	}
-`;
+const StyledPullRequestStatusContentWrapper = styled(Flex)``;
 
 StyledPullRequestStatusContentWrapper.defaultProps = {
 	flexShrink: 0,
@@ -72,22 +65,7 @@ const StyledHoveredText: React.FC<TextProps<React.AnchorHTMLAttributes<HTMLAncho
 		})}
 `;
 
-const StyledPullRequestChange = styled(Flex)`
-	& svg.react-icon {
-		width: 12px;
-		height: 12px;
-		color: currentColor;
-		--icon-secondary-opacity: 1;
-
-		&.symb-chat-conversation-alt-solid {
-			margin-top: 2px;
-		}
-		&.fa-code-commit-duo {
-			width: 15px;
-			height: 15px;
-		}
-	}
-`;
+const StyledPullRequestChange = styled(Flex)``;
 
 StyledPullRequestChange.defaultProps = {
 	alignItems: 'center',
@@ -99,6 +77,7 @@ StyledPullRequestChange.defaultProps = {
 	justifyContent: 'center',
 	marginRight: 1,
 	minHeight: 20,
+	minWidth: 36,
 	paddingX: '6px',
 	paddingY: '2px'
 };

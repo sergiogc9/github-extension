@@ -1,10 +1,10 @@
 import React from 'react';
 import values from 'lodash/values';
 import isEmpty from 'lodash/isEmpty';
-import { Box, Flex, Status, Text } from '@sergiogc9/react-ui';
+import { regular, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { Box, Flex, Icon, Status, Text } from '@sergiogc9/react-ui';
 
 import { GithubReviews } from 'types/Github';
-import { MaterialUIIcon, NucleoIcon, FontAwesomeIcon } from 'components/common/Icon/Icon';
 
 import { StyledPullRequestReviewer } from './styled';
 
@@ -25,9 +25,11 @@ const PullRequestReviewers: React.FC<ComponentProps> = props => {
 
 		return values(reviews).map(review => {
 			let icon;
-			if (review.state === 'APPROVED') icon = <MaterialUIIcon name="check" />;
-			else if (review.state === 'CHANGES_REQUESTED') icon = <FontAwesomeIcon name="times" type="light" />;
-			else if (review.state === 'COMMENTED') icon = <NucleoIcon name="a-chat" type="solid" />;
+			if (review.state === 'APPROVED') icon = <Icon.FontAwesome color="green.700" icon={solid('check')} size={12} />;
+			else if (review.state === 'CHANGES_REQUESTED')
+				icon = <Icon.FontAwesome color="red.600" icon={solid('xmark')} size={12} />;
+			else if (review.state === 'COMMENTED')
+				icon = <Icon.FontAwesome color="neutral.800" icon={regular('message')} size={12} pt="2px" />;
 			else icon = <Status flexShrink={0} mr={1} size={9} variant="yellow" />;
 
 			return (

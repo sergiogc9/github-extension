@@ -16,21 +16,7 @@ StyledCodeHeader.defaultProps = {
 	rowGap: 2
 };
 
-const StyledCodeHeaderTitle = styled(Flex)`
-	> svg {
-		flex-shrink: 0;
-		&:first-child {
-			margin-left: 0;
-			width: 16px;
-			height: 16px;
-		}
-
-		&.fa-chevron-double-right-solid {
-			width: 8px;
-			height: 8px;
-		}
-	}
-`;
+const StyledCodeHeaderTitle = styled(Flex)``;
 
 StyledCodeHeaderTitle.defaultProps = {
 	alignItems: 'center',

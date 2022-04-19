@@ -21,7 +21,7 @@ const PullRequestInfoSkeleton = () => {
 
 const PullRequestReviewsSkeleton = () => {
 	return (
-		<Box p={1}>
+		<Box p={2}>
 			<Skeleton height={50}>
 				<Skeleton.Rect borderRadius={0} height={20} left="0%" position="absolute" width="49%" />
 				<Skeleton.Rect borderRadius={0} height={20} left="0%" position="absolute" top={25} width="49%" />
@@ -33,7 +33,7 @@ const PullRequestReviewsSkeleton = () => {
 
 const PullRequestActionsSkeleton = () => {
 	return (
-		<Box p={1}>
+		<Box p={2}>
 			<Skeleton height={45}>
 				<Skeleton.Rect borderRadius={0} height={20} left="0%" position="absolute" width="49%" />
 				<Skeleton.Rect borderRadius={0} height={20} left="51%" position="absolute" width="49%" />

@@ -22,7 +22,6 @@ StyledTree.defaultProps = {
 	position: 'relative'
 };
 
-// TODO! REMOVE THIS
 const collapseIconWidth = '12px';
 const iconWidth = '20px';
 const iconFontSize = '12px';
@@ -40,29 +39,14 @@ const StyledTreeRow = styled(Flex)<{ deep: number; isVisible: boolean }>`
 		}
 	}
 
-	// TODO! Remove this
-	.folder-collapse-icon {
-		color: rgba(3, 47, 98, 0.5);
-		width: ${collapseIconWidth};
-		height: ${collapseIconWidth};
-		user-select: none;
-	}
-
-	.folder-icon,
 	.file-icon {
 		font-size: ${iconFontSize};
 		font-style: normal;
-		width: ${iconWidth};
+		margin-left: ${collapseIconWidth};
 		user-select: none;
-
-		&.react-icon {
-			padding: 3px 0;
-			height: ${iconWidth};
-			transform: translateX(-1px);
-		}
+		width: ${iconWidth};
 	}
 
-	i.folder-icon,
 	i.file-icon {
 		&::before {
 			font-size: ${iconFontSize};
@@ -72,17 +56,6 @@ const StyledTreeRow = styled(Flex)<{ deep: number; isVisible: boolean }>`
 		}
 	}
 
-	.folder-icon {
-		&.default {
-			filter: invert(43%) sepia(82%) saturate(2523%) hue-rotate(194deg) brightness(103%) contrast(105%);
-		}
-	}
-
-	.file-icon {
-		margin-left: ${collapseIconWidth};
-	}
-
-	img.folder-icon,
 	img.file-icon {
 		padding: 2px 4px;
 		padding-left: 1px;

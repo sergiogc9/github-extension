@@ -3,13 +3,13 @@ import { useTheme } from 'styled-components';
 import { useAsync } from 'react-async';
 import isEmpty from 'lodash/isEmpty';
 import numeral from 'numeral';
-import { Flex, Text } from '@sergiogc9/react-ui';
+import { duotone, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { Flex, Icon, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import GithubApi from 'lib/Github/GithubApi';
 import { PageContext } from 'components/Extension/Context/PageContext';
 import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import { FontAwesomeIcon, SymbolicIcon } from 'components/common/Icon/Icon';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 
@@ -74,7 +74,12 @@ const PullRequest: React.FC = () => {
 				>
 					{pullRequest.branches!.base}
 				</Text>
-				<FontAwesomeIcon name="caret-up" type="solid" />
+				<Icon.FontAwesome
+					color={getColorByMode(theme, { light: 'neutral.500', dark: 'neutral.500' })}
+					icon={solid('caret-up')}
+					size={13}
+					mt="2px"
+				/>
 				<Text
 					aspectSize="xs"
 					bg={getColorByMode(theme, { light: 'primary.100', dark: 'neutral.700' })}
@@ -98,9 +103,17 @@ const PullRequest: React.FC = () => {
 		return (
 			<StyledPullRequestHeader>
 				<StyledPullRequestHeaderTitle>
-					<SymbolicIcon name="pull-request" type="duo" />
+					<Icon.FontAwesome
+						color={getColorByMode(theme, { light: 'neutral.700', dark: 'neutral.500' })}
+						icon={duotone('code-pull-request')}
+						size={14}
+					/>
 					<StyledPullRequestHeaderLink href={`https://github.com/${user}`}>{user}</StyledPullRequestHeaderLink>
-					<FontAwesomeIcon name="chevron-double-right" type="solid" />
+					<Icon.FontAwesome
+						color={getColorByMode(theme, { light: 'neutral.700', dark: 'neutral.500' })}
+						icon={solid('chevrons-right')}
+						size={8}
+					/>
 					<StyledPullRequestHeaderLink fontWeight="bold" href={`hhttps://github.com/${user}/${repository}`}>
 						{repository}
 					</StyledPullRequestHeaderLink>
@@ -108,33 +121,45 @@ const PullRequest: React.FC = () => {
 				<StyledPullRequestHeaderBranch>{branchContent}</StyledPullRequestHeaderBranch>
 			</StyledPullRequestHeader>
 		);
-	}, [pageData.data, branchContent]);
+	}, [pageData.data, theme, branchContent]);
 
 	const infoContent = React.useMemo(() => {
+		const textCommonProps = { fontSize: '11px', lineHeight: '11px' };
+
 		const content =
 			pullRequest && !isLoading ? (
 				<>
 					<StyledPullRequestInfoElement title="Commits">
-						<FontAwesomeIcon name="code-commit" type="duo" />
-						<span>{pullRequest.commits}</span>
+						<Icon.FontAwesome
+							color={getColorByMode(theme, { light: 'primary.400', dark: 'primary.500' })}
+							icon={solid('code-commit')}
+							size={14}
+						/>
+						<Text {...textCommonProps}>{pullRequest.commits}</Text>
 					</StyledPullRequestInfoElement>
 					<StyledPullRequestInfoElement title="Files">
-						<FontAwesomeIcon name="copy" type="duo" />
-						<span>{pullRequest.changedFiles}</span>
+						<Icon.FontAwesome
+							color={getColorByMode(theme, { light: 'primary.400', dark: 'primary.500' })}
+							icon={solid('copy')}
+							size={14}
+						/>
+						<Text {...textCommonProps}>{pullRequest.changedFiles}</Text>
 					</StyledPullRequestInfoElement>
 					<StyledPullRequestInfoElement title="Comments">
-						<SymbolicIcon name="chat-conversation-alt" type="solid" />
-						<span>{pullRequest.comments + pullRequest.reviewComments}</span>
+						<Icon.FontAwesome
+							color={getColorByMode(theme, { light: 'primary.400', dark: 'primary.500' })}
+							icon={solid('message-lines')}
+							size={14}
+						/>
+						<Text {...textCommonProps}>{pullRequest.comments + pullRequest.reviewComments}</Text>
 					</StyledPullRequestInfoElement>
 					<StyledPullRequestInfoElement title="Lines added" className="info-additions">
-						<FontAwesomeIcon name="square" type="solid" />
-						<span className="text-small">+</span>
-						<span>{numeral(pullRequest.additions).format('0a')}</span>
+						<Icon.FontAwesome color="green.600" icon={solid('square')} size={7} />
+						<Text {...textCommonProps}>+{numeral(pullRequest.additions).format('0a')}</Text>
 					</StyledPullRequestInfoElement>
 					<StyledPullRequestInfoElement title="Lines deleted" className="info-deletions">
-						<FontAwesomeIcon name="square" type="solid" />
-						<span className="text-small">-</span>
-						<span>{numeral(pullRequest.deletions).format('0a')}</span>
+						<Icon.FontAwesome color="red.600" icon={solid('square')} size={7} />
+						<Text {...textCommonProps}>-{numeral(pullRequest.deletions).format('0a')}</Text>
 					</StyledPullRequestInfoElement>
 				</>
 			) : (
@@ -146,7 +171,7 @@ const PullRequest: React.FC = () => {
 				{content}
 			</Flex>
 		);
-	}, [pullRequest, isLoading]);
+	}, [pullRequest, isLoading, theme]);
 
 	const labelsContent = React.useMemo(() => {
 		if (!pullRequest || isLoading || isEmpty(pullRequest.labels)) return null;
@@ -174,7 +199,7 @@ const PullRequest: React.FC = () => {
 		if (isLoading || !pullRequest) return <PullRequestActionsSkeleton />;
 
 		return (
-			<Flex justifyContent="center" padding={1} paddingTop={0}>
+			<Flex justifyContent="center" padding={2} paddingTop={0}>
 				<PullRequestActions pullRequest={pullRequest} />
 			</Flex>
 		);

@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import '@duik/it/dist/styles.css';
 import 'file-icons-js/css/style.css';
-
-import './index.scss';
 
 ReactDOM.render(
 	<React.StrictMode>
