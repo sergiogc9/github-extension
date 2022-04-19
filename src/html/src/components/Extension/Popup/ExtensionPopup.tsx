@@ -2,7 +2,7 @@ import React from 'react';
 import { useToasts } from '@sergiogc9/react-ui';
 
 import Storage from 'lib/Storage';
-import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
 
 import ExtensionPopupHeader from './Header/ExtensionPopupHeader';
@@ -16,7 +16,7 @@ const ExtensionPopup: React.FC = () => {
 	const [route] = React.useState<Route>('pullRequests');
 	const [status, setStatus] = React.useState<ExtensionStatus>('stop');
 
-	const messageHandlers = React.useContext(MessageHandlersContext)!;
+	const messageHandlers = useMessageHandlersContext()!;
 
 	const { addToast } = useToasts();
 

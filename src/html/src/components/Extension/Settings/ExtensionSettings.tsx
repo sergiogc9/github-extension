@@ -1,13 +1,13 @@
 import React from 'react';
 import { Alert, Button, CheckBox, Divider, Flex, TextField, Title, useToasts } from '@sergiogc9/react-ui';
 
-import { MessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import { StorageContext, StorageHandlerContext } from 'components/Extension/Context/StorageContext';
+import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import { useStorageContext, useStorageHandlerContext } from 'components/Extension/Context/StorageContext';
 
 const ExtensionSettings: React.FC = () => {
-	const storageData = React.useContext(StorageContext)!;
-	const storageHandlers = React.useContext(StorageHandlerContext)!;
-	const messageHandlers = React.useContext(MessageHandlersContext)!;
+	const storageData = useStorageContext()!;
+	const storageHandlers = useStorageHandlerContext()!;
+	const messageHandlers = useMessageHandlersContext()!;
 
 	const { addToast } = useToasts();
 
