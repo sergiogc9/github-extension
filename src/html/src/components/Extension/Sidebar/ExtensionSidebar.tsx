@@ -1,8 +1,9 @@
 import React from 'react';
-import { Flex, Icon, Text, TextField } from '@sergiogc9/react-ui';
+import { Flex, Icon, Text } from '@sergiogc9/react-ui';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import { useWaitInput } from 'lib/hooks/useWaitInput';
+import GithubInput from 'components/common/ui/Input/GithubInput';
 import { usePageContext } from 'components/Extension/Context/PageContext';
 import { useStorageContext } from 'components/Extension/Context/StorageContext';
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
@@ -94,12 +95,14 @@ const ExtensionSidebar: React.FC = () => {
 					</StyledExtensionSidebarToolbarIconWrapper>
 				)}
 				{showSearch && (
-					<TextField
-						aspectSize="s"
+					<GithubInput
+						fontSize="10px"
+						height={20}
 						mr={2}
-						placeholder="Search folders or files"
-						value={searchValue}
 						onChange={onChangeSearchValue}
+						placeholder="Search folders or files"
+						py={0}
+						value={searchValue}
 					/>
 				)}
 				<StyledExtensionSidebarToolbarIconWrapper isSelected={route === 'settings'} ml="auto">

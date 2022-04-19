@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert, Button, CheckBox, Divider, Flex, TextField, Title, useToasts } from '@sergiogc9/react-ui';
+import { Alert, Button, CheckBox, Divider, Flex, Title, useToasts } from '@sergiogc9/react-ui';
 
+import GithubInput from 'components/common/ui/Input/GithubInput';
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { useStorageContext, useStorageHandlerContext } from 'components/Extension/Context/StorageContext';
 
@@ -28,17 +29,16 @@ const ExtensionSettings: React.FC = () => {
 					<Title aspectSize="uppercase" color="neutral.400">
 						github token
 					</Title>
-
-					<TextField
-						aspectSize="s"
+					<GithubInput
 						defaultValue={storageData.token}
-						placeholder="Enter github token"
+						height={30}
 						onBlur={ev => {
 							storageHandlers.setStorageItem('github_token', ev.target.value);
 							messageHandlers.sendBackgroundMessage({
 								type: 'token_updated'
 							});
 						}}
+						placeholder="Enter github token"
 					/>
 					<Alert p={2}>
 						<Alert.Icon />
