@@ -27,7 +27,7 @@ const PullRequestReviewers: React.FC<ComponentProps> = props => {
 			let icon;
 			if (review.state === 'APPROVED') icon = <Icon.FontAwesome color="green.700" icon={solid('check')} size={12} />;
 			else if (review.state === 'CHANGES_REQUESTED')
-				icon = <Icon.FontAwesome color="red.600" icon={solid('xmark')} size={12} />;
+				icon = <Icon.FontAwesome color="red.600" icon={regular('file-plus-minus')} size={14} />;
 			else if (review.state === 'COMMENTED')
 				icon = <Icon.FontAwesome color="neutral.800" icon={regular('message')} size={12} pt="2px" />;
 			else icon = <Status flexShrink={0} mr={1} size={9} variant="yellow" />;

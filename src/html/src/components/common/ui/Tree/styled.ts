@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Box, Flex, Text } from '@sergiogc9/react-ui';
-import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 const StyledTree = styled(Box)<{ isPullRequest?: boolean }>`
 	${props =>
@@ -32,10 +31,10 @@ const StyledTreeRow = styled(Flex)<{ deep: number; isVisible: boolean }>`
 	padding-left: ${props => props.deep * 10}px;
 
 	&:hover {
-		${props => css({ bg: getColorByMode(props.theme, { light: 'primary.50', dark: 'github.common.bgHover' }) })}
+		${css({ bg: 'github.common.bgHover' })}
 
 		span {
-			${props => css({ color: getColorByMode(props.theme, { light: 'primary.600', dark: 'common.text' }) })}
+			${css({ color: 'common.text' })}
 		}
 	}
 
