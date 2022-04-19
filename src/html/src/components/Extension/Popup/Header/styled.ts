@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex, Text } from '@sergiogc9/react-ui';
+import { Flex, Icon, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 const StyledExtensionPopupHeader = styled(Flex)`
@@ -37,4 +37,13 @@ StyledTabLink.defaultProps = {
 	fontWeight: 'bold'
 };
 
-export { StyledExtensionPopupHeader, StyledTabLink };
+const StyledTabIcon = styled(Icon.FontAwesome)`
+	${css({
+		transition: 'color ease-in-out 0.15s',
+		'&:hover': {
+			color: 'neutral.300'
+		}
+	})}
+`;
+
+export { StyledExtensionPopupHeader, StyledTabIcon, StyledTabLink };

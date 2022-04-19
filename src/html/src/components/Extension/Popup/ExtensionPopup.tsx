@@ -1,19 +1,19 @@
 import React from 'react';
-import { useToasts } from '@sergiogc9/react-ui';
+import { Box, useToasts } from '@sergiogc9/react-ui';
 
 import Storage from 'lib/Storage';
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { ExtensionStatus } from 'types/Extension';
 
+import ExtensionSettings from '../Settings/ExtensionSettings';
 import ExtensionPopupHeader from './Header/ExtensionPopupHeader';
 import ExtensionPopupPullRequests from './PullRequests/ExtensionPopupPullRequests';
 
 import { StyledExtensionPopup } from './styled';
-
-type Route = 'pullRequests';
+import { PopupRoute } from './types';
 
 const ExtensionPopup: React.FC = () => {
-	const [route] = React.useState<Route>('pullRequests');
+	const [route, setRoute] = React.useState<PopupRoute>('pullRequests');
 	const [status, setStatus] = React.useState<ExtensionStatus>('stop');
 
 	const messageHandlers = useMessageHandlersContext()!;
@@ -49,12 +49,22 @@ const ExtensionPopup: React.FC = () => {
 	const content = React.useMemo(() => {
 		if (status === 'synced') {
 			if (route === 'pullRequests') return <ExtensionPopupPullRequests />;
+			if (route === 'settings')
+				return (
+					<Box overflowY="auto">
+						<ExtensionSettings />
+					</Box>
+				);
 		}
 	}, [status, route]);
 
+	const onChangeRoute = React.useCallback((newRoute: PopupRoute) => {
+		setRoute(newRoute);
+	}, []);
+
 	return (
 		<StyledExtensionPopup id="githubExtensionPopup">
-			<ExtensionPopupHeader status={status} />
+			<ExtensionPopupHeader onChangeRoute={onChangeRoute} status={status} />
 			{content}
 		</StyledExtensionPopup>
 	);
