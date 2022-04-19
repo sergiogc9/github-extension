@@ -1,6 +1,11 @@
 import { DefaultTheme } from 'styled-components';
 import reactUITheme, { ThemePalette } from '@sergiogc9/react-ui-theme';
 
+import Storage from 'lib/Storage';
+import { GithubColors } from 'types/theme';
+
+import { GithubThemeMode } from './types';
+
 // Palettes obtained from:
 // https://hihayk.github.io/scale/#4/5/50/85/-50/20/0/14/0969da/9/105/218/white
 
@@ -29,38 +34,91 @@ const githubDarkPrimaryColors: ThemePalette['primary'] = {
 	900: '#482480'
 };
 
-const theme: DefaultTheme = {
-	...reactUITheme,
-	// mode: 'dark',
-	colors: {
-		...reactUITheme.colors,
-		github: { common: { bgHover: '', border: '' }, popup: { header: '' }, sidebar: { header: '', toolbar: '' } },
-		modes: {
-			light: {
-				...reactUITheme.colors.modes.light,
-				primary: githubLightPrimaryColors,
-				github: {
-					common: { bgHover: '#f6f8fa', border: 'hsla(210,18%,87%,1)' },
-					popup: { header: '#24282F' },
-					sidebar: { header: '#F6F8FA', toolbar: '#F6F8FA' }
-				}
-			},
-			dark: {
-				...reactUITheme.colors.modes.dark,
-				primary: githubDarkPrimaryColors,
-				common: {
-					...reactUITheme.colors.modes.dark.common,
-					background: '#22272E',
-					text: '#adbac7'
+const getLightGithubColors = (githubMode: GithubThemeMode): GithubColors => {
+	if (githubMode === 'light_high_contrast')
+		return {
+			common: { bgHover: '#E7ECF0', border: '#88929D' },
+			popup: { header: '#24282F' },
+			sidebar: { header: '#FFFFFF', toolbar: '#FFFFFF' }
+		};
+
+	// Light
+	return {
+		common: { bgHover: '#f6f8fa', border: 'hsla(210,18%,87%,1)' },
+		popup: { header: '#24282F' },
+		sidebar: { header: '#F6F8FA', toolbar: '#F6F8FA' }
+	};
+};
+
+const getDarkCommonColors = (githubMode: GithubThemeMode): Partial<ThemePalette['common']> => {
+	if (githubMode === 'dark')
+		return {
+			background: '#0D1118',
+			text: '#c9d1d9'
+		};
+
+	if (githubMode === 'dark_high_contrast')
+		return {
+			background: '#0A0C10',
+			text: '#f0f3f6'
+		};
+
+	// Dark-dimmed
+	return { background: '#22272E', text: '#adbac7' };
+};
+
+const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
+	if (githubMode === 'dark')
+		return {
+			common: { bgHover: '#161b22', border: '#21262d' },
+			popup: { header: '#2D333B' },
+			sidebar: { header: '#161B22', toolbar: '#161B22' }
+		};
+
+	if (githubMode === 'dark_high_contrast')
+		return {
+			common: { bgHover: '#272b33', border: '#7B828E' },
+			popup: { header: '#2D333B' },
+			sidebar: { header: '#272b33', toolbar: '##272b33' }
+		};
+
+	// Dark-dimmed
+	return {
+		common: { bgHover: '#2d333b', border: '#373e47' },
+		popup: { header: '#2D333B' },
+		sidebar: { header: '#2D333B', toolbar: '#2D333B' }
+	};
+};
+
+const generateTheme = async (githubMode?: GithubThemeMode) => {
+	const finalMode: GithubThemeMode = githubMode ?? (await Storage.get('github_theme_mode')) ?? 'light';
+
+	const theme: DefaultTheme = {
+		...reactUITheme,
+		mode: finalMode === 'light' || finalMode === 'light_high_contrast' ? 'light' : 'dark',
+		colors: {
+			...reactUITheme.colors,
+			github: { common: { bgHover: '', border: '' }, popup: { header: '' }, sidebar: { header: '', toolbar: '' } },
+			modes: {
+				light: {
+					...reactUITheme.colors.modes.light,
+					primary: githubLightPrimaryColors,
+					github: getLightGithubColors(finalMode)
 				},
-				github: {
-					common: { bgHover: '#2d333b', border: '#373e47' },
-					popup: { header: '#2D333B' },
-					sidebar: { header: '#2D333B', toolbar: '#2D333B' }
+				dark: {
+					...reactUITheme.colors.modes.dark,
+					primary: githubDarkPrimaryColors,
+					common: {
+						...reactUITheme.colors.modes.dark.common,
+						...getDarkCommonColors(finalMode)
+					},
+					github: getDarkGithubColors(finalMode)
 				}
 			}
 		}
-	}
+	};
+
+	return theme;
 };
 
-export { theme };
+export { generateTheme };

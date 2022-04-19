@@ -18,6 +18,11 @@ export type PageHandlers = {
 export const getPageData = (url: string): PageData => {
 	const parsedUrl = new Url(url);
 	const path = parsedUrl.pathname.replace(/\/$/, ''); // only pathname without final slash
+
+	if (path.startsWith('/settings')) {
+		return { page: 'unknown', isLoading: false, url: '', data: {} };
+	}
+
 	// Case default branch
 	// eslint-disable-next-line no-useless-escape
 	let matchData = path.match(/^\/([^\/]+)\/([^\/]+)$/);

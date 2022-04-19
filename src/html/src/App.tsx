@@ -1,17 +1,31 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { DefaultTheme } from 'styled-components';
 import { ReactUIProvider } from '@sergiogc9/react-ui-theme';
 
-import { GlobalStyle, theme } from './theme';
 import BrowserExtension from './components/Extension/BrowserExtension';
 
+import { GlobalStyle, generateTheme, GithubThemeMode } from './theme';
+
 const App: React.FC = () => {
+	const [searchParams] = useSearchParams();
+
+	const [theme, setTheme] = React.useState<DefaultTheme | null>(null);
+
+	const githubThemeMode = searchParams.get('themeMode');
+	React.useEffect(() => {
+		(async () => {
+			const themeMode = githubThemeMode as GithubThemeMode;
+			setTheme(await generateTheme(themeMode));
+		})();
+	}, [githubThemeMode]);
+
+	if (!theme) return null;
+
 	return (
 		<ReactUIProvider theme={theme}>
 			<GlobalStyle />
-			<BrowserRouter>
-				<BrowserExtension />
-			</BrowserRouter>
+			<BrowserExtension />
 		</ReactUIProvider>
 	);
 };
