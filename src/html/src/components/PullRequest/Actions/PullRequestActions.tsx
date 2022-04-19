@@ -174,7 +174,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 	]);
 
 	return (
-		<Flex id="githubExtensionPullRequestActions" flexWrap="wrap" rowGap={1} justifyContent="space-between" width="100%">
+		<Flex id="githubExtensionPullRequestActions" flexWrap="wrap" rowGap={2} justifyContent="space-between" width="100%">
 			{content}
 		</Flex>
 	);
