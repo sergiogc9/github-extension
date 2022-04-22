@@ -33,6 +33,18 @@ const githubDarkPrimaryColors: ThemePalette['primary'] = {
 	800: '#432F9E',
 	900: '#482480'
 };
+const purpleColors: ThemePalette['primary'] = {
+	50: '#E5E5FA',
+	100: '#CBC7F5',
+	200: '#B4A9EF',
+	300: '#A08CEA',
+	400: '#8F6EE4',
+	500: '#8250DF',
+	600: '#8C44C5',
+	700: '#9038AB',
+	800: '#8E2D90',
+	900: '#752366'
+};
 
 const getLightGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 	if (githubMode === 'light_high_contrast')
@@ -109,11 +121,13 @@ const generateTheme = async (githubMode?: GithubThemeMode) => {
 				popup: { header: '' },
 				sidebar: { header: '', toolbar: '' }
 			},
+			purple: purpleColors,
 			modes: {
 				light: {
 					...reactUITheme.colors.modes.light,
 					primary: githubLightPrimaryColors,
-					github: getLightGithubColors(finalMode)
+					github: getLightGithubColors(finalMode),
+					purple: purpleColors
 				},
 				dark: {
 					...reactUITheme.colors.modes.dark,
@@ -122,7 +136,33 @@ const generateTheme = async (githubMode?: GithubThemeMode) => {
 						...reactUITheme.colors.modes.dark.common,
 						...getDarkCommonColors(finalMode)
 					},
-					github: getDarkGithubColors(finalMode)
+					github: getDarkGithubColors(finalMode),
+					purple: purpleColors
+				}
+			}
+		},
+		components: {
+			...reactUITheme.components,
+			button: {
+				...reactUITheme.components.button,
+				colors: {
+					...reactUITheme.components.button.colors,
+					modes: {
+						light: {
+							...reactUITheme.components.button.colors.modes.light,
+							github: {
+								background: { default: 'purple.500', hover: 'purple.400', active: 'purple.600' },
+								focusShadow: 'purple.300'
+							}
+						},
+						dark: {
+							...reactUITheme.components.button.colors.modes.dark,
+							github: {
+								background: { default: 'purple.500', hover: 'purple.400', active: 'purple.600' },
+								focusShadow: 'purple.300'
+							}
+						}
+					}
 				}
 			}
 		}

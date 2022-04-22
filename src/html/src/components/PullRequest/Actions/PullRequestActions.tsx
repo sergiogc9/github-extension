@@ -64,7 +64,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 
 		if (pullRequest.merged || prActionMerged)
 			return (
-				<Button aspectSize="xs" isDisabled variant="default" width="100%">
+				<Button aspectSize="xs" isDisabled variant="github" width="100%">
 					<Button.Icon.FontAwesome icon={duotone('code-pull-request')} />
 					<Button.Text>MERGED</Button.Text>
 				</Button>
@@ -146,7 +146,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 				aspectSize="xs"
 				isDisabled={disabled}
 				onClick={() => runMerge(pageData.data)}
-				variant="default"
+				variant="github"
 				width="100%"
 			>
 				<Button.Icon.FontAwesome icon={duotone('code-pull-request')} />
