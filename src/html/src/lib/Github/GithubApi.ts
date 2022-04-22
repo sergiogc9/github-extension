@@ -275,7 +275,7 @@ class GithubApi {
 			if (!__defaultRepoBranchesCache[cacheKey]) {
 				__defaultRepoBranchesCache[cacheKey] = 'fetching';
 				const octokit = await getOctokit();
-				const { data: branches } = await octokit.repos.listBranches({ repo: repository, owner: user });
+				const { data: branches } = await octokit.repos.listBranches({ repo: repository, owner: user, per_page: 100 });
 				__defaultRepoBranchesCache[cacheKey] = branches.map((br: any) => br.name);
 			} else if (__defaultRepoBranchesCache[cacheKey] === 'fetching') {
 				// Avoid multiple api calls for same repository
