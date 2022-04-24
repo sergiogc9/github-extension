@@ -2097,23 +2097,23 @@
   dependencies:
     screenfull "5.1.0"
 
-"@sergiogc9/react-ui-theme@0.6.0", "@sergiogc9/react-ui-theme@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.6.0.tgz#924995b8b471746b1100fd80e21f842e3c9e2610"
-  integrity sha512-XMb6H/uyvZPlMGL9++8beGYQRVAVSm0qeXL+WJi9KUGNh21MRmskT1cpkRUfgUoyS8Nv5TjGx6/H/e/lrHtlFA==
+"@sergiogc9/react-ui-theme@0.7.0", "@sergiogc9/react-ui-theme@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.7.0.tgz#ad50d1b0ad9634e299cd24ec04d033a8db56fcde"
+  integrity sha512-XX/QYncbYU3TZ1P8W9WWmarbq/GILqhlHR7GzI2Wtuzn192EGarW5edIKGp17PQIUOycxXQGheP5wfVQGEvHWw==
   dependencies:
     lodash "4.17.20"
 
-"@sergiogc9/react-ui@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.6.0.tgz#aae58530c6ee35c1b17521c325c3efe381b400cd"
-  integrity sha512-KzqRGTda4eRtXl8xUxTGt0PNRzA++SFBVbRL2v3WSrgT1/Z917q+23TwJztSkYkILbLWXXNwhhok1c0CO2llPw==
+"@sergiogc9/react-ui@0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.7.0.tgz#b327993da3606746b67430043a0c7963bf7054ee"
+  integrity sha512-pzGogtRAkpj1ocrFsmIRGdGQL0F+cDOvQT0MpJK+hKaSm60N9v4zFoixC/xjpyjRlqBS0BX2htBJqFhDcxtegw==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.1.1"
     "@fortawesome/free-solid-svg-icons" "6.1.1"
     "@fortawesome/react-fontawesome" "^0.1.18"
     "@sergiogc9/react-hooks" "0.2.1"
-    "@sergiogc9/react-ui-theme" "^0.6.0"
+    "@sergiogc9/react-ui-theme" "^0.7.0"
     "@sergiogc9/react-utils" "0.0.6"
     "@styled-system/css" "5.1.5"
     "@styled-system/should-forward-prop" "5.1.5"

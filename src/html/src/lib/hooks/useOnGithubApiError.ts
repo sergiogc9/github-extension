@@ -6,7 +6,7 @@ export const useOnGithubApiError = () => {
 
 	const onGithubApiError = React.useCallback(
 		(error: Error) => {
-			addToast({ key: error.message, message: error.message, status: 'error' });
+			addToast({ aspectSize: 's', key: error.message, message: error.message, status: 'error' });
 		},
 		[addToast]
 	);
