@@ -1,21 +1,6 @@
 import 'styled-components';
 
-import { DefaultThemeAttributes, Theme, ThemeColors, ThemePalette } from '@sergiogc9/react-ui-theme';
-
-// TODO! get from react-ui-theme
-interface ColorPalette {
-	readonly 0?: string;
-	readonly 50: string;
-	readonly 100: string;
-	readonly 200: string;
-	readonly 300: string;
-	readonly 400: string;
-	readonly 500: string;
-	readonly 600: string;
-	readonly 700: string;
-	readonly 800: string;
-	readonly 900: string;
-}
+import { ColorPalette, DefaultThemeAttributes, Theme, ThemeColors, ThemePalette } from '@sergiogc9/react-ui-theme';
 
 type GithubColors = {
 	branch: Record<'bg' | 'text', string>;
