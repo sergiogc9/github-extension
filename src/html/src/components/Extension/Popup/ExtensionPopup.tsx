@@ -33,6 +33,7 @@ const ExtensionPopup: React.FC = () => {
 			if (currentStatus === 'error') {
 				if (!(await Storage.get('github_token'))) {
 					addToast({
+						aspectSize: 's',
 						key: 'github_token_not_available',
 						message:
 							'Github token not available! Please enter a valid token in settings page available in the sidebar.',

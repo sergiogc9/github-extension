@@ -40,7 +40,7 @@ const ExtensionSettings: React.FC = () => {
 						}}
 						placeholder="Enter github token"
 					/>
-					<Alert p={2}>
+					<Alert aspectSize="s">
 						<Alert.Icon />
 						<Alert.Text aspectSize="s">Token is saved only in browser local storage.</Alert.Text>
 					</Alert>
@@ -79,7 +79,7 @@ const ExtensionSettings: React.FC = () => {
 						minWidth={120}
 						my={2}
 						onClick={() => {
-							addToast({ key: 'settings-saved', message: 'Settings saved', status: 'success' });
+							addToast({ aspectSize: 's', key: 'settings-saved', message: 'Settings saved', status: 'success' });
 						}}
 						variant="primary"
 						width="50%"
