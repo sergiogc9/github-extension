@@ -15,8 +15,8 @@
 	},
 	"content_scripts": [
 		{
-			"js": ["contentscript.js"],
-			"css": ["contentscript.css"],
+			"js": ["jquery.js", "jquery-ui.js", "contentscript.js"],
+			"css": ["jquery-ui.css", "contentscript.css"],
 			"matches": ["https://github.com/*"],
 			"all_frames": true
 		}

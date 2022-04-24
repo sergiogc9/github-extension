@@ -16,7 +16,7 @@
 	},
 	"include": [
 		"src/background",
-		"src/contentscript",
+		"src/contentscript/**/*",
 		"src/html/src/**/*",
 		"src/html/scripts/**/*",
 		"./webpack.config.js"

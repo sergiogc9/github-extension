@@ -1,4 +1,5 @@
 const { CheckerPlugin, TsConfigPathsPlugin } = require('awesome-typescript-loader');
+const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { optimize } = require('webpack');
 const path = require('path');
@@ -39,6 +40,13 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: '[name].css',
 			chunkFilename: '[id].css'
+		}),
+		new CopyPlugin({
+			patterns: [
+				{ from: 'src/contentscript/jquery/jquery.js', to: 'jquery.js' },
+				{ from: 'src/contentscript/jquery/jquery-ui.js', to: 'jquery-ui.js' },
+				{ from: 'src/contentscript/jquery/jquery-ui.css', to: 'jquery-ui.css' }
+			]
 		})
 	],
 	resolve: {

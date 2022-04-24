@@ -64,22 +64,58 @@ const observeThemeModeChange = () => {
 	observer.observe(targetNode, config);
 };
 
-const startSidebar = () => {
+const DEFAULT_SIDEBAR_WIDTH = 300;
+
+const startSidebar = async () => {
 	const nav = document.createElement('nav');
 	nav.setAttribute('id', 'githubExtensionNav');
 	nav.innerHTML = `<iframe id="githubExtensionNavIframe"></iframe>`;
 	document.body.appendChild(nav);
-	const iframe = document.getElementById('githubExtensionNavIframe');
+
+	const savedSidebarWidth = (await Storage.get('github_extension_sidebar_width')) ?? DEFAULT_SIDEBAR_WIDTH;
+	document.documentElement.style.setProperty('--github-body-padding-left', `${savedSidebarWidth}px`);
+	nav.style.width = `${savedSidebarWidth}px`;
+
+	const iframe = document.getElementById('githubExtensionNavIframe') as HTMLIFrameElement;
 
 	const mode = detectGithubThemeMode();
 	Storage.set('github_theme_mode', mode);
 	observeThemeModeChange();
 
-	(iframe as any).src = chrome.runtime.getURL(
+	iframe.src = chrome.runtime.getURL(
 		// eslint-disable-next-line no-restricted-globals
 		`html/index.html?chromeUrl=${encodeURIComponent(location.href)}&themeMode=${mode}`
 	);
-	(iframe as any).frameBorder = 0;
+	iframe.frameBorder = '0';
+
+	$('#githubExtensionNav').resizable({
+		handles: 'e',
+		minWidth: 200,
+		resize: (_, ui) => {
+			const newWidth = ui.size.width;
+			document.documentElement.style.setProperty('--github-body-padding-left', `${newWidth}px`);
+			Storage.set('github_extension_sidebar_width', newWidth);
+		},
+		// The start / stop properties are needed to solve a bug when making nav smaller
+		start: () => {
+			$('#githubExtensionNav').each((_, element) => {
+				const d = $(
+					`<div class="iframeCover" style="zindex:99;position:absolute;width:100%;top:0px;left:0px;height:${$(
+						element
+					).height()}px"></div>`
+				);
+				$(element).append(d);
+			});
+		},
+		stop() {
+			$('.iframeCover').remove();
+		}
+	});
+	$('.ui-resizable-e').on('dblclick', () => {
+		document.documentElement.style.setProperty('--github-body-padding-left', `${DEFAULT_SIDEBAR_WIDTH}px`);
+		nav.style.width = `${DEFAULT_SIDEBAR_WIDTH}px`;
+		Storage.set('github_extension_sidebar_width', DEFAULT_SIDEBAR_WIDTH);
+	});
 };
 
 chrome.runtime.onMessage.addListener(__handleMessages);
