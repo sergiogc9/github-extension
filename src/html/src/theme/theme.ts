@@ -65,11 +65,7 @@ const getLightGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 };
 
 const getDarkCommonColors = (githubMode: GithubThemeMode): Partial<ThemePalette['common']> => {
-	if (githubMode === 'dark')
-		return {
-			background: '#0D1118',
-			text: '#c9d1d9'
-		};
+	if (githubMode === 'dark_dimmed') return { background: '#22272E', text: '#adbac7' };
 
 	if (githubMode === 'dark_high_contrast')
 		return {
@@ -77,17 +73,20 @@ const getDarkCommonColors = (githubMode: GithubThemeMode): Partial<ThemePalette[
 			text: '#f0f3f6'
 		};
 
-	// Dark-dimmed
-	return { background: '#22272E', text: '#adbac7' };
+	// Dark
+	return {
+		background: '#0D1118',
+		text: '#c9d1d9'
+	};
 };
 
 const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
-	if (githubMode === 'dark')
+	if (githubMode === 'dark_dimmed')
 		return {
-			branch: { bg: '#13233A', text: '#58a6ff' },
-			common: { bgHover: '#161b22', border: '#21262d' },
+			branch: { bg: 'rgba(65,132,228,0.15)', text: '#539bf5' },
+			common: { bgHover: '#2d333b', border: '#373e47' },
 			popup: { header: '#2D333B' },
-			sidebar: { header: '#161B22', toolbar: '#161B22' }
+			sidebar: { header: '#2D333B', toolbar: '#2D333B' }
 		};
 
 	if (githubMode === 'dark_high_contrast')
@@ -98,12 +97,12 @@ const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 			sidebar: { header: '#272b33', toolbar: '##272b33' }
 		};
 
-	// Dark-dimmed
+	// Dark
 	return {
-		branch: { bg: 'rgba(65,132,228,0.15)', text: '#539bf5' },
-		common: { bgHover: '#2d333b', border: '#373e47' },
+		branch: { bg: '#13233A', text: '#58a6ff' },
+		common: { bgHover: '#161b22', border: '#21262d' },
 		popup: { header: '#2D333B' },
-		sidebar: { header: '#2D333B', toolbar: '#2D333B' }
+		sidebar: { header: '#161B22', toolbar: '#161B22' }
 	};
 };
 
@@ -112,7 +111,7 @@ const generateTheme = async (githubMode?: GithubThemeMode) => {
 
 	const theme: DefaultTheme = {
 		...reactUITheme,
-		mode: finalMode === 'light' || finalMode === 'light_high_contrast' ? 'light' : 'dark',
+		mode: finalMode.startsWith('light') ? 'light' : 'dark',
 		colors: {
 			...reactUITheme.colors,
 			github: {
