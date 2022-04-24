@@ -1,5 +1,5 @@
 body.padding-left {
-	padding-left: 300px !important;
+	padding-left: var(--github-body-padding-left);
 }
 body > nav#githubExtensionNav {
 	box-sizing: border-box;
@@ -19,4 +19,7 @@ body > nav#githubExtensionNav.visible {
 body > nav#githubExtensionNav iframe {
 	width: 100%;
 	height: 100%;
+}
+body > nav#githubExtensionNav > .ui-resizable-e {
+	cursor: ew-resize;
 }
