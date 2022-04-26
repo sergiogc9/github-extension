@@ -10,9 +10,10 @@
 	],
 	"scripts": {
 		"build:background": "NODE_ENV=production webpack --config webpack.config.js",
+		"build:copy": "cpy manifest.json dist && cpy src/assets/* dist/assets --flat",
 		"build:html": "npm run build --prefix src/html && cd src/html/build && cpy * /static/* ../../../dist/html --parents",
 		"build": "npm-run-all build:*",
-		"clean": "rm -rf dist && cpy manifest.json dist && cpy src/assets/* dist/assets",
+		"clean": "rm -rf dist",
 		"lint": "eslint . --ignore-path .gitignore",
 		"prebuild": "npm run clean",
 		"prettier": "prettier --write . --ignore-path .gitignore",
@@ -21,6 +22,7 @@
 		"prewatch": "npm run clean",
 		"typescript:check": "tsc --noEmit",
 		"watch:background": "NODE_ENV=development webpack --config webpack.config.js -w",
+		"watch:copy": "yarn build:copy",
 		"watch:html": "npm run watch:build --prefix src/html",
 		"watch": "npm-run-all --parallel watch:*",
 		"zip": "bestzip extension.zip dist/*"
