@@ -77,8 +77,7 @@ StyledPullRequestChange.defaultProps = {
 	marginRight: 1,
 	minHeight: 20,
 	minWidth: 36,
-	paddingX: '6px',
-	paddingY: '2px'
+	paddingX: '6px'
 };
 
 const StyledPullRequestChangeText = styled(Text)``;
@@ -86,7 +85,7 @@ const StyledPullRequestChangeText = styled(Text)``;
 StyledPullRequestChangeText.defaultProps = {
 	fontSize: '11px',
 	fontWeight: 'bold',
-	lineHeight: '11px'
+	lineHeight: '20px'
 };
 
 export {
