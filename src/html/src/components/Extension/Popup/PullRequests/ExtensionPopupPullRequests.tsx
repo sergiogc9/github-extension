@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from 'styled-components';
 import moment from 'moment';
 import orderBy from 'lodash/orderBy';
-import HashLoader from 'react-spinners/HashLoader';
+import ClipLoader from 'react-spinners/ClipLoader';
 import { duotone, regular, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Flex, Icon, Status, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
@@ -53,7 +53,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 	const loaderContent = React.useMemo(
 		() => (
 			<StyledLoader duration="0.25s" isVisible={loadingPullRequests} title="Updating pull requests">
-				<HashLoader size={16} color="#fff" />
+				<ClipLoader size={16} color="#fff" speedMultiplier={0.75} />
 			</StyledLoader>
 		),
 		[loadingPullRequests]

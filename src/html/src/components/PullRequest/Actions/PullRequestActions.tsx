@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import size from 'lodash/size';
 import filter from 'lodash/filter';
 import values from 'lodash/values';
-import HashLoader from 'react-spinners/HashLoader';
+import ClipLoader from 'react-spinners/ClipLoader';
 import { duotone, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Button, Flex } from '@sergiogc9/react-ui';
 
@@ -58,7 +58,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 		if (prActionEventLoading || prActionMergeLoading)
 			return (
 				<Flex justifyContent="center" py={3} width="100%">
-					<HashLoader size={20} color="#1E90FF" />
+					<ClipLoader size={20} color="#1E90FF" speedMultiplier={0.75} />
 				</Flex>
 			);
 
