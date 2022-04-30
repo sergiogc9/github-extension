@@ -144,11 +144,17 @@ const BrowserExtension = () => {
 		setStorageData(await getStorageData());
 	}, []);
 
+	const onRemoveStorageItem = React.useCallback(async (key: string) => {
+		await Storage.remove(key);
+		setStorageData(await getStorageData());
+	}, []);
+
 	const storageHandlers = React.useMemo<StorageHandlers>(
 		() => ({
+			removeStorageItem: onRemoveStorageItem,
 			setStorageItem: onSetStorageItem
 		}),
-		[onSetStorageItem]
+		[onRemoveStorageItem, onSetStorageItem]
 	);
 
 	// Message context stuff

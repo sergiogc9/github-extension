@@ -22,8 +22,8 @@ let myOctokit: any;
 const __defaultRepoDefaultBranchCache: Record<string, string> = {};
 const __defaultRepoBranchesCache: Record<string, 'fetching' | string[]> = {};
 
-const getOctokit = async () => {
-	const token = await Storage.get('github_token');
+const getOctokit = async ({ token: forcedToken }: { token?: string } = {}) => {
+	const token = forcedToken ?? (await Storage.get('github_token'));
 	if (!token) {
 		Log.error('Github token not available!');
 		throw new Error('Github token not available! Please enter a valid token in settings page.');
@@ -392,6 +392,11 @@ class GithubApi {
 		} catch (e) {
 			onApiError(e);
 		}
+	};
+
+	static testUserToken = async (token: string) => {
+		const octokit = await getOctokit({ token });
+		await octokit.users.getAuthenticated();
 	};
 }
 

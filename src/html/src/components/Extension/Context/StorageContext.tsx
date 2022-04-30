@@ -7,6 +7,7 @@ export type StorageData = {
 	hide_unimplemented_pages: boolean;
 };
 export type StorageHandlers = {
+	removeStorageItem: (key: string) => Promise<void>;
 	setStorageItem: (key: string, value: any) => void;
 };
 

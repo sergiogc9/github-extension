@@ -6,6 +6,7 @@ import { useMessageHandlersContext } from 'components/Extension/Context/MessageC
 import { ExtensionStatus } from 'types/Extension';
 
 import ExtensionSettings from '../Settings/ExtensionSettings';
+import ExtensionWelcome from '../Welcome/ExtensionWelcome';
 import ExtensionPopupHeader from './Header/ExtensionPopupHeader';
 import ExtensionPopupPullRequests from './PullRequests/ExtensionPopupPullRequests';
 
@@ -15,6 +16,7 @@ import { PopupRoute } from './types';
 const ExtensionPopup: React.FC = () => {
 	const [route, setRoute] = React.useState<PopupRoute>('pullRequests');
 	const [status, setStatus] = React.useState<ExtensionStatus>('stop');
+	const [isGithubTokenError, setIsGithubTokenError] = React.useState(false);
 
 	const messageHandlers = useMessageHandlersContext()!;
 
@@ -32,22 +34,25 @@ const ExtensionPopup: React.FC = () => {
 		const checkStatus = async (currentStatus: ExtensionStatus) => {
 			if (currentStatus === 'error') {
 				if (!(await Storage.get('github_token'))) {
+					setIsGithubTokenError(true);
+				}
+				// eslint-disable-next-line no-alert
+				else {
 					addToast({
 						aspectSize: 's',
-						key: 'github_token_not_available',
-						message:
-							'Github token not available! Please enter a valid token in settings page available in the sidebar.',
+						duration: 'always',
+						key: 'general_error',
+						message: 'Some error ocurred, please try again later or reinstall the extension.',
 						status: 'error'
 					});
 				}
-				// eslint-disable-next-line no-alert
-				else alert('Some error ocurred, please try again later or reinstall the extension.');
-			}
+			} else setIsGithubTokenError(false);
 		};
 		checkStatus(status);
 	}, [status]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const content = React.useMemo(() => {
+		if (isGithubTokenError) return <ExtensionWelcome />;
 		if (status === 'synced') {
 			if (route === 'pullRequests') return <ExtensionPopupPullRequests />;
 			if (route === 'settings')
@@ -57,7 +62,7 @@ const ExtensionPopup: React.FC = () => {
 					</Box>
 				);
 		}
-	}, [status, route]);
+	}, [isGithubTokenError, status, route]);
 
 	const onChangeRoute = React.useCallback((newRoute: PopupRoute) => {
 		setRoute(newRoute);

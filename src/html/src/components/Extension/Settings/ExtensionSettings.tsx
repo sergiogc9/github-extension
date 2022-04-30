@@ -1,7 +1,6 @@
 import React from 'react';
-import { Alert, Button, CheckBox, Divider, Flex, Title, useToasts } from '@sergiogc9/react-ui';
+import { Button, CheckBox, Divider, Flex, Title, useToasts } from '@sergiogc9/react-ui';
 
-import GithubInput from 'components/common/ui/Input/GithubInput';
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { useStorageContext, useStorageHandlerContext } from 'components/Extension/Context/StorageContext';
 
@@ -29,21 +28,20 @@ const ExtensionSettings: React.FC = () => {
 					<Title aspectSize="uppercase" color="neutral.400">
 						github token
 					</Title>
-					<GithubInput
-						defaultValue={storageData.token}
-						height={30}
-						onBlur={ev => {
-							storageHandlers.setStorageItem('github_token', ev.target.value);
+					<Button
+						aspectSize="s"
+						maxWidth="100%"
+						onClick={async () => {
+							await storageHandlers.removeStorageItem('github_token');
 							messageHandlers.sendBackgroundMessage({
 								type: 'token_updated'
 							});
 						}}
-						placeholder="Enter github token"
-					/>
-					<Alert aspectSize="s">
-						<Alert.Icon />
-						<Alert.Text aspectSize="s">Token is saved only in browser local storage.</Alert.Text>
-					</Alert>
+						variant="secondary"
+						width={300}
+					>
+						Change token
+					</Button>
 				</Flex>
 				<Divider px={3} />
 				<Flex flexDirection="column" rowGap={2} p={3}>

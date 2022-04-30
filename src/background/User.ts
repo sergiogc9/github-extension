@@ -14,6 +14,7 @@ class User {
 
 	public fetch = async () => {
 		try {
+			this.__attributes = undefined;
 			this.__attributes = await GithubApi.getUserData();
 			this.__sendUser();
 		} catch (e) {

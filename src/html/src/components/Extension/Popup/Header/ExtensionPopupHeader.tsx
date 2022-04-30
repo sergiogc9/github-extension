@@ -29,6 +29,7 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const content = React.useMemo(() => {
+		if (status === 'error') return null;
 		if (status === 'starting' || !user) return 'Loading...';
 		if (status === 'synced')
 			return (
