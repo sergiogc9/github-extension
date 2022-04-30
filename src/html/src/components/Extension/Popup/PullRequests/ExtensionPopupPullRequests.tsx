@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components';
 import moment from 'moment';
 import orderBy from 'lodash/orderBy';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { duotone, regular, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Flex, Icon, Status, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
@@ -74,7 +74,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 							)}
 							{!!prChanges.comments && (
 								<StyledPullRequestChange title="New comments">
-									<Icon.FontAwesome icon={solid('message-plus')} size={9} />
+									<Icon.FontAwesome icon={solid('message')} size={9} />
 									<StyledPullRequestChangeText>{prChanges.comments}</StyledPullRequestChangeText>
 								</StyledPullRequestChange>
 							)}
@@ -96,10 +96,9 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		let content: JSX.Element | null = null;
 
 		if (pullRequest.checks) {
-			if (pullRequest.checks.failed > 0)
-				content = <Icon.FontAwesome color="red.600" icon={regular('times')} size={14} />;
+			if (pullRequest.checks.failed > 0) content = <Icon.FontAwesome color="red.600" icon={solid('times')} size={14} />;
 			else if (pullRequest.checks.pending > 0) content = <Status size={10} variant="yellow" />;
-			else content = <Icon.FontAwesome color="green.600" icon={regular('check')} size={14} />;
+			else content = <Icon.FontAwesome color="green.600" icon={solid('check')} size={14} />;
 		}
 
 		return (
@@ -118,7 +117,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 				return (
 					<StyledPullRequest key={pr.repository + pr.number}>
 						<Flex flexShrink={0} marginX={2}>
-							<Icon.FontAwesome color="primary.500" icon={duotone('code-pull-request')} size={14} />
+							<Icon.FontAwesome color="primary.500" icon={solid('code-pull-request')} size={14} />
 						</Flex>
 						<Flex flexDirection="column" mr={5}>
 							<Flex>

@@ -45,10 +45,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-modules-
             ${{ runner.os }}-
-      - name: Setup Font Awesome pro token
-        run: |
-          npm config set '@fortawesome:registry' "https://npm.fontawesome.com/"
-          npm config set '//npm.fontawesome.com/:_authToken' "${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}"
       - name: Install dependencies
         run: yarn install --ignore-scripts --frozen-lockfile && cd src/html && yarn install --ignore-scripts --frozen-lockfile
       - name: Validate code quality

@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components';
 import { useAsync } from 'react-async';
 import isEmpty from 'lodash/isEmpty';
 import numeral from 'numeral';
-import { duotone, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Flex, Icon, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
@@ -100,15 +100,11 @@ const PullRequest: React.FC = () => {
 				<StyledPullRequestHeaderTitle>
 					<Icon.FontAwesome
 						color={getColorByMode(theme, { light: 'neutral.700', dark: 'neutral.500' })}
-						icon={duotone('code-pull-request')}
+						icon={solid('code-pull-request')}
 						size={14}
 					/>
 					<StyledPullRequestHeaderLink href={`https://github.com/${user}`}>{user}</StyledPullRequestHeaderLink>
-					<Icon.FontAwesome
-						color={getColorByMode(theme, { light: 'neutral.700', dark: 'neutral.500' })}
-						icon={solid('chevrons-right')}
-						size={8}
-					/>
+					<Text color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.500' })}>/</Text>
 					<StyledPullRequestHeaderLink fontWeight="bold" href={`hhttps://github.com/${user}/${repository}`}>
 						{repository}
 					</StyledPullRequestHeaderLink>
@@ -143,7 +139,7 @@ const PullRequest: React.FC = () => {
 					<StyledPullRequestInfoElement title="Comments">
 						<Icon.FontAwesome
 							color={getColorByMode(theme, { light: 'primary.400', dark: 'primary.500' })}
-							icon={solid('message-lines')}
+							icon={solid('message')}
 							size={14}
 						/>
 						<Text {...textCommonProps}>{pullRequest.comments + pullRequest.reviewComments}</Text>

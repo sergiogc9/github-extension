@@ -5,7 +5,7 @@ import size from 'lodash/size';
 import filter from 'lodash/filter';
 import values from 'lodash/values';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { duotone, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Button, Flex } from '@sergiogc9/react-ui';
 
 import GithubApi from 'lib/Github/GithubApi';
@@ -65,14 +65,14 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 		if (pullRequest.merged || prActionMerged)
 			return (
 				<Button aspectSize="xs" isDisabled variant="github" width="100%">
-					<Button.Icon.FontAwesome icon={duotone('code-pull-request')} />
+					<Button.Icon.FontAwesome icon={solid('code-pull-request')} />
 					<Button.Text>MERGED</Button.Text>
 				</Button>
 			);
 		if (pullRequest.state === 'closed')
 			return (
 				<Button aspectSize="xs" isDisabled variant="danger" width="100%">
-					<Button.Icon.FontAwesome icon={duotone('code-pull-request-closed')} />
+					<Button.Icon.FontAwesome icon={solid('code-pull-request')} />
 					<Button.Text>CLOSED</Button.Text>
 				</Button>
 			);
@@ -149,7 +149,7 @@ const PullRequestActions: React.FC<ComponentProps> = props => {
 				variant="github"
 				width="100%"
 			>
-				<Button.Icon.FontAwesome icon={duotone('code-pull-request')} />
+				<Button.Icon.FontAwesome icon={solid('code-pull-request')} />
 				<Button.Text>{text}</Button.Text>
 			</Button>
 		);
