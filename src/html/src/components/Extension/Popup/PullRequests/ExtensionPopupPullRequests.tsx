@@ -22,10 +22,14 @@ import {
 	StyledPullRequestChangeText,
 	StyledPullRequestStatusContentWrapper
 } from './styled';
+import { ExtensionPopupPullRequestsProps } from './types';
 
 const __getPullRequestChangeKey = (pr: GithubPullRequest) => `${pr.owner}-${pr.repository}-${pr.number}`;
 
-const ExtensionPopupPullRequests: React.FC = () => {
+const ExtensionPopupPullRequests: React.FC<ExtensionPopupPullRequestsProps> = ({
+	showOnlyUserPullRequests = false
+}) => {
+	const [user, setUser] = React.useState<any>();
 	const [pullRequests, setPullRequests] = React.useState<GithubPullRequest[]>([]);
 	const [pullRequestsChanges, setPullRequestsChanges] = React.useState<Record<string, GithubPullRequestChanges>>({});
 	const [loadingPullRequests, setLoadingPullRequests] = React.useState<boolean>(false);
@@ -36,6 +40,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 	const theme = useTheme();
 
 	React.useEffect(() => {
+		messageHandlers.sendBackgroundMessage({ type: 'get_user' });
 		messageHandlers.sendBackgroundMessage({ type: 'get_pull_requests' });
 
 		messageHandlers.onBackgroundMessage(message => {
@@ -46,7 +51,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 				setLoadingPullRequests(false);
 			} else if (message.type === 'pull_request_changes') {
 				setPullRequestsChanges(message.data);
-			}
+			} else if (message.type === 'user_updated') setUser(message.data);
 		});
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -108,58 +113,68 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		);
 	}, []);
 
-	const content = React.useMemo(
-		() =>
-			pullRequests.map(pr => {
-				const repoUrl = getRepositoryUrl(pr.owner, pr.repository);
-				const prUrl = getPullRequestUrl(pr.owner, pr.repository, pr.number);
-				const userUrl = getUserUrl(pr.user.username);
-				return (
-					<StyledPullRequest key={pr.repository + pr.number}>
-						<Flex flexShrink={0} marginX={2}>
-							<Icon.FontAwesome color="primary.500" icon={solid('code-pull-request')} size={14} />
+	const content = React.useMemo(() => {
+		const finalPullRequests = showOnlyUserPullRequests
+			? pullRequests.filter(pr => pr.user.username === user?.login)
+			: pullRequests;
+
+		return finalPullRequests.map(pr => {
+			const repoUrl = getRepositoryUrl(pr.owner, pr.repository);
+			const prUrl = getPullRequestUrl(pr.owner, pr.repository, pr.number);
+			const userUrl = getUserUrl(pr.user.username);
+			return (
+				<StyledPullRequest key={pr.repository + pr.number}>
+					<Flex flexShrink={0} marginX={2}>
+						<Icon.FontAwesome color="primary.500" icon={solid('code-pull-request')} size={14} />
+					</Flex>
+					<Flex flexDirection="column" mr={5}>
+						<Flex>
+							<StyledHoveredText
+								aspectSize="xs"
+								color={getColorByMode(theme, { light: 'neutral.400', dark: 'neutral.300' })}
+								href={repoUrl}
+								onClick={() => pageHandlers.openNewTab(repoUrl)}
+							>
+								{pr.owner}/{pr.repository}
+							</StyledHoveredText>
 						</Flex>
-						<Flex flexDirection="column" mr={5}>
-							<Flex>
-								<StyledHoveredText
-									aspectSize="xs"
-									color={getColorByMode(theme, { light: 'neutral.400', dark: 'neutral.300' })}
-									href={repoUrl}
-									onClick={() => pageHandlers.openNewTab(repoUrl)}
-								>
-									{pr.owner}/{pr.repository}
-								</StyledHoveredText>
-							</Flex>
-							<Flex alignItems="center" flexWrap="wrap">
-								<StyledHoveredText href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>
-									{pr.title}
-								</StyledHoveredText>
-								<StyledPullRequestStatusContentWrapper>
-									{getPullRequestStatusContent(pr)}
-								</StyledPullRequestStatusContentWrapper>
-								{pr.labels.map(label => (
-									<GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />
-								))}
-							</Flex>
-							<Text aspectSize="xs" color={getColorByMode(theme, { light: 'neutral.500', dark: 'neutral.400' })}>
-								#{pr.number} opened by{' '}
-								<StyledHoveredText
-									aspectSize="xs"
-									color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.300' })}
-									href={userUrl}
-									onClick={() => pageHandlers.openNewTab(userUrl)}
-								>
-									{pr.user.username}
-								</StyledHoveredText>{' '}
-								- Updated {moment(pr.updated_at).fromNow()}
-							</Text>
+						<Flex alignItems="center" flexWrap="wrap">
+							<StyledHoveredText href={prUrl} onClick={() => pageHandlers.openNewTab(prUrl)}>
+								{pr.title}
+							</StyledHoveredText>
+							<StyledPullRequestStatusContentWrapper>
+								{getPullRequestStatusContent(pr)}
+							</StyledPullRequestStatusContentWrapper>
+							{pr.labels.map(label => (
+								<GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />
+							))}
 						</Flex>
-						{getPullRequestChangesContent(pr)}
-					</StyledPullRequest>
-				);
-			}),
-		[getPullRequestChangesContent, getPullRequestStatusContent, pageHandlers, pullRequests, theme]
-	);
+						<Text aspectSize="xs" color={getColorByMode(theme, { light: 'neutral.500', dark: 'neutral.400' })}>
+							#{pr.number} opened by{' '}
+							<StyledHoveredText
+								aspectSize="xs"
+								color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.300' })}
+								href={userUrl}
+								onClick={() => pageHandlers.openNewTab(userUrl)}
+							>
+								{pr.user.username}
+							</StyledHoveredText>{' '}
+							- Updated {moment(pr.updated_at).fromNow()}
+						</Text>
+					</Flex>
+					{getPullRequestChangesContent(pr)}
+				</StyledPullRequest>
+			);
+		});
+	}, [
+		getPullRequestChangesContent,
+		getPullRequestStatusContent,
+		pageHandlers,
+		pullRequests,
+		showOnlyUserPullRequests,
+		theme,
+		user?.login
+	]);
 
 	return (
 		<StyledExtensionPopupPullRequests id="githubExtensionPopupPullRequests">

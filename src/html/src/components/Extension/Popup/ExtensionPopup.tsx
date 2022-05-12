@@ -13,6 +13,8 @@ import ExtensionPopupPullRequests from './PullRequests/ExtensionPopupPullRequest
 import { StyledExtensionPopup } from './styled';
 import { PopupRoute } from './types';
 
+const POPUP_ROUTE_STORAGE_KEY = 'popup_selected_route';
+
 const ExtensionPopup: React.FC = () => {
 	const [route, setRoute] = React.useState<PopupRoute>('pullRequests');
 	const [status, setStatus] = React.useState<ExtensionStatus>('stop');
@@ -23,6 +25,12 @@ const ExtensionPopup: React.FC = () => {
 	const { addToast } = useToasts();
 
 	React.useEffect(() => {
+		const setupSavedRoute = async () => {
+			const savedRoute = await Storage.get(POPUP_ROUTE_STORAGE_KEY);
+			if (savedRoute) setRoute(savedRoute);
+		};
+		setupSavedRoute();
+
 		messageHandlers.sendBackgroundMessage({ type: 'get_status' });
 
 		messageHandlers.onBackgroundMessage(message => {
@@ -55,6 +63,7 @@ const ExtensionPopup: React.FC = () => {
 		if (isGithubTokenError) return <ExtensionWelcome />;
 		if (status === 'synced') {
 			if (route === 'pullRequests') return <ExtensionPopupPullRequests />;
+			if (route === 'myPullRequests') return <ExtensionPopupPullRequests showOnlyUserPullRequests />;
 			if (route === 'settings')
 				return (
 					<Box overflowY="auto">
@@ -65,12 +74,13 @@ const ExtensionPopup: React.FC = () => {
 	}, [isGithubTokenError, status, route]);
 
 	const onChangeRoute = React.useCallback((newRoute: PopupRoute) => {
+		Storage.set(POPUP_ROUTE_STORAGE_KEY, newRoute);
 		setRoute(newRoute);
 	}, []);
 
 	return (
 		<StyledExtensionPopup id="githubExtensionPopup">
-			<ExtensionPopupHeader onChangeRoute={onChangeRoute} status={status} />
+			<ExtensionPopupHeader onChangeRoute={onChangeRoute} route={route} status={status} />
 			{content}
 		</StyledExtensionPopup>
 	);

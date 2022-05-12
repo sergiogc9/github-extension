@@ -3,18 +3,12 @@ import { brands, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Icon, Text } from '@sergiogc9/react-ui';
 
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import { ExtensionStatus } from 'types/Extension';
 
-import { PopupRoute } from '../types';
 import { StyledExtensionPopupHeader, StyledTabIcon, StyledTabLink } from './styled';
+import { ExtensionPopupHeaderProps } from './types';
 
-type ComponentProps = {
-	onChangeRoute: (route: PopupRoute) => void;
-	status: ExtensionStatus;
-};
-
-const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
-	const { onChangeRoute, status } = props;
+const ExtensionPopupHeader: React.FC<ExtensionPopupHeaderProps> = props => {
+	const { onChangeRoute, route, status } = props;
 
 	const [user, setUser] = React.useState<any>();
 
@@ -38,8 +32,21 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 					<Text color="neutral.0" ml={3}>
 						{user.login}
 					</Text>
-					<StyledTabLink color="neutral.0" ml="auto" onClick={() => onChangeRoute('pullRequests')}>
-						Pull requests
+					<StyledTabLink
+						color="neutral.0"
+						ml="auto"
+						onClick={() => onChangeRoute('myPullRequests')}
+						opacity={route === 'myPullRequests' ? 1 : 0.7}
+					>
+						My pull requests
+					</StyledTabLink>
+					<StyledTabLink
+						color="neutral.0"
+						ml={4}
+						onClick={() => onChangeRoute('pullRequests')}
+						opacity={route === 'pullRequests' ? 1 : 0.7}
+					>
+						All pull requests
 					</StyledTabLink>
 					<StyledTabIcon
 						aspectSize="xs"
@@ -51,7 +58,7 @@ const ExtensionPopupHeader: React.FC<ComponentProps> = props => {
 					/>
 				</>
 			);
-	}, [onChangeRoute, status, user]);
+	}, [onChangeRoute, route, status, user]);
 
 	return <StyledExtensionPopupHeader>{content}</StyledExtensionPopupHeader>;
 };
