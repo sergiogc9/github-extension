@@ -105,7 +105,7 @@ const PullRequest: React.FC = () => {
 					/>
 					<StyledPullRequestHeaderLink href={`https://github.com/${user}`}>{user}</StyledPullRequestHeaderLink>
 					<Text color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.500' })}>/</Text>
-					<StyledPullRequestHeaderLink fontWeight="bold" href={`hhttps://github.com/${user}/${repository}`}>
+					<StyledPullRequestHeaderLink fontWeight="bold" href={`https://github.com/${user}/${repository}`}>
 						{repository}
 					</StyledPullRequestHeaderLink>
 				</StyledPullRequestHeaderTitle>

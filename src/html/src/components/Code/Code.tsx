@@ -26,7 +26,7 @@ const Code: React.FC = () => {
 					/>
 					<StyledCodeHeaderLink href={`https://github.com/${user}`}>{user}</StyledCodeHeaderLink>
 					<Text color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.500' })}>/</Text>
-					<StyledCodeHeaderLink fontWeight="bold" href={`hhttps://github.com/${user}/${repository}`}>
+					<StyledCodeHeaderLink fontWeight="bold" href={`https://github.com/${user}/${repository}`}>
 						{repository}
 					</StyledCodeHeaderLink>
 				</StyledCodeHeaderTitle>
