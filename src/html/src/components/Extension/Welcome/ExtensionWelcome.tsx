@@ -55,11 +55,18 @@ const ExtensionWelcome = () => {
 				placeholder="Enter github token"
 				value={token}
 			/>
-			<Alert aspectSize="s">
+			<Alert aspectSize="s" borderRadius={0}>
 				<Alert.Icon />
-				<Alert.Text>
-					Token is saved locally. This extension does not use any backend other than the official Github API.
-				</Alert.Text>
+				<Flex flexDirection="column">
+					<Alert.Text>
+						This extension only requires the <Alert.Text fontWeight="bold">repo scope</Alert.Text> to be selected in the
+						token settings.
+					</Alert.Text>
+					<Alert.Text>
+						Token is <Alert.Text fontWeight="bold">saved locally</Alert.Text>, this extension does not use any backend
+						other than the official Github API.
+					</Alert.Text>
+				</Flex>
 			</Alert>
 			<Button
 				aspectSize="s"
