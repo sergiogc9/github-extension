@@ -55,6 +55,7 @@ const ExtensionPopupHeader: React.FC<ExtensionPopupHeaderProps> = props => {
 						icon={solid('gear')}
 						ml={3}
 						onClick={() => onChangeRoute('settings')}
+						opacity={route === 'settings' ? 1 : 0.7}
 					/>
 				</>
 			);

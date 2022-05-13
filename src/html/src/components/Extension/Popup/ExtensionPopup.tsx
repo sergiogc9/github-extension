@@ -74,7 +74,7 @@ const ExtensionPopup: React.FC = () => {
 	}, [isGithubTokenError, status, route]);
 
 	const onChangeRoute = React.useCallback((newRoute: PopupRoute) => {
-		Storage.set(POPUP_ROUTE_STORAGE_KEY, newRoute);
+		if (newRoute !== 'settings') Storage.set(POPUP_ROUTE_STORAGE_KEY, newRoute);
 		setRoute(newRoute);
 	}, []);
 
