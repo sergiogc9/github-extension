@@ -4,7 +4,6 @@ import { PopupRoute } from '../types';
 
 type ExtensionPopupHeaderProps = {
 	onChangeRoute: (route: PopupRoute) => void;
-	route: PopupRoute;
 	status: ExtensionStatus;
 };
 

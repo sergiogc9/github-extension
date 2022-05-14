@@ -27,7 +27,7 @@ const ExtensionPopup: React.FC = () => {
 	React.useEffect(() => {
 		const setupSavedRoute = async () => {
 			const savedRoute = await Storage.get(POPUP_ROUTE_STORAGE_KEY);
-			if (savedRoute) setRoute(savedRoute);
+			setRoute(savedRoute ?? 'pullRequests');
 		};
 		setupSavedRoute();
 
@@ -63,7 +63,6 @@ const ExtensionPopup: React.FC = () => {
 		if (isGithubTokenError) return <ExtensionWelcome />;
 		if (status === 'synced') {
 			if (route === 'pullRequests') return <ExtensionPopupPullRequests />;
-			if (route === 'myPullRequests') return <ExtensionPopupPullRequests showOnlyUserPullRequests />;
 			if (route === 'settings')
 				return (
 					<Box overflowY="auto">
@@ -80,7 +79,7 @@ const ExtensionPopup: React.FC = () => {
 
 	return (
 		<StyledExtensionPopup id="githubExtensionPopup">
-			<ExtensionPopupHeader onChangeRoute={onChangeRoute} route={route} status={status} />
+			<ExtensionPopupHeader onChangeRoute={onChangeRoute} status={status} />
 			{content}
 		</StyledExtensionPopup>
 	);

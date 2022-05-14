@@ -7,6 +7,7 @@ type GithubColors = {
 	common: Record<'border' | 'bgHover', string>;
 	popup: Record<'header', string>;
 	sidebar: Record<'header' | 'toolbar', string>;
+	tab: Record<'bg' | 'bgHover' | 'bottomLine', string>;
 };
 
 type FinalThemePalette = ThemePalette & {

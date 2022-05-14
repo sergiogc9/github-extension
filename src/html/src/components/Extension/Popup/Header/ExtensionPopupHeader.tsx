@@ -8,7 +8,7 @@ import { StyledExtensionPopupHeader, StyledTabIcon, StyledTabLink } from './styl
 import { ExtensionPopupHeaderProps } from './types';
 
 const ExtensionPopupHeader: React.FC<ExtensionPopupHeaderProps> = props => {
-	const { onChangeRoute, route, status } = props;
+	const { onChangeRoute, status } = props;
 
 	const [user, setUser] = React.useState<any>();
 
@@ -32,21 +32,8 @@ const ExtensionPopupHeader: React.FC<ExtensionPopupHeaderProps> = props => {
 					<Text color="neutral.0" ml={3}>
 						{user.login}
 					</Text>
-					<StyledTabLink
-						color="neutral.0"
-						ml="auto"
-						onClick={() => onChangeRoute('myPullRequests')}
-						opacity={route === 'myPullRequests' ? 1 : 0.7}
-					>
-						My pull requests
-					</StyledTabLink>
-					<StyledTabLink
-						color="neutral.0"
-						ml={4}
-						onClick={() => onChangeRoute('pullRequests')}
-						opacity={route === 'pullRequests' ? 1 : 0.7}
-					>
-						All pull requests
+					<StyledTabLink color="neutral.0" ml="auto" onClick={() => onChangeRoute('pullRequests')}>
+						Pull requests
 					</StyledTabLink>
 					<StyledTabIcon
 						aspectSize="xs"
@@ -55,11 +42,10 @@ const ExtensionPopupHeader: React.FC<ExtensionPopupHeaderProps> = props => {
 						icon={solid('gear')}
 						ml={3}
 						onClick={() => onChangeRoute('settings')}
-						opacity={route === 'settings' ? 1 : 0.7}
 					/>
 				</>
 			);
-	}, [onChangeRoute, route, status, user]);
+	}, [onChangeRoute, status, user]);
 
 	return <StyledExtensionPopupHeader>{content}</StyledExtensionPopupHeader>;
 };

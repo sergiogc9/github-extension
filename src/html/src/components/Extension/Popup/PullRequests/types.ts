@@ -1,5 +1,3 @@
-type ExtensionPopupPullRequestsProps = {
-	showOnlyUserPullRequests?: boolean;
-};
+type PullRequestFilter = 'all' | 'mine' | 'favorites' | 'hidden';
 
-export type { ExtensionPopupPullRequestsProps };
+export type { PullRequestFilter };

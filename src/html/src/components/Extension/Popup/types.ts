@@ -1,1 +1,1 @@
-export type PopupRoute = 'myPullRequests' | 'pullRequests' | 'settings';
+export type PopupRoute = 'pullRequests' | 'settings';

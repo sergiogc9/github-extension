@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Animation, Flex, Text, TextProps } from '@sergiogc9/react-ui';
+import { Animation, Box, Flex, Text, TextProps } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 import React from 'react';
 
-const StyledExtensionPopupPullRequests = styled(Flex)``;
+const StyledExtensionPopupPullRequests = styled(Box)``;
 
 StyledExtensionPopupPullRequests.defaultProps = {
 	bg: 'common.background',
-	display: 'block',
+	flexGrow: 1,
 	overflowY: 'auto',
 	position: 'relative'
 };
