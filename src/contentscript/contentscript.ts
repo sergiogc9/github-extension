@@ -5,7 +5,7 @@ import './contentscript.css';
 
 const __hideSidebar = () => {
 	document.body.classList.remove('padding-left');
-	document.getElementById('githubExtensionNav').remove();
+	document.getElementById('githubExtensionNav').classList.remove('visible');
 };
 
 const __showSidebar = () => {

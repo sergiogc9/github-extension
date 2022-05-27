@@ -80,7 +80,12 @@ const ExtensionSidebar: React.FC = () => {
 		if (status !== 'synced') return null;
 		if (route === 'pageContent') {
 			if (pageContextData.page === 'unknown') {
-				if (!storageContextData.hide_unimplemented_pages)
+				if (storageContextData.hide_unimplemented_pages)
+					messageHandlers.sendContentScriptMessage({
+						type: 'sidebar_status',
+						data: 'hidden'
+					});
+				else
 					messageHandlers.sendContentScriptMessage({
 						type: 'sidebar_status',
 						data: 'visible'
