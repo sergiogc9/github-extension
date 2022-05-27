@@ -2098,6 +2098,16 @@
   dependencies:
     screenfull "5.1.0"
 
+"@sergiogc9/react-ui-collections@0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-collections/-/react-ui-collections-0.7.0.tgz#ef4daf9012e1ed02ee86bd3d9bb9d68fee8c1bf4"
+  integrity sha512-I+sNfpUZpltftz8Ro7gqYq0qsRFA5I+iYiUBFDjuRU0upY9GCQlwWUTGpXuy1JElTqXSWXfDsoGig21/gSMIng==
+  dependencies:
+    "@sergiogc9/react-hooks" "0.2.1"
+    "@sergiogc9/react-ui" "^0.7.0"
+    "@sergiogc9/react-ui-theme" "^0.7.0"
+    "@sergiogc9/react-utils" "0.0.6"
+
 "@sergiogc9/react-ui-theme@0.7.0", "@sergiogc9/react-ui-theme@^0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui-theme/-/react-ui-theme-0.7.0.tgz#ad50d1b0ad9634e299cd24ec04d033a8db56fcde"
@@ -2105,7 +2115,7 @@
   dependencies:
     lodash "4.17.20"
 
-"@sergiogc9/react-ui@0.7.0":
+"@sergiogc9/react-ui@0.7.0", "@sergiogc9/react-ui@^0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sergiogc9/react-ui/-/react-ui-0.7.0.tgz#b327993da3606746b67430043a0c7963bf7054ee"
   integrity sha512-pzGogtRAkpj1ocrFsmIRGdGQL0F+cDOvQT0MpJK+hKaSm60N9v4zFoixC/xjpyjRlqBS0BX2htBJqFhDcxtegw==

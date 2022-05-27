@@ -17,7 +17,16 @@ import {
 	getPageData,
 	getPullRequestFileAnchorUrl
 } from './Context/PageContext';
-import { StorageContext, StorageHandlerContext, StorageData, StorageHandlers } from './Context/StorageContext';
+import {
+	StorageContext,
+	StorageHandlerContext,
+	StorageData,
+	StorageHandlers,
+	POPUP_ROUTE_STORAGE_KEY,
+	POPUP_STARRED_PULL_REQUESTS_KEY,
+	POPUP_TAB_ID_KEY,
+	POPUP_HIDDEN_PULL_REQUESTS_KEY
+} from './Context/StorageContext';
 import { MessageHandlersContext, MessageHandlers } from './Context/MessageContext';
 import ExtensionSidebar from './Sidebar/ExtensionSidebar';
 import ExtensionPopup from './Popup/ExtensionPopup';
@@ -26,7 +35,11 @@ const getStorageData = async (): Promise<StorageData> => ({
 	token: await Storage.get('github_token'),
 	group_folders: await Storage.get('group_folders'),
 	lazy_load_tree: await Storage.get('lazy_load_tree'),
-	hide_unimplemented_pages: await Storage.get('hide_unimplemented_pages')
+	hide_unimplemented_pages: await Storage.get('hide_unimplemented_pages'),
+	popup_selected_route: await Storage.get(POPUP_ROUTE_STORAGE_KEY),
+	popup_hidden_pull_requests: await Storage.get(POPUP_HIDDEN_PULL_REQUESTS_KEY),
+	popup_starred_pull_requests: await Storage.get(POPUP_STARRED_PULL_REQUESTS_KEY),
+	popup_tab_id: await Storage.get(POPUP_TAB_ID_KEY)
 });
 
 const getTabData = () =>
@@ -72,7 +85,7 @@ const BrowserExtension = () => {
 
 	React.useEffect(() => {
 		(async () => {
-			if (pageData) {
+			if (pageData && !isPopup) {
 				await getCorrectRepoBranch(pageData);
 				setFinalPageData(pageData);
 			}

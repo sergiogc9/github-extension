@@ -47,6 +47,7 @@
 		"@octokit/plugin-throttling": "3.6.2",
 		"@octokit/rest": "18.12.0",
 		"@sergiogc9/react-ui": "0.7.0",
+		"@sergiogc9/react-ui-collections": "0.7.0",
 		"@sergiogc9/react-ui-theme": "0.7.0",
 		"@styled-system/css": "5.1.5",
 		"file-icons-js": "1.0.3",

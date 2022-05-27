@@ -4,17 +4,24 @@ import moment from 'moment';
 import orderBy from 'lodash/orderBy';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { regular, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { Counter, Flex, Icon, Status, Text, Title } from '@sergiogc9/react-ui';
+import { Counter, Flex, Icon, Status, Text } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 
 import { getRepositoryUrl, getPullRequestUrl, getUserUrl } from 'lib/Github/GithubUrl';
-import Storage from 'lib/Storage';
 import GithubLabel from 'components/common/ui/GithubLabel/GithubLabel';
 import { GithubTabs } from 'components/common/ui/GithubTabs';
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
 import { usePageHandlerContext } from 'components/Extension/Context/PageContext';
+import {
+	POPUP_TAB_ID_KEY,
+	POPUP_STARRED_PULL_REQUESTS_KEY,
+	useStorageContext,
+	useStorageHandlerContext,
+	POPUP_HIDDEN_PULL_REQUESTS_KEY
+} from 'components/Extension/Context/StorageContext';
 import { GithubPullRequest, GithubPullRequestChanges } from 'types/Github';
 
+import { ExtensionPopupPullRequestsMenu } from './Menu';
 import {
 	StyledExtensionPopupPullRequests,
 	StyledHoveredText,
@@ -28,11 +35,13 @@ import { PullRequestFilter } from './types';
 
 const __getPullRequestChangeKey = (pr: GithubPullRequest) => `${pr.owner}-${pr.repository}-${pr.number}`;
 
-const POPUP_TAB_ID_KEY = 'popup_tab_id';
-
 const ExtensionPopupPullRequests: React.FC = () => {
-	const [selectedTab, setSelectedTab] = React.useState<PullRequestFilter>();
+	const storageData = useStorageContext();
+	const storageHandlers = useStorageHandlerContext();
+
+	const selectedTab = storageData?.popup_tab_id ?? 'all';
 	const [user, setUser] = React.useState<any>();
+
 	const [pullRequests, setPullRequests] = React.useState<GithubPullRequest[]>([]);
 	const [pullRequestsChanges, setPullRequestsChanges] = React.useState<Record<string, GithubPullRequestChanges>>({});
 	const [loadingPullRequests, setLoadingPullRequests] = React.useState<boolean>(false);
@@ -44,19 +53,13 @@ const ExtensionPopupPullRequests: React.FC = () => {
 	const theme = useTheme();
 
 	React.useEffect(() => {
-		const setupSavedTab = async () => {
-			const savedSelectedTab = await Storage.get(POPUP_TAB_ID_KEY);
-			setSelectedTab(savedSelectedTab ?? 'all');
-		};
-		setupSavedTab();
-
 		messageHandlers.sendBackgroundMessage({ type: 'get_user' });
 		messageHandlers.sendBackgroundMessage({ type: 'get_pull_requests' });
 
 		messageHandlers.onBackgroundMessage(message => {
 			if (message.type === 'pull_requests_loading') setLoadingPullRequests(true);
 			else if (message.type === 'pull_requests_updated') {
-				setPullRequests(orderBy(message.data.pullRequests, 'updated_at', 'desc'));
+				setPullRequests(message.data.pullRequests);
 				setHasReceivedPullRequests(true);
 				setPullRequestsChanges(message.data.changes);
 				setLoadingPullRequests(false);
@@ -79,7 +82,7 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		(pullRequest: GithubPullRequest) => {
 			const prChanges = pullRequestsChanges && pullRequestsChanges[__getPullRequestChangeKey(pullRequest)];
 			return (
-				<Flex alignItems="center" flexShrink={0} ml="auto" mr={2}>
+				<Flex alignItems="center" flexShrink={0} ml="auto">
 					{prChanges && (
 						<>
 							{!!prChanges.commits && (
@@ -124,24 +127,37 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		);
 	}, []);
 
-	const onChangeTab = React.useCallback((tabId: PullRequestFilter) => {
-		Storage.set(POPUP_TAB_ID_KEY, tabId);
-		setSelectedTab(tabId);
-	}, []);
+	const onChangeTab = React.useCallback(
+		(tabId: PullRequestFilter) => {
+			storageHandlers?.setStorageItem(POPUP_TAB_ID_KEY, tabId);
+		},
+		[storageHandlers]
+	);
 
 	const filteredGithubPullRequests = React.useMemo(() => {
-		return pullRequests.reduce(
+		const hiddenPullRequests = storageData?.popup_hidden_pull_requests ?? {};
+		const starredPullRequests = storageData?.popup_starred_pull_requests ?? {};
+
+		const orderedPullRequests = orderBy(
+			pullRequests,
+			[pr => starredPullRequests[__getPullRequestChangeKey(pr)], 'updated_at'],
+			['asc', 'desc']
+		);
+
+		return orderedPullRequests.reduce(
 			(prev: Record<PullRequestFilter, GithubPullRequest[]>, pr: GithubPullRequest) => {
-				if (true) prev.all.push(pr); // TODO! filter hidden
-				if (pr.user.username === user?.login) prev.mine.push(pr);
-				if (false) prev.favorites.push(pr); // TODO! filter favorites
-				if (false) prev.hidden.push(pr); // TODO! filter hidden
+				if (hiddenPullRequests[__getPullRequestChangeKey(pr)]) prev.hidden.push(pr);
+				else {
+					prev.all.push(pr);
+					if (pr.user.username === user?.login) prev.mine.push(pr);
+					if (starredPullRequests[__getPullRequestChangeKey(pr)]) prev.starred.push(pr);
+				}
 
 				return prev;
 			},
-			{ all: [], mine: [], favorites: [], hidden: [] }
+			{ all: [], mine: [], starred: [], hidden: [] }
 		);
-	}, [pullRequests, user?.login]);
+	}, [pullRequests, storageData?.popup_hidden_pull_requests, storageData?.popup_starred_pull_requests, user?.login]);
 
 	const tabsContent = React.useMemo(() => {
 		if (!selectedTab || !hasReceivedPullRequests) return null;
@@ -156,17 +172,17 @@ const ExtensionPopupPullRequests: React.FC = () => {
 					)}
 				</GithubTabs.Tab>
 				<GithubTabs.Tab id="mine">
-					<Icon.FontAwesome aspectSize="s" icon={regular('circle-user')} />
+					<Icon.FontAwesome aspectSize="xs" icon={regular('circle-user')} />
 					<GithubTabs.Text>Created by me</GithubTabs.Text>
 					{filteredGithubPullRequests.mine.length > 0 && (
 						<Counter aspectSize="s" numberOfItems={filteredGithubPullRequests.mine.length} />
 					)}
 				</GithubTabs.Tab>
-				<GithubTabs.Tab id="favorites">
+				<GithubTabs.Tab id="starred">
 					<Icon.FontAwesome aspectSize="s" icon={regular('star')} />
-					<GithubTabs.Text>Favorites</GithubTabs.Text>
-					{filteredGithubPullRequests.favorites.length > 0 && (
-						<Counter aspectSize="s" numberOfItems={filteredGithubPullRequests.favorites.length} />
+					<GithubTabs.Text>Starred</GithubTabs.Text>
+					{filteredGithubPullRequests.starred.length > 0 && (
+						<Counter aspectSize="s" numberOfItems={filteredGithubPullRequests.starred.length} />
 					)}
 				</GithubTabs.Tab>
 				<GithubTabs.Tab id="hidden">
@@ -189,8 +205,8 @@ const ExtensionPopupPullRequests: React.FC = () => {
 			case 'mine':
 				finalPullRequests = filteredGithubPullRequests.mine;
 				break;
-			case 'favorites':
-				finalPullRequests = filteredGithubPullRequests.favorites;
+			case 'starred':
+				finalPullRequests = filteredGithubPullRequests.starred;
 				break;
 			case 'hidden':
 				finalPullRequests = filteredGithubPullRequests.hidden;
@@ -204,25 +220,30 @@ const ExtensionPopupPullRequests: React.FC = () => {
 
 		if (!finalPullRequests.length)
 			return (
-				<Flex alignItems="center" flexDirection="column" height="100%" justifyContent="center" rowGap={2}>
+				<Flex alignItems="center" flexDirection="column" height="100%" justifyContent="center" rowGap={1}>
 					<Icon.FontAwesome
-						aspectSize="l"
+						aspectSize="m"
 						icon={regular('face-frown')}
 						bounce
 						style={{ '--fa-animation-iteration-count': 2 } as any}
 					/>
-					<Title aspectSize="xs">Oups! No pull requests have been found.</Title>
+					<Text aspectSize="m">Oups! No pull requests have been found.</Text>
 				</Flex>
 			);
+
+		const hiddenPullRequests = storageData?.popup_hidden_pull_requests ?? {};
+		const starredPullRequests = storageData?.popup_starred_pull_requests ?? {};
 
 		return finalPullRequests.map(pr => {
 			const repoUrl = getRepositoryUrl(pr.owner, pr.repository);
 			const prUrl = getPullRequestUrl(pr.owner, pr.repository, pr.number);
 			const userUrl = getUserUrl(pr.user.username);
+			const prKey = __getPullRequestChangeKey(pr);
+			const prIcon = starredPullRequests[prKey] ? solid('star') : solid('code-pull-request');
 			return (
-				<StyledPullRequest key={pr.repository + pr.number}>
+				<StyledPullRequest key={prKey}>
 					<Flex flexShrink={0} marginX={2}>
-						<Icon.FontAwesome color="primary.500" icon={solid('code-pull-request')} size={14} />
+						<Icon.FontAwesome color="primary.500" icon={prIcon} size={14} />
 					</Flex>
 					<Flex flexDirection="column" mr={5}>
 						<Flex>
@@ -260,6 +281,24 @@ const ExtensionPopupPullRequests: React.FC = () => {
 						</Text>
 					</Flex>
 					{getPullRequestChangesContent(pr)}
+					<ExtensionPopupPullRequestsMenu
+						isHidden={hiddenPullRequests[prKey]}
+						isStarred={starredPullRequests[prKey]}
+						onHideClick={() => {
+							const newHiddenPrs = { ...hiddenPullRequests };
+							if (hiddenPullRequests[prKey]) delete newHiddenPrs[prKey];
+							else newHiddenPrs[prKey] = true;
+
+							storageHandlers?.setStorageItem(POPUP_HIDDEN_PULL_REQUESTS_KEY, newHiddenPrs);
+						}}
+						onStarClick={() => {
+							const newStarredPrs = { ...starredPullRequests };
+							if (starredPullRequests[prKey]) delete newStarredPrs[prKey];
+							else newStarredPrs[prKey] = true;
+
+							storageHandlers?.setStorageItem(POPUP_STARRED_PULL_REQUESTS_KEY, newStarredPrs);
+						}}
+					/>
 				</StyledPullRequest>
 			);
 		});
@@ -270,6 +309,9 @@ const ExtensionPopupPullRequests: React.FC = () => {
 		hasReceivedPullRequests,
 		pageHandlers,
 		selectedTab,
+		storageData?.popup_hidden_pull_requests,
+		storageData?.popup_starred_pull_requests,
+		storageHandlers,
 		theme
 	]);
 

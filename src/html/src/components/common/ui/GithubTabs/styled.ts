@@ -8,7 +8,7 @@ StyledGithubTabs.defaultProps = {
 	borderBottom: 'thin solid',
 	borderBottomColor: 'github.common.border',
 	columnGap: 2,
-	px: 3
+	px: 2
 };
 
 export { StyledGithubTabs };

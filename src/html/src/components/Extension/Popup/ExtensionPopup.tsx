@@ -3,6 +3,11 @@ import { Box, useToasts } from '@sergiogc9/react-ui';
 
 import Storage from 'lib/Storage';
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
+import {
+	POPUP_ROUTE_STORAGE_KEY,
+	useStorageContext,
+	useStorageHandlerContext
+} from 'components/Extension/Context/StorageContext';
 import { ExtensionStatus } from 'types/Extension';
 
 import ExtensionSettings from '../Settings/ExtensionSettings';
@@ -13,10 +18,11 @@ import ExtensionPopupPullRequests from './PullRequests/ExtensionPopupPullRequest
 import { StyledExtensionPopup } from './styled';
 import { PopupRoute } from './types';
 
-const POPUP_ROUTE_STORAGE_KEY = 'popup_selected_route';
-
 const ExtensionPopup: React.FC = () => {
-	const [route, setRoute] = React.useState<PopupRoute>('pullRequests');
+	const storageData = useStorageContext();
+	const storageHandlers = useStorageHandlerContext();
+
+	const [route, setRoute] = React.useState<PopupRoute>(storageData?.popup_selected_route ?? 'pullRequests');
 	const [status, setStatus] = React.useState<ExtensionStatus>('stop');
 	const [isGithubTokenError, setIsGithubTokenError] = React.useState(false);
 
@@ -25,12 +31,6 @@ const ExtensionPopup: React.FC = () => {
 	const { addToast } = useToasts();
 
 	React.useEffect(() => {
-		const setupSavedRoute = async () => {
-			const savedRoute = await Storage.get(POPUP_ROUTE_STORAGE_KEY);
-			setRoute(savedRoute ?? 'pullRequests');
-		};
-		setupSavedRoute();
-
 		messageHandlers.sendBackgroundMessage({ type: 'get_status' });
 
 		messageHandlers.onBackgroundMessage(message => {
@@ -72,10 +72,13 @@ const ExtensionPopup: React.FC = () => {
 		}
 	}, [isGithubTokenError, status, route]);
 
-	const onChangeRoute = React.useCallback((newRoute: PopupRoute) => {
-		if (newRoute !== 'settings') Storage.set(POPUP_ROUTE_STORAGE_KEY, newRoute);
-		setRoute(newRoute);
-	}, []);
+	const onChangeRoute = React.useCallback(
+		(newRoute: PopupRoute) => {
+			if (newRoute !== 'settings') storageHandlers?.setStorageItem(POPUP_ROUTE_STORAGE_KEY, newRoute);
+			setRoute(newRoute);
+		},
+		[storageHandlers]
+	);
 
 	return (
 		<StyledExtensionPopup id="githubExtensionPopup">

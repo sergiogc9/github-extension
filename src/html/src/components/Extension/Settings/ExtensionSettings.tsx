@@ -50,7 +50,7 @@ const ExtensionSettings: React.FC = () => {
 					</Title>
 					<CheckBox
 						description="Joins empty folders in a unique folder reducing the directory tree size."
-						isSelected={storageData.hide_unimplemented_pages}
+						isSelected={!!storageData.hide_unimplemented_pages}
 						label="Hide sidebar if page is not implemented"
 						onChange={() =>
 							storageHandlers.setStorageItem('hide_unimplemented_pages', !storageData.hide_unimplemented_pages)
@@ -58,14 +58,14 @@ const ExtensionSettings: React.FC = () => {
 					/>
 					<CheckBox
 						description="Joins empty folders in a unique folder reducing the directory tree size."
-						isSelected={storageData.group_folders}
+						isSelected={!!storageData.group_folders}
 						label="Group empty folders"
 						onChange={() => storageHandlers.setStorageItem('group_folders', !storageData.group_folders)}
 					/>
 					<CheckBox
 						description="Speed up big repositories. Enabling this option prevents loading the whole tree at first, then searching
 						will only find loaded folders and files."
-						isSelected={storageData.lazy_load_tree}
+						isSelected={!!storageData.lazy_load_tree}
 						label="Lazy load code trees"
 						onChange={() => storageHandlers.setStorageItem('lazy_load_tree', !storageData.lazy_load_tree)}
 					/>
