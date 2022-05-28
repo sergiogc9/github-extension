@@ -13,10 +13,12 @@ import GithubApi from 'lib/Github/GithubApi';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
 import { CodeTree as CodeTreeType } from 'lib/Github/GithubTree';
 
+import CodeTreeSearch from './Search/CodeTreeSearch';
+
 const CodeTree: React.FC = () => {
 	const pageData = usePageContext()!;
 	const storageData = useStorageContext()!;
-	const searchValue = useSearchContext();
+	const { searchValue } = useSearchContext();
 
 	const { onGithubApiError } = useOnGithubApiError();
 
@@ -79,7 +81,12 @@ const CodeTree: React.FC = () => {
 		);
 	}, [treeData, onLoadSubTree, isLoading]);
 
-	return <StyledTree>{treeContent}</StyledTree>;
+	return (
+		<>
+			<CodeTreeSearch />
+			<StyledTree>{treeContent}</StyledTree>
+		</>
+	);
 };
 
 export default React.memo(CodeTree);

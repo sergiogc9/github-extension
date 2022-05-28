@@ -29,6 +29,7 @@ import {
 	StyledPullRequestHeaderBranch,
 	StyledPullRequestHeaderLink,
 	StyledPullRequestHeaderTitle,
+	StyledPullRequestInfo,
 	StyledPullRequestInfoElement
 } from './styled';
 
@@ -157,11 +158,7 @@ const PullRequest: React.FC = () => {
 				<PullRequestInfoSkeleton />
 			);
 
-		return (
-			<Flex p={2} justifyContent="space-evenly">
-				{content}
-			</Flex>
-		);
+		return <StyledPullRequestInfo>{content}</StyledPullRequestInfo>;
 	}, [pullRequest, isLoading, theme]);
 
 	const labelsContent = React.useMemo(() => {

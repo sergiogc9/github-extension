@@ -8,10 +8,7 @@ const StyledTree = styled(Box)<{ isPullRequest?: boolean }>`
 		css({
 			borderBottomStyle: 'solid',
 			borderBottomWidth: 'thin',
-			borderTopStyle: 'solid',
-			borderTopWidth: 'thin',
-			borderBottomColor: 'github.common.border',
-			borderTopColor: 'github.common.border'
+			borderBottomColor: 'github.common.border'
 		})}
 `;
 

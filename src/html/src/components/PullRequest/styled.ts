@@ -61,10 +61,21 @@ StyledPullRequestInfoElement.defaultProps = {
 	transition: 'transform ease-in 0.1s'
 };
 
+const StyledPullRequestInfo = styled(Flex)``;
+
+StyledPullRequestInfo.defaultProps = {
+	borderBottomStyle: 'solid',
+	borderBottomWidth: 'thin',
+	borderBottomColor: 'github.common.border',
+	justifyContent: 'space-evenly',
+	p: 2
+};
+
 export {
 	StyledPullRequestHeader,
 	StyledPullRequestHeaderBranch,
 	StyledPullRequestHeaderLink,
 	StyledPullRequestHeaderTitle,
+	StyledPullRequestInfo,
 	StyledPullRequestInfoElement
 };

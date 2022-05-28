@@ -1,4 +1,12 @@
 import React from 'react';
-import { BoxProps } from '@sergiogc9/react-ui';
+import { BoxProps, FlexProps } from '@sergiogc9/react-ui';
 
-export type GithubInputProps = BoxProps<React.InputHTMLAttributes<HTMLInputElement>>;
+type Props = {
+	readonly inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+	readonly leftContent?: React.ReactNode;
+	readonly rightContent?: React.ReactNode;
+};
+
+export type GithubInputProps = Props & FlexProps;
+
+export type StyledGithubInputProps = BoxProps<React.InputHTMLAttributes<HTMLInputElement>>;

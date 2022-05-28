@@ -1,14 +1,13 @@
 import React from 'react';
 import { Flex, Icon, Text, useToasts } from '@sergiogc9/react-ui';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { brands, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import { useWaitInput } from 'lib/hooks/useWaitInput';
 import Storage from 'lib/Storage';
-import GithubInput from 'components/common/ui/Input/GithubInput';
 import { usePageContext } from 'components/Extension/Context/PageContext';
 import { useStorageContext } from 'components/Extension/Context/StorageContext';
 import { useMessageHandlersContext } from 'components/Extension/Context/MessageContext';
-import { SearchContext } from 'components/Extension/Context/SearchContext';
+import { SearchContext, SearchContextData } from 'components/Extension/Context/SearchContext';
 import Code from 'components/Code/Code';
 import PullRequest from 'components/PullRequest/PullRequest';
 import { ExtensionStatus } from 'types/Extension';
@@ -26,9 +25,9 @@ type Route = 'settings' | 'pageContent';
 
 const ExtensionSidebar: React.FC = () => {
 	const [route, setRoute] = React.useState<Route>('pageContent');
-	const [showSearch, setShowSearch] = React.useState(false);
 	const [status, setStatus] = React.useState<ExtensionStatus>('stop');
 	const [isGithubTokenError, setIsGithubTokenError] = React.useState(false);
+	const [user, setUser] = React.useState<any>();
 	const {
 		finalValue: searchFinalValue,
 		onChangeValue: onChangeSearchValue,
@@ -43,13 +42,11 @@ const ExtensionSidebar: React.FC = () => {
 	const { addToast } = useToasts();
 
 	React.useEffect(() => {
-		if (showSearch) document.getElementById('githubExtensionSearchInput')?.focus();
-	}, [showSearch]);
-
-	React.useEffect(() => {
+		messageHandlers.sendBackgroundMessage({ type: 'get_user' });
 		messageHandlers.sendBackgroundMessage({ type: 'get_status' });
 
 		messageHandlers.onBackgroundMessage(message => {
+			if (message.type === 'user_updated') setUser(message.data);
 			if (message.type === 'status') setStatus(message.data);
 		});
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -120,7 +117,11 @@ const ExtensionSidebar: React.FC = () => {
 	const toolbarContent = React.useMemo(
 		() => (
 			<StyledExtensionSidebarToolbar>
-				<StyledExtensionSidebarToolbarIconWrapper isSelected={false}>
+				<Flex alignItems="center" columnGap={1} ml={2}>
+					<Icon.FontAwesome icon={brands('github')} size={12} />
+					<Text aspectSize="s">{user?.login}</Text>
+				</Flex>
+				<StyledExtensionSidebarToolbarIconWrapper isSelected={false} ml="auto">
 					<Icon.FontAwesome
 						icon={solid('rotate-right')}
 						onClick={() => {
@@ -130,32 +131,7 @@ const ExtensionSidebar: React.FC = () => {
 						size={12}
 					/>
 				</StyledExtensionSidebarToolbarIconWrapper>
-				{pageContextData.page !== 'unknown' && (
-					<StyledExtensionSidebarToolbarIconWrapper isSelected={showSearch}>
-						<Icon.FontAwesome
-							icon={showSearch ? solid('xmark') : solid('magnifying-glass')}
-							onClick={() => {
-								setShowSearch(show => {
-									if (show) setSearchValue('');
-									return !show;
-								});
-							}}
-							size={12}
-						/>
-					</StyledExtensionSidebarToolbarIconWrapper>
-				)}
-				{showSearch && (
-					<GithubInput
-						fontSize="10px"
-						height={20}
-						mr={2}
-						onChange={onChangeSearchValue}
-						placeholder="Search folders or files"
-						py={0}
-						value={searchValue}
-					/>
-				)}
-				<StyledExtensionSidebarToolbarIconWrapper isSelected={route === 'settings'} ml="auto">
+				<StyledExtensionSidebarToolbarIconWrapper isSelected={route === 'settings'}>
 					<Icon.FontAwesome
 						icon={solid('gear')}
 						onClick={() => setRoute(currentRoute => (currentRoute === 'settings' ? 'pageContent' : 'settings'))}
@@ -164,12 +140,22 @@ const ExtensionSidebar: React.FC = () => {
 				</StyledExtensionSidebarToolbarIconWrapper>
 			</StyledExtensionSidebarToolbar>
 		),
-		[pageContextData.page, showSearch, searchValue, onChangeSearchValue, route, setSearchValue]
+		[route, user]
+	);
+
+	const searchContextData = React.useMemo<SearchContextData>(
+		() => ({
+			clearSearchValue: () => setSearchValue(''),
+			inputValue: searchValue,
+			onChangeSearchValue,
+			searchValue: searchFinalValue
+		}),
+		[onChangeSearchValue, searchFinalValue, searchValue, setSearchValue]
 	);
 
 	return (
 		<StyledExtensionSidebar>
-			<SearchContext.Provider value={searchFinalValue}>
+			<SearchContext.Provider value={searchContextData}>
 				{content}
 				{toolbarContent}
 			</SearchContext.Provider>

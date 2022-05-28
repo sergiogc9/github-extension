@@ -10,11 +10,12 @@ import PullRequestFolder from 'components/PullRequest/Folder/PullRequestFolder';
 import PullRequestFile from 'components/PullRequest/File/PullRequestFile';
 import GithubApi from 'lib/Github/GithubApi';
 import { useOnGithubApiError } from 'lib/hooks/useOnGithubApiError';
+import CodeTreeSearch from 'components/Code/Tree/Search/CodeTreeSearch';
 
 const PullRequestTree: React.FC = () => {
 	const pageData = usePageContext()!;
 	const storageData = useStorageContext()!;
-	const searchValue = useSearchContext();
+	const { searchValue } = useSearchContext();
 
 	const { onGithubApiError } = useOnGithubApiError();
 
@@ -48,7 +49,12 @@ const PullRequestTree: React.FC = () => {
 		);
 	}, [treeData, isLoading]);
 
-	return <StyledTree isPullRequest>{treeContent}</StyledTree>;
+	return (
+		<>
+			<CodeTreeSearch />
+			<StyledTree isPullRequest>{treeContent}</StyledTree>
+		</>
+	);
 };
 
 export default React.memo(PullRequestTree);

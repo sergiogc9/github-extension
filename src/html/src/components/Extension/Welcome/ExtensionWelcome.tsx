@@ -51,9 +51,12 @@ const ExtensionWelcome = () => {
 			</Text>
 			<GithubInput
 				height={30}
-				onChange={ev => setToken(ev.target.value)}
-				placeholder="Enter github token"
-				value={token}
+				inputProps={{
+					onChange: ev => setToken(ev.target.value),
+					placeholder: 'Enter github token',
+					value: token
+				}}
+				leftContent={<Icon.FontAwesome aspectSize="xs" icon={solid('key')} />}
 			/>
 			<Alert aspectSize="s" borderRadius={0}>
 				<Alert.Icon />
