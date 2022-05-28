@@ -21,10 +21,11 @@ type RepositoryFolder<T, U> = {
 } & T;
 
 type RepositoryFile<U> = {
+	matchesSearch: boolean;
 	name: string;
 	path: string; // Full path without file
+	sha: string;
 	visible: boolean;
-	matchesSearch: boolean;
 } & U;
 
 type PRFolderAttributes = Record<string, unknown>;
@@ -114,6 +115,7 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 				const fileData: CodeTreeFile = {
 					name: fileName,
 					path: folderPath || '',
+					sha: treeItem.sha,
 					visible: true,
 					matchesSearch: false
 				};
@@ -163,6 +165,7 @@ export class GithubTree<T = PullRequestTree | CodeTree> {
 				name: fileName,
 				path: folderPath || '',
 				previousName: apiFileData.previous_filename,
+				sha: apiFileData.sha,
 				status: apiFileData.status,
 				visible: true
 			};

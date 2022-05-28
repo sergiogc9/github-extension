@@ -6,6 +6,7 @@ import { Box, Flex, Icon } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
+import { usePageContext } from 'components/Extension/Context/PageContext';
 import { StyledTreeRow, StyledTreeRowText, TreeFolderSkeleton } from 'components/common/ui/Tree';
 import CodeTreeFile from 'components/Code/File/CodeTreeFile';
 import { CodeTreeFolder as CodeTreeFolderType } from 'lib/Github/GithubTree';
@@ -20,13 +21,32 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 	const { folder, deep } = props;
 	const { onLoadFolder } = props;
 
+	const pageData = usePageContext();
+
 	const theme = useTheme();
 
-	const [isOpened, setIsOpened] = React.useState(false);
+	const isCurrentFileInsideFolder = React.useMemo(
+		() =>
+			!!pageData?.url?.match(
+				`/${pageData.data.user}/${pageData.data.repository}/(blob|tree)/${pageData.data.tree}/${folder.path}`
+			),
+		[folder.path, pageData]
+	);
+	const [stateIsOpened, setIsOpened] = React.useState(() => isCurrentFileInsideFolder);
+	const [userToggledOpen, setUserToggledOpen] = React.useState(false);
+	const isOpened = stateIsOpened || (!userToggledOpen && isCurrentFileInsideFolder);
+
+	React.useEffect(() => {
+		if (isCurrentFileInsideFolder && !userToggledOpen) {
+			setIsOpened(true);
+			if (!folder.loaded) onLoadFolder(`${folder.path}/`, folder.sha);
+		}
+	}, [isCurrentFileInsideFolder]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const onToggleCollapsed = React.useCallback(() => {
 		if (!folder.loaded) onLoadFolder(`${folder.path}/`, folder.sha);
 		setIsOpened(collapsed => !collapsed);
+		setUserToggledOpen(true);
 	}, [folder.path, folder.sha, folder.loaded, onLoadFolder]);
 
 	const treeContent = React.useMemo(() => {
@@ -58,7 +78,13 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 
 	return (
 		<Box>
-			<StyledTreeRow deep={deep} isVisible={folder.visible} onClick={onToggleCollapsed} title={folder.path}>
+			<StyledTreeRow
+				isHighlighted={false}
+				deep={deep}
+				isVisible={folder.visible}
+				onClick={onToggleCollapsed}
+				title={folder.path}
+			>
 				<Flex columnGap={1} pl="2px" pr={1}>
 					<Icon.FontAwesome
 						color={folderIconColor}
@@ -71,7 +97,9 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 						size={12}
 					/>
 				</Flex>
-				<StyledTreeRowText fontWeight={folder.matchesSearch ? 'bold' : undefined}>{folder.name}</StyledTreeRowText>
+				<StyledTreeRowText fontWeight={folder.matchesSearch || isCurrentFileInsideFolder ? 'bold' : undefined}>
+					{folder.name}
+				</StyledTreeRowText>
 			</StyledTreeRow>
 			<Collapse isOpened={isOpened}>{treeContent}</Collapse>
 		</Box>

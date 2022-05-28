@@ -22,8 +22,9 @@ const collapseIconWidth = '12px';
 const iconWidth = '20px';
 const iconFontSize = '12px';
 
-const StyledTreeRow = styled(Flex)<{ deep: number; isVisible: boolean }>`
+const StyledTreeRow = styled(Flex)<{ deep: number; isHighlighted: boolean; isVisible: boolean }>`
 	${props => !props.isVisible && `display: none;`}
+	${props => props.isHighlighted && css({ bg: 'github.common.bgHover' })}
 
 	padding-left: ${props => props.deep * 10}px;
 

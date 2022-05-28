@@ -46,7 +46,13 @@ const PullRequestFolder: React.FC<ComponentProps> = props => {
 
 	return (
 		<Box>
-			<StyledTreeRow deep={deep} isVisible={folder.visible} onClick={onToggleCollapsed} title={folder.path}>
+			<StyledTreeRow
+				deep={deep}
+				isHighlighted={false}
+				isVisible={folder.visible}
+				onClick={onToggleCollapsed}
+				title={folder.path}
+			>
 				<Flex columnGap={1} pl="2px" pr={1}>
 					<Icon.FontAwesome
 						color={folderIconColor}
