@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "The Github Fox extension",
 	"short_name": "The Github Fox extension",
-	"version": "0.2.1",
+	"version": "0.3.0",
 	"description": "",
 	"permissions": ["tabs", "storage"],
 	"web_accessible_resources": ["html/index.html"],
