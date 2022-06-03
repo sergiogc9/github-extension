@@ -1,8 +1,12 @@
 {
-	"name": "fox-github-extension",
-	"version": "0.3.0",
-	"description": "Fox Github extension",
+	"name": "@sergiogc9/awesome-extension",
+	"version": "1.0.0",
+	"description": "Awesome Github",
 	"author": "Sergio Gómez Cosgaya <sergiogcosgaya@gmail.com>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/sergiogc9/github-extension.git"
+	},
 	"keywords": [
 		"chrome",
 		"extension",

@@ -43,7 +43,7 @@ const ExtensionWelcome = () => {
 	return (
 		<Flex flexDirection="column" flexGrow={1} rowGap={3} overflow="hidden" p={3}>
 			<Title aspectSize="subtle">
-				Thanks for using the Fox Github Extension
+				Thanks for using the Awesome Github extension
 				<Icon.FontAwesome aspectSize="s" color="red.400" icon={solid('heart')} ml={2} bounce />
 			</Title>
 			<Text aspectSize="s">

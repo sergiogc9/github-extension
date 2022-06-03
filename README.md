@@ -68,7 +68,7 @@ Shows information about to all PR that you are somehow related:
 
 Using the Chrome web store:
 
-https://chrome.google.com/webstore/detail/the-github-fox-extension/pakgmomfafjlmdeihbgjalighchkjmdc/
+https://chrome.google.com/webstore/detail/pakgmomfafjlmdeihbgjalighchkjmdc/
 
 Loading locally using the repo:
 
