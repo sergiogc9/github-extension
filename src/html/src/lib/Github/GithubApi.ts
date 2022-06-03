@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Octokit } from '@octokit/rest';
 import { retry } from '@octokit/plugin-retry';
-import { throttling } from '@octokit/plugin-throttling';
+// import { throttling } from '@octokit/plugin-throttling';
 import concat from 'lodash/concat';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
@@ -15,7 +15,9 @@ import { GithubPullRequest, GithubReviews, GithubReview, GithubChecks } from 'ty
 import Log from 'lib/Log';
 import { PullRequestTree, CodeTree, GithubTree } from './GithubTree';
 
-const MyOctokit = Octokit.plugin(retry, throttling);
+// TODO: Check enabling again throttling. Disabled because it was delaying request making the sidebar to appear too much late.
+// const MyOctokit = Octokit.plugin(retry, throttling);
+const MyOctokit = Octokit.plugin(retry);
 
 let myOctokit: any;
 
