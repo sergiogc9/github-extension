@@ -3,23 +3,6 @@ import { Message } from '@html/types/Message';
 
 import './contentscript.css';
 
-const __hideSidebar = () => {
-	document.body.classList.remove('padding-left');
-	document.getElementById('githubExtensionNav').classList.remove('visible');
-};
-
-const __showSidebar = () => {
-	document.body.classList.add('padding-left');
-	document.getElementById('githubExtensionNav').classList.add('visible');
-};
-
-const __handleMessages = async (message: Message) => {
-	if (message.type === 'sidebar_status') {
-		if (message.data === 'hidden') __hideSidebar();
-		else if (message.data === 'visible') __showSidebar();
-	}
-};
-
 type GithubThemeMode = 'light' | 'light_high_contrast' | 'dark' | 'dark_high_contrast' | 'dark_dimmed';
 const detectGithubThemeMode = (): GithubThemeMode => {
 	const savedLightMode = document.getElementsByTagName('html')[0]?.getAttribute('data-light-theme') as GithubThemeMode;
@@ -62,6 +45,33 @@ const observeThemeModeChange = () => {
 
 	// Start observing the target node for configured mutations
 	observer.observe(targetNode, config);
+};
+
+let currentBodyClassChangeObserver: MutationObserver | undefined;
+const observeBodyClassChange = () => {
+	if (currentBodyClassChangeObserver) currentBodyClassChangeObserver.disconnect();
+	const targetNode = document.getElementsByTagName('body')[0];
+	const config = { attributes: true };
+
+	// Callback function to execute when mutations are observed
+	const callback = mutationsList => {
+		mutationsList.forEach(mutation => {
+			if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+				const mode = detectGithubThemeMode();
+				Storage.set('github_theme_mode', mode);
+				const nav = document.getElementById('githubExtensionNav') as HTMLDivElement;
+				if (nav && nav.classList.contains('visible')) {
+					if (!targetNode.classList.contains('padding-left')) targetNode.classList.add('padding-left');
+				}
+			}
+		});
+	};
+
+	// Create an observer instance linked to the callback function
+	currentBodyClassChangeObserver = new MutationObserver(callback);
+
+	// Start observing the target node for configured mutations
+	currentBodyClassChangeObserver.observe(targetNode, config);
 };
 
 const DEFAULT_SIDEBAR_WIDTH = 300;
@@ -116,6 +126,24 @@ const startSidebar = async () => {
 		nav.style.width = `${DEFAULT_SIDEBAR_WIDTH}px`;
 		Storage.set('github_extension_sidebar_width', DEFAULT_SIDEBAR_WIDTH);
 	});
+};
+
+const __hideSidebar = () => {
+	document.body.classList.remove('padding-left');
+	document.getElementById('githubExtensionNav').classList.remove('visible');
+};
+
+const __showSidebar = () => {
+	observeBodyClassChange();
+	document.body.classList.add('padding-left');
+	document.getElementById('githubExtensionNav').classList.add('visible');
+};
+
+const __handleMessages = async (message: Message) => {
+	if (message.type === 'sidebar_status') {
+		if (message.data === 'hidden') __hideSidebar();
+		else if (message.data === 'visible') __showSidebar();
+	}
 };
 
 chrome.runtime.onMessage.addListener(__handleMessages);

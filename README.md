@@ -72,7 +72,7 @@ https://chrome.google.com/webstore/detail/pakgmomfafjlmdeihbgjalighchkjmdc/
 
 Loading locally using the repo:
 
-⚠️ Node v14 required!
+⚠️ Node v16 required!
 
 1. Clone the repo.
 2. Install dependencies in root and in react directory:
