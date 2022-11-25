@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
 import keys from 'lodash/keys';
-import { Collapse } from 'react-collapse';
 import { Box, Flex, Icon } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -101,7 +100,7 @@ const CodeTreeFolder: React.FC<ComponentProps> = props => {
 					{folder.name}
 				</StyledTreeRowText>
 			</StyledTreeRow>
-			<Collapse isOpened={isOpened}>{treeContent}</Collapse>
+			{isOpened && treeContent}
 		</Box>
 	);
 };

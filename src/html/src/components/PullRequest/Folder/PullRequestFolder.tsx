@@ -1,7 +1,6 @@
 import React from 'react';
 import keys from 'lodash/keys';
 import { useTheme } from 'styled-components';
-import { Collapse } from 'react-collapse';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Box, Flex, Icon } from '@sergiogc9/react-ui';
 import { getColorByMode } from '@sergiogc9/react-ui-theme';
@@ -67,7 +66,7 @@ const PullRequestFolder: React.FC<ComponentProps> = props => {
 				</Flex>
 				<StyledTreeRowText fontWeight={folder.matchesSearch ? 'bold' : undefined}> {folder.name}</StyledTreeRowText>
 			</StyledTreeRow>
-			<Collapse isOpened={isOpened}>{treeContent}</Collapse>
+			{isOpened && treeContent}
 		</Box>
 	);
 };
