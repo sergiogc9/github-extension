@@ -20,13 +20,20 @@ This extension is focused on improving the developer experience while using Gith
 
 <details>
     <summary>Screenshots</summary>
-  <img src="snapshots/code-tree.png">
-  <img src="snapshots/code-tree-dark.png">
-  <img src="snapshots/code-tree-2.png">
-  <img src="snapshots/code-tree-3.png">
-  <img src="snapshots/pull-request-open.png">
-  <img src="snapshots/pull-request-merged.png">
-  <img src="snapshots/popup.png">
+    <p></p>
+    <img src="snapshots/code-tree.png">
+    <p></p>
+    <img src="snapshots/code-tree-dark.png">
+    <p></p>
+    <img src="snapshots/code-tree-2.png">
+    <p></p>
+    <img src="snapshots/code-tree-3.png">
+    <p></p>
+    <img src="snapshots/pull-request-open.png">
+    <p></p>
+    <img src="snapshots/pull-request-merged.png">
+    <p></p>
+    <img src="snapshots/popup.png">
 </details>
 
 ## Features
