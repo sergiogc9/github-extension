@@ -164,7 +164,7 @@ const PullRequest: React.FC = () => {
 	const labelsContent = React.useMemo(() => {
 		if (!pullRequest || isLoading || isEmpty(pullRequest.labels)) return null;
 		return (
-			<Flex flexWrap="wrap" justifyContent="center" padding={1} paddingTop={0}>
+			<Flex flexWrap="wrap" justifyContent="center" paddingX={1} paddingTop={1}>
 				{pullRequest.labels.map(label => (
 					<GithubLabel key={label.id} color={`#${label.color}`} text={label.name} />
 				))}
