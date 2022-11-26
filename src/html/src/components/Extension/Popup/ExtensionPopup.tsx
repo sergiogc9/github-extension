@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { Box, useToasts } from '@sergiogc9/react-ui';
 
 import Storage from 'lib/Storage';
@@ -29,6 +30,19 @@ const ExtensionPopup: React.FC = () => {
 	const messageHandlers = useMessageHandlersContext()!;
 
 	const { addToast } = useToasts();
+
+	// Show notification after token has been updated
+	React.useEffect(() => {
+		// eslint-disable-next-line no-restricted-globals
+		if (queryString.parse(location.search).token_saved) {
+			addToast({
+				aspectSize: 's',
+				key: 'token_saved',
+				message: 'The token has been saved',
+				status: 'success'
+			});
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	React.useEffect(() => {
 		messageHandlers.sendBackgroundMessage({ type: 'get_status' });

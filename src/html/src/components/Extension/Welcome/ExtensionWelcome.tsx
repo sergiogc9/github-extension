@@ -24,12 +24,8 @@ const ExtensionWelcome = () => {
 			messageHandlers.sendBackgroundMessage({
 				type: 'token_updated'
 			});
-			addToast({
-				aspectSize: 's',
-				key: 'token_saved',
-				message: 'The token has been saved',
-				status: 'success'
-			});
+			// Reload sidebar or popup with an argument to show a notification
+			window.location.href = `${window.location.href}&token_saved=true`;
 		} catch (e) {
 			addToast({
 				aspectSize: 's',

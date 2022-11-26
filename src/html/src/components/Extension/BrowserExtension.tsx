@@ -208,7 +208,7 @@ const BrowserExtension = () => {
 					<StorageContext.Provider value={storageData}>
 						<StorageHandlerContext.Provider value={storageHandlers}>
 							<Toasts placement="top">
-								{finalPageData && storageData && !isPopup && <ExtensionSidebar />}
+								{storageData && !isPopup && <ExtensionSidebar />}
 								{storageData && isPopup && <ExtensionPopup />}
 							</Toasts>
 						</StorageHandlerContext.Provider>

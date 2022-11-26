@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { Flex, Icon, Text, useToasts } from '@sergiogc9/react-ui';
 import { brands, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
@@ -35,11 +36,24 @@ const ExtensionSidebar: React.FC = () => {
 		value: searchValue
 	} = useWaitInput(250);
 
-	const pageContextData = usePageContext()!;
+	const pageContextData = usePageContext();
 	const messageHandlers = useMessageHandlersContext()!;
 	const storageContextData = useStorageContext()!;
 
 	const { addToast } = useToasts();
+
+	// Show notification after token has been updated
+	React.useEffect(() => {
+		// eslint-disable-next-line no-restricted-globals
+		if (queryString.parse(location.search).token_saved) {
+			addToast({
+				aspectSize: 's',
+				key: 'token_saved',
+				message: 'The token has been saved',
+				status: 'success'
+			});
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	React.useEffect(() => {
 		messageHandlers.sendBackgroundMessage({ type: 'get_user' });
@@ -56,6 +70,10 @@ const ExtensionSidebar: React.FC = () => {
 			if (currentStatus === 'error') {
 				if (!(await Storage.get('github_token'))) {
 					setIsGithubTokenError(true);
+					messageHandlers.sendContentScriptMessage({
+						type: 'sidebar_status',
+						data: 'visible'
+					});
 				}
 				// eslint-disable-next-line no-alert
 				else {
@@ -76,7 +94,7 @@ const ExtensionSidebar: React.FC = () => {
 		if (isGithubTokenError) return <ExtensionWelcome />;
 		if (status !== 'synced') return null;
 		if (route === 'pageContent') {
-			if (pageContextData.page === 'unknown') {
+			if (pageContextData?.page === 'unknown') {
 				if (storageContextData.hide_unimplemented_pages)
 					messageHandlers.sendContentScriptMessage({
 						type: 'sidebar_status',
@@ -100,22 +118,24 @@ const ExtensionSidebar: React.FC = () => {
 				type: 'sidebar_status',
 				data: 'visible'
 			});
-			if (pageContextData.page === 'code-tree') return <Code />;
-			if (pageContextData.page === 'pull-request') return <PullRequest />;
+			if (pageContextData?.page === 'code-tree') return <Code />;
+			if (pageContextData?.page === 'pull-request') return <PullRequest />;
 		}
 		if (route === 'settings') return <ExtensionSettings />;
 		return null;
 	}, [
 		isGithubTokenError,
 		messageHandlers,
-		pageContextData.page,
+		pageContextData?.page,
 		route,
 		status,
 		storageContextData.hide_unimplemented_pages
 	]);
 
-	const toolbarContent = React.useMemo(
-		() => (
+	const toolbarContent = React.useMemo(() => {
+		if (!pageContextData?.page) return null;
+
+		return (
 			<StyledExtensionSidebarToolbar>
 				<Flex alignItems="center" columnGap={1} ml={2}>
 					<Icon.FontAwesome icon={brands('github')} size={12} />
@@ -139,9 +159,8 @@ const ExtensionSidebar: React.FC = () => {
 					/>
 				</StyledExtensionSidebarToolbarIconWrapper>
 			</StyledExtensionSidebarToolbar>
-		),
-		[route, user]
-	);
+		);
+	}, [pageContextData?.page, route, user]);
 
 	const searchContextData = React.useMemo<SearchContextData>(
 		() => ({
