@@ -4,7 +4,7 @@ body.padding-left {
 body > nav#githubExtensionNav {
 	box-sizing: border-box;
 	position: fixed;
-	z-index: 999999999999;
+	z-index: 998; /* Just below 999 to keep github overlays visible */
 	right: 0px !important;
 	top: 0px !important;
 	bottom: 0px !important;
