@@ -76,14 +76,19 @@ const observeBodyClassChange = () => {
 
 const DEFAULT_SIDEBAR_WIDTH = 300;
 
+const __addSidebarWidthToHTMLDocument = async () => {
+	const savedSidebarWidth = (await Storage.get('github_extension_sidebar_width')) ?? DEFAULT_SIDEBAR_WIDTH;
+	document.documentElement.style.setProperty('--github-body-padding-left', `${savedSidebarWidth}px`);
+	return savedSidebarWidth;
+};
+
 const startSidebar = async () => {
 	const nav = document.createElement('nav');
 	nav.setAttribute('id', 'githubExtensionNav');
 	nav.innerHTML = `<iframe id="githubExtensionNavIframe"></iframe>`;
 	document.body.appendChild(nav);
 
-	const savedSidebarWidth = (await Storage.get('github_extension_sidebar_width')) ?? DEFAULT_SIDEBAR_WIDTH;
-	document.documentElement.style.setProperty('--github-body-padding-left', `${savedSidebarWidth}px`);
+	const savedSidebarWidth = await __addSidebarWidthToHTMLDocument();
 	nav.style.width = `${savedSidebarWidth}px`;
 
 	const iframe = document.getElementById('githubExtensionNavIframe') as HTMLIFrameElement;
@@ -143,6 +148,8 @@ const __handleMessages = async (message: Message) => {
 	if (message.type === 'sidebar_status') {
 		if (message.data === 'hidden') __hideSidebar();
 		else if (message.data === 'visible') __showSidebar();
+	} else if (message.type === 'tab_updated') {
+		if (message.data.change.status) await __addSidebarWidthToHTMLDocument();
 	}
 };
 

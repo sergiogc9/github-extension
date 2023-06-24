@@ -11,7 +11,8 @@ export type MessageType =
 	| 'pull_request_seen'
 	| 'get_pull_request_changes'
 	| 'pull_request_changes'
-	| 'token_updated';
+	| 'token_updated'
+	| 'tab_updated';
 export type Message = { type: MessageType; data?: any };
 export type MessageHandler = (
 	message: Message,
