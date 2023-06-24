@@ -99,14 +99,19 @@ const PullRequest: React.FC = () => {
 		return (
 			<StyledPullRequestHeader>
 				<StyledPullRequestHeaderTitle>
-					<Icon.FontAwesome
-						color={getColorByMode(theme, { light: 'neutral.700', dark: 'neutral.500' })}
-						icon={solid('code-pull-request')}
-						size={14}
-					/>
-					<StyledPullRequestHeaderLink href={`https://github.com/${user}`}>{user}</StyledPullRequestHeaderLink>
+					<Icon.FontAwesome color="common.text" icon={solid('code-pull-request')} size={14} />
+					<StyledPullRequestHeaderLink
+						color={getColorByMode(theme, { light: 'neutral.800', dark: 'neutral.100' })}
+						href={`https://github.com/${user}`}
+					>
+						{user}
+					</StyledPullRequestHeaderLink>
 					<Text color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.500' })}>/</Text>
-					<StyledPullRequestHeaderLink fontWeight="bold" href={`https://github.com/${user}/${repository}`}>
+					<StyledPullRequestHeaderLink
+						color="common.text"
+						fontWeight="bold"
+						href={`https://github.com/${user}/${repository}`}
+					>
 						{repository}
 					</StyledPullRequestHeaderLink>
 				</StyledPullRequestHeaderTitle>

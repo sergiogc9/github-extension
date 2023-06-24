@@ -19,14 +19,12 @@ const Code: React.FC = () => {
 		return (
 			<StyledCodeHeader>
 				<StyledCodeHeaderTitle>
-					<Icon.FontAwesome
-						color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.500' })}
-						icon={solid('book-bookmark')}
-						size={14}
-					/>
-					<StyledCodeHeaderLink href={`https://github.com/${user}`}>{user}</StyledCodeHeaderLink>
+					<Icon.FontAwesome color="common.text" icon={solid('book-bookmark')} size={14} />
+					<StyledCodeHeaderLink color="common.text" href={`https://github.com/${user}`}>
+						{user}
+					</StyledCodeHeaderLink>
 					<Text color={getColorByMode(theme, { light: 'neutral.600', dark: 'neutral.500' })}>/</Text>
-					<StyledCodeHeaderLink fontWeight="bold" href={`https://github.com/${user}/${repository}`}>
+					<StyledCodeHeaderLink color="common.text" fontWeight="bold" href={`https://github.com/${user}/${repository}`}>
 						{repository}
 					</StyledCodeHeaderLink>
 				</StyledCodeHeaderTitle>

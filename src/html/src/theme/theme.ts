@@ -72,13 +72,13 @@ const getDarkCommonColors = (githubMode: GithubThemeMode): Partial<ThemePalette[
 	if (githubMode === 'dark_high_contrast')
 		return {
 			background: '#0A0C10',
-			text: '#f0f3f6'
+			text: '#F0F3F6'
 		};
 
 	// Dark
 	return {
 		background: '#0D1118',
-		text: '#c9d1d9'
+		text: '#E6EDF3'
 	};
 };
 
@@ -88,7 +88,7 @@ const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 			branch: { bg: 'rgba(65,132,228,0.15)', text: '#539bf5' },
 			common: { bgHover: '#2d333b', border: '#373e47' },
 			popup: { header: '#2D333B' },
-			sidebar: { header: '#2D333B', toolbar: '#2D333B' },
+			sidebar: { header: '#1B2128', toolbar: '#1B2128' },
 			tab: { bg: '#22272E', bgHover: 'rgba(144, 157, 171, 0.12)', bottomLine: '#EC775C' }
 		};
 
@@ -96,8 +96,8 @@ const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 		return {
 			branch: { bg: '#132234', text: '#71b7ff' },
 			common: { bgHover: '#272b33', border: '#7B828E' },
-			popup: { header: '#2D333B' },
-			sidebar: { header: '#272b33', toolbar: '#272b33' },
+			popup: { header: '#010409' },
+			sidebar: { header: '#010409', toolbar: '#010409' },
 			tab: { bg: '#0A0C10', bgHover: '#272B33', bottomLine: '#FF967D' }
 		};
 
@@ -105,8 +105,8 @@ const getDarkGithubColors = (githubMode: GithubThemeMode): GithubColors => {
 	return {
 		branch: { bg: '#13233A', text: '#58a6ff' },
 		common: { bgHover: '#161b22', border: '#21262d' },
-		popup: { header: '#2D333B' },
-		sidebar: { header: '#161B22', toolbar: '#161B22' },
+		popup: { header: '#010409' },
+		sidebar: { header: '#010409', toolbar: '#010409' },
 		tab: { bg: '#0D1118', bgHover: 'rgba(177, 186, 196, 0.12)', bottomLine: '#F88166' }
 	};
 };
