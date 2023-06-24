@@ -25,7 +25,8 @@ const PullRequestFile: React.FC<ComponentProps> = props => {
 	const statusContent = React.useMemo(() => {
 		const commonProps = {
 			ml: 1,
-			size: 9
+			size: 9,
+			flexShrink: 0
 		};
 		if (file.status === 'added') return <Status {...commonProps} bg="green.600" title="File added" />;
 		if (file.status === 'removed') return <Status {...commonProps} bg="red.600" title="File removed" />;
