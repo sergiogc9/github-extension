@@ -1,12 +1,17 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "Awesome Github",
 	"short_name": "Awesome Github",
 	"version": "1.0.4",
 	"description": "",
 	"permissions": ["tabs", "storage"],
-	"web_accessible_resources": ["html/index.html"],
-	"browser_action": {
+	"web_accessible_resources": [
+		{
+			"resources": ["html/index.html"],
+			"matches": ["https://github.com/*"]
+		}
+	],
+	"action": {
 		"default_title": "Awesome Github Popup",
 		"default_popup": "./html/index.html?popup=true"
 	},
@@ -22,7 +27,6 @@
 		}
 	],
 	"background": {
-		"scripts": ["background.js"],
-		"persistent": false
+		"service_worker": "background.js"
 	}
 }
