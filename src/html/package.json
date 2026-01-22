@@ -50,7 +50,7 @@
 		"@sergiogc9/react-ui-theme": "0.7.0",
 		"@styled-system/css": "5.1.5",
 		"file-icons-js": "1.0.3",
-		"lodash": "4.17.21",
+		"lodash": "4.17.23",
 		"moment": "2.29.4",
 		"numeral": "2.0.6",
 		"query-string": "7.1.1",
