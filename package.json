@@ -59,7 +59,7 @@
 		"webpack-cli": "3.3.11"
 	},
 	"dependencies": {
-		"lodash": "4.17.21",
+		"lodash": "4.17.23",
 		"moment": "2.29.4"
 	},
 	"engines": {
